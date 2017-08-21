@@ -1,0 +1,159 @@
+@import "../variables";
+/*
+  ceil开头为列表组件所使用的样式;
+  className="h90-large-dark";
+  h90: ceil的高度选择,可选项为 h90,h100,h116;
+  large: ceil默认字体大小,默认h90为26px h100为32px h116为32px  其中large h90 为28px;
+  dark: ceil的背景色,默认为白色dark为暗色;
+  grey: lable颜色为浅色#A1ACBB darken label颜色为深色2B3244 默认为 798698
+*/
+
+@mixin default-ceil {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin-bottom: 1px; /*px*/
+  background-color: $ceil-bg-color;
+  color: $ceil-color-2;
+  position:relative;
+}
+@mixin default-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@mixin default-label {
+  @include default-layout;
+  align-items: flex-start;
+  margin-right: 40px;
+  .label-gray {
+    color: $ceil-color-4;
+  }
+}
+@mixin default-value {
+  @include default-layout;
+  align-items: flex-end;
+  color: $ceil-color-1;
+  text-align: right;
+  .nextIcon {
+    position:absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -12px;
+    font-size: 20px;
+    color: $ceil-color-2;
+  }
+  .value-gray {
+    color: $ceil-color-2;
+    font-size: $font-size-xxs;
+  }
+}
+
+.ceil-view {
+  width: 100%;
+  .h90 {
+    @include default-ceil;
+    font-size: $font-size-s;
+    .detail-label{
+      @include default-label;
+      padding: 32px 0 32px 45px;  // 上下32 左右45
+    }
+    .detail-value{
+      @include default-value;
+       padding: 0 45px 0 0;
+    }
+  }
+  .h100 {
+    @include default-ceil;
+    font-size: $font-size-xl;
+    .detail-label{
+      @include default-label;
+      padding: 33px 0 33px 40px;
+    }
+    .detail-value{
+      @include default-value;
+       padding: 0 45px 0 0;
+    }
+  }
+  .h116 {
+    @include default-ceil;
+    font-size: $font-size-s;
+    padding: 26px 40px;
+    align-items: center;
+    .h116-line {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        .value-line {
+            display: flex;
+            justify-content: space-between;
+        }
+        .desc-line {
+            color: $ceil-color-4;
+            display: flex;
+            justify-content: space-between;
+        }
+        .h116-numbers {
+          font-size: $font-size-m;
+        }
+    }
+    .icon-right {
+        padding-right: 20px;
+    }
+  }
+  .large {
+    font-size: $font-size-m;
+    .detail-label{
+      padding: 30px 0 30px 45px;
+    }
+    .separated {
+      color: $ceil-color-1;
+      margin: 10px;
+    }
+    .value-line {
+      color: $ceil-color-1;
+    }
+  }
+  .dark {
+    background-color: $ceil-dark-bg-color;
+    .detail-label{
+      color: $ceil-color-3;
+    }
+    .detail-value{
+      color: $ceil-color-5;
+    }
+  }
+  .grey {
+    color: $ceil-color-3;
+    .detail-value{
+      color: $ceil-color-3;
+    }
+  }
+  .darken {
+    color: $ceil-color-1;
+    .detail-value{
+      color: $ceil-color-1;
+    }
+  }
+  .numbers {
+    padding: 31px 45px 31px 0;  // 上下32 左右45
+    font-size: $font-size-m;
+  }
+  .marginRight {
+    margin-right: 40px;
+  }
+  .marginLeft {
+    right:0;
+    margin-right: 40px;
+  }
+  .separated {
+    color: $ceil-color-2;
+    margin: 10px;
+  }
+  .value-line {
+    color: $ceil-color-2;
+  }
+  .reverse {
+      flex-direction: column-reverse !important;
+  }
+}

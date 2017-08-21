@@ -1,0 +1,142 @@
+@import "../variables";
+.pass-keyboard {
+    position: relative;
+}
+.pass-keyboard-mask {
+    position: fixed;
+    z-index: 97;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $keyboard-bg-mask;
+    opacity: .8;
+}
+.pass-keyboard-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 688px;
+    background-color: $keyboard-bg-white;
+    z-index: 98;
+}
+.pass-keyboard-header {
+    height: 116px;
+    display: flex;
+    padding: 0 45px;
+    justify-content: space-between;
+    align-items: center;
+}
+.pass-keyboard-label {
+    width: 150px;
+    font-size: $font-size-l;
+    color: $keyboard-color-1;
+}
+.pass-keyboard-title {
+    width: inherit;
+    font-size: $font-size-xl;
+    color: $keyboard-color-2;
+}
+.trade-frames {
+    padding-bottom: 40px;
+    text-align: center;
+}
+.trade-frame {
+    width: 110px;
+    height: 100px;
+    margin-left: -2px;
+    box-sizing: border-box;
+    display: inline-block;
+    border: 2px solid $keyboard-border-1;
+}
+.trade-values {
+    position: relative;
+    top: -110px;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 .6rem;
+    text-align: center;
+}
+.trade-value {
+    width: 110px;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-top: 2px;
+    margin-left: -1px;
+    border: none;
+    text-align: center;
+}
+.trade-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: $keyboard-color-2;
+}
+.pass-keyboard-items {
+    width: 100%;
+    height: 425px;
+    overflow: hidden;
+    margin-top: -40px;
+    border-top: 2px solid $keyboard-border-2;
+}
+.pass-keyboard-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.pass-keyboard-item {
+    width: 252px;
+    height: 108px;
+    line-height: 108px;
+    float: left;
+    border: 1px solid $keyboard-border-3; /*px*/
+    border-bottom: none;
+    text-align: center;
+    position: relative;
+    background-color: $keyboard-bg-white;
+    box-sizing: border-box;
+    margin-left: -1px; /*px*/
+    margin-top: -1px; /*px*/
+}
+.pass-keyboard-text {
+    font-size: 22px;
+    color: #030303;
+}
+.pass-keyboard-num {
+    font-size: 58px;
+    position: relative;
+    top: -10px;
+}
+.pass-keyboard-zero {
+    top: 0;
+}
+.pass-keyboard-key {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+}
+.pass-keyboard-delete {
+    color: $keyboard-color-3;
+}
+.pass-keyboard-empty {
+    background-color: $keyboard-bg-gray;
+}
+.pass-keyboard-loading {
+    height: 425px;
+    text-align: center;
+}
+.pass-keyboard-loadingImg {
+    width: 110px;
+    height: 110px;
+}
+.Tappable-active {
+    background: $keyboard-bg-gray;
+}
+.del-active {
+    background: $keyboard-bg-white;
+}

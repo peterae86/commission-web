@@ -1,0 +1,86 @@
+@import "../variables";
+/*
+* input 去掉自身默认样式
+*/
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+}
+input::-webkit-outer-spin-button {
+-webkit-appearance: none;
+}
+
+@mixin default-input {
+  border: 0;
+  height: $input-height;
+  width: 100%;
+  padding: 0 40px;
+  outline: none;
+  font-size: $input-font-size;
+  box-sizing: border-box;
+  border-radius: $input-radius;
+}
+@mixin input-active {
+  background:0;
+}
+.input-container {
+  .input {
+    @include default-input;
+    background: $input-bg-color;
+  }
+  .right-icon {
+    width: 0.55rem;
+    height: 0.5rem;
+    position: absolute;
+    top: 0.39rem;
+    right: 0.32rem;
+    font-size: 0.5rem !important;
+  }
+}
+
+.black-div {
+  input{
+      padding: 0;
+      color: $input-black-color!important;
+      text-shadow: 0px 0px 0px $input-shadow;
+      -webkit-text-fill-color: transparent;
+  }
+  input::-webkit-input-placeholder{
+      text-shadow: none;
+      -webkit-text-fill-color: initial;
+      color: $input-placeholder-color;
+  }
+  height: 88px;
+  padding: 60px 0 80px 0;
+  background-color: $input-black-bg-color;
+  opacity: .98;
+  overflow:hidden;
+  .cursor {
+    display: inline-block;
+    position: absolute;
+    height: $input-cursor-height;
+    line-height: $input-cursor-height;
+    background-color: $input-cursor-color;
+    width: $input-cursor-width; /* px */
+  }
+  .black-input {
+    text-align: left;
+    background-color: $input-black-bg-color;
+    border: 0;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: $input-radius;
+    color: $input-black-color;
+    font-size: $input-black-font-size-l;
+  }
+  .black-tips {
+    margin-left:306px;
+    font-size: $input-black-font-size-s;
+    color: $input-black-tips-color;
+  }
+  .black-special{
+    margin-top: 15px;
+    text-align: center;
+    font-size: $input-black-font-size-s;
+    color: $input-black-tips-color;
+  }
+}
