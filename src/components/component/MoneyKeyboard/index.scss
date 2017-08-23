@@ -1,0 +1,88 @@
+@import "../variables";
+.money-keyboard {
+    position: relative;
+}
+.pass-mask {
+    position: fixed;
+    top: 250px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 90;
+}
+.money-keyboard-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 386px;
+    background-color: $keyboard-bg-white;
+    z-index: 98;
+    overflow: hidden;
+}
+.moneyKeyboard-container {
+    display: flex;
+    flex-direction: column;
+}
+.money-keyboard-row {
+    width: 100%;
+}
+.money-keyboard-items {
+    width: 564px;
+    overflow: hidden;
+    float: left;
+}
+.money-keyboard-item {
+    width: 188px;
+    height: 100px;
+    line-height: 100px;
+    float: left;
+    border-top:  1px solid $keyboard-border-3; /*px*/
+    border-right: 1px solid $keyboard-border-3; /*px*/
+    border-bottom: 1px solid $keyboard-border-3; /*px*/
+    text-align: center;
+    position: relative;
+    background-color: $keyboard-bg-white;
+    box-sizing: border-box;
+    margin-top: -1px; /*px*/
+}
+.money-keyboard-item-white {
+    border-top: 1px solid $keyboard-border-4; /*px*/
+}
+.money-keyboard-num {
+    font-size: 58px;
+    color: $keyboard-color-5;
+}
+.money-keyboard-key {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+}
+.money-keyboard-delete {
+    color: $keyboard-color-5;
+}
+.money-keyboard-loading {
+    height: 425px;
+    text-align: center;
+}
+.money-keyboard-loadingImg {
+    width: 110px;
+    height: 110px;
+}
+.money-keyboard-right {
+    float: left;
+    width: 2.5rem;
+    height: 196px;
+    line-height: 200px;
+    text-align: center;
+    margin-top: -1px; /*px*/
+    margin-left: -0.02rem;
+}
+.money-keyboard-confirm {
+    font-size: 42px;
+    color: $keyboard-color-4;
+    background-color: $keyboard-bg-orange;
+}
+.Tappable-active {
+    background: $keyboard-bg-gray;
+}
