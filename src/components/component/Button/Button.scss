@@ -13,17 +13,7 @@
     background-color: $btn-bg-color;
     outline:none;
   }
-  .btn-loading{
-    width: 60px;
-    height:60px;
-    position:absolute;
-    left:50%;
-    margin-left: -30px;
-    top:50%;
-    margin-top:-30px;
-  }
   .btn {
-    width: 100%;
     display: inline-block;
     color: $btn-font-color;
     text-align: center;
@@ -37,14 +27,15 @@
     border-radius: $btn-radius;
   }
   .large {
-    height: $btn-height-l;
-    line-height: $btn-height-l;
-    font-size: $btn-font-size-l;
+    width: $btn-width;
+    padding: 7px 47px;
+    font-size: $font-size-xs;
+    border-radius: 100px;
   }
   .middle {
-    height: $btn-height-m;
-    line-height: $btn-height-m;
-    font-size: $btn-font-size-m;
+    width: $btn-width;
+    padding: 7px 47px;
+    font-size: $font-size-xs;
   }
   .small {
     height: $btn-height-s;

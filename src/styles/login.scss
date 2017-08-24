@@ -1,8 +1,43 @@
 .login-container {
-	background-image:url(../images/bg.jpg);
-	background-repeat:no-repeat; 
-	background-size:100% 100%;
-	color: #798698;
-	min-height: 1000px;
-	min-width: 1000px;
+	height: 80%;
+	position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+	.login-title{
+		height: 75px;
+		width: 60%;
+		font-size: 25px;
+		margin: 0 auto;
+	}
+	.login-body {
+		background-image:url(../images/bg.jpg);
+		background-repeat:no-repeat; 
+		background-size:100% 100%;
+		color: #798698;
+		min-height: 460px;
+		min-width: 823px;
+		height: 100%;
+		text-align: center;
+		.login-panel-container{
+			min-width: 1000px;
+			width:80%;
+			text-align: right;
+			padding-top: 80px;
+			.login-panel {
+				display:inline-block;
+				width: 300px;
+				height: 400px;
+				background-color: #fff;
+				.panel-title {
+					background-color: #E6E6E6;
+				    height: 20px;
+				    padding: 11px; 
+    				text-align: left;
+				}
+			}
+		}
+		
+	}
 }

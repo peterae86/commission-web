@@ -4,31 +4,32 @@
 //通用颜色按照 $用途-颜色的方式进行命名，如 $main-dark，$font-gray-dark
 
 /****************** font-size ******************/
-$font-size-xxs:     22px;  /* px */
-$font-size-xs:     24px;   /* px */
-$font-size-s:     26px;   /* px */
-$font-size-m:     28px;   /* px */
-$font-size-l:     30px;   /* px */
-$font-size-xl:    32px;  /* px */
-$font-size-xxl:   64px;  /* px */
+$font-size-xxs:     12px;  /* px */
+$font-size-xs:     14px;   /* px */
+$font-size-s:     16px;   /* px */
+$font-size-m:     18px;   /* px */
+$font-size-l:     20px;   /* px */
+$font-size-xl:    22px;  /* px */
+$font-size-xxl:   24px;  /* px */
 /****************** font-size ******************/
 
 
 
 /****************** button ******************/
-$btn-bg-color: #FE0000 !default;
+$btn-width: 152px;
+$btn-bg-color: #2085F8 !default;
 $btn-disabled-bg-color: #D1D5DB !default;
 
 $btn-font-color: #fff !default;
 $btn-transparent-font-color: #FE0000 !default;
 
-$btn-radius: 2px !default;
+$btn-radius: 7px !default;
 
 $btn-font-size-l: $font-size-xl !default;
 $btn-font-size-m: $font-size-xl !default;
 $btn-font-size-s: $font-size-s !default;
 
-$btn-height-l: 100px !default;
+$btn-height-l: 17px !default;
 $btn-height-m: 80px !default;
 $btn-height-s: 55px !default;
 $btn-height-s-line: 49px !default;

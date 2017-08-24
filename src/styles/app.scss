@@ -1,8 +1,12 @@
-html, body, div, h5, h6, p, ul, li {
+html, body {
     margin: 0px;
     padding: 0px;
     height: 100%;
 }
+ div, h5, h6, p, ul, li{
+   margin: 0px;
+    padding: 0px;
+ }
 
 #app {
 
