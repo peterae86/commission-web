@@ -30,11 +30,25 @@
 				width: 300px;
 				height: 400px;
 				background-color: #fff;
+				border-radius: 10px;
 				.panel-title {
 					background-color: #E6E6E6;
 				    height: 20px;
-				    padding: 11px; 
+				    padding: 11px 20px 11px 40px; 
     				text-align: left;
+				}
+				.panel-body {
+					padding: 40px 40px 0 40px;
+					.body-form {
+						text-align: left;
+						margin: 20px 0;
+						p {
+							margin-bottom: 5px;
+						}
+						.tip {
+							font-size: 12px;
+						}
+					}
 				}
 			}
 		}
