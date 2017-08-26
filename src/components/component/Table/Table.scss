@@ -1,0 +1,32 @@
+.table-container {
+	border: 1px solid #E4EAEF;
+	width: 100%;
+	min-width: 786px;
+	margin: 0 auto;
+	.container-header {
+		display: flex;
+		color: #6E737A;
+		background-color:#EFEFEF;
+		margin-right:-1px;
+		.header-item {
+			padding: 15px 0;
+			border-right: 1px solid #E4EAEF;
+		}
+	}
+	.container-list {
+		border-top: 1px solid #E4EAEF;
+		display: flex;
+		color: #666;
+		margin-right:-1px;
+		.list-item {
+			padding: 14px 0;
+			border-right: 1px solid #E4EAEF;
+			.opt-list {
+				display: inline-block;
+				margin: 0 15px;
+				color: #1273E1;
+				cursor: pointer;
+			}
+		}
+	}
+}

@@ -33,7 +33,10 @@ class Button extends React.Component {
        onClick();
      }
    }
+
+
   render() {
+
     const {value, type, disabled, style, className} = this.props;
     const {name, size, background} = this.state;
     const styleName = name + " " + size + " " + background + " " + className;

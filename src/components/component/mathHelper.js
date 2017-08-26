@@ -1,6 +1,4 @@
-/**
- * Created by zhen.liu1 on 17/6/9.
- */
+
 class MathHelper {
     static roundNumber(numberToRound, numberOfDecimalPlaces) {
         if (numberToRound === 0) {

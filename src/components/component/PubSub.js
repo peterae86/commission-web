@@ -1,7 +1,4 @@
-/**
- * Created by zhen.liu1 on 17/6/8.
- */
-// 事件集合
+
 window.events = {};
 // 发布事件
 const trigger = (event, ...data) => {
