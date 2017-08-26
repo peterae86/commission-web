@@ -1,6 +1,6 @@
 
 import React from 'react';
-require('./Ceil.scss');
+import './Ceil.scss'
 /**
  * @module Ceil
  * @desc list列表 import { Ceil } from 'component';
