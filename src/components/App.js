@@ -4,6 +4,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import Login from './container/Login';
+import Rank from './container/Rank';
+
 
 import { Router, Route, hashHistory } from 'react-router';
 
@@ -17,6 +19,7 @@ var App = React.createClass({
                 <div><a href="#/list">list page</a></div>
                 <div><a href="#/detail">detail page</a></div>
                 <div><a href="#/login">Login page</a></div>
+                <div><a href="#/rank">Rank page</a></div>
             </div>
         );
     }
@@ -53,6 +56,7 @@ ReactDom.render((
         <Route path='/list' component={List} />
         <Route path='/detail' component={Detail} />
         <Route path='/login' component={Login} />
+        <Route path='/rank' component={Rank} />
         
     </Router>
 ), document.getElementById('app'));
