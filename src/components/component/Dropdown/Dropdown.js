@@ -4,14 +4,13 @@
   <Dropdown
   onSelect={this.onSelectFunc}      //选择之后的回调  还有onClick onChange onBulr
   placeholder="请选择:"              // 默认展示的汉字
-  type="plhdSelect"                 // 默认为 select 选中后placeholder 消失, type 为plhdSelect时 选中后placeholder永不消失
   defaultOption={defaultOption}     //defaultOption默认展示那个数据,必须与option中一致,作死我可不管哈
   optionStyle={optionStyle}         //option的样式,万一你不喜欢宽度,pandding,自己加
   options={option}                  // 格式必须数组,支持[1,2,3] [{},{}]两种形式
-  optionType="number"/>             // 说明当前option是那种格式的数组 number为纯数字数组  默认object
                                     //  propsValue:'value', 默认使用对象中的那个key作为value 可指定
                                     //propsLabel:'label',默认使用对象中的那个key作为label 可指定
                                     // style 对于整个dropdown的样式自定义
+                                    //<Dropdown options={data} placeholder="请选择城市" value={this.state.value} onSelect={this.selectOption}/>
 
 
 
@@ -33,7 +32,7 @@ class Dropdown extends React.Component {
         this.index = -1;
         this.state = {
             isOpen: this.props.isOpen,
-            selected:this.doDealDefault(this.props.defaultOption, this.props.optionType),
+            selected:this.doDealDefault(this.props.defaultOption),
             placeholder: this.props.placeholder
         };
         this.onClickFunc = this.onClickFunc.bind(this);
@@ -43,7 +42,6 @@ class Dropdown extends React.Component {
         const {options, propsValue, propsLabel, isOpen} = newProps;
         const {onChange} = this.props;
         const {selected} = this.state;
-        if (typeof options[this.index] === "object") {
           // 如果props中传递的option数组中每个元素是对象
           let newValue = options[this.index] ? options[this.index][propsValue] : "";
           let newLabel = options[this.index] ? options[this.index][propsLabel] : "";
@@ -55,18 +53,6 @@ class Dropdown extends React.Component {
               // 如果变化之后的新值不存在 并且placeholder存在
               this.setState({ selected: { label: '', value: '' },isOpen:false, value:""});
           }
-        } else {
-          // 如果props中传递的option数组中每个元素是非对象
-          let newValue = options[this.index];
-          let newLabel = options[this.index];
-          if (newValue && newValue !== selected) {
-              this.setState({selected: newValue,isOpen:false, value: newValue});
-              onChange &&  onChange(newValue,newLabel);
-          } else if (!newProps.value && newProps.placeholder) {
-              this.setState({ selected: newProps.value,isOpen:false, value:newProps.value });
-          }
-        }
-
         this.setState({
           isOpen: isOpen
         });
@@ -87,23 +73,18 @@ class Dropdown extends React.Component {
         this.setState({isOpen:false});
         // 当没有返回 或者 返回true的时候 获取当前的索引
     }
-    doDealDefault (defaultOption, optionType) {
+    doDealDefault (defaultOption) {
         // 对于初始化时,组件对默认值的处理
         const {propsValue, propsLabel} = this.props;
-        if (optionType === "number") {
-          return defaultOption || "";
-        } else {
           let selected = {};
           selected[propsValue] = defaultOption[propsValue].toString() || "";
           selected[propsLabel] = defaultOption[propsLabel] || "";
           return selected;
-
-        }
     }
     render() {
         const { isOpen, selected, placeholder} = this.state; // 需要dropdown内部维护的变量
 
-        const {style, optionStyle, options, propsValue, propsLabel, optionType, type} = this.props;
+        const {style, optionStyle, options, propsValue, propsLabel, type} = this.props;
 
         const self = this;
         let styleNameClass = 'dropdown';
@@ -112,36 +93,11 @@ class Dropdown extends React.Component {
             styleNameClass +=' open';
         }
         let labelString = null;
-        if (optionType === "number") {
-          labelString = (
-              selected ?
-                (type === "plhdSelect" ?
-                (
-                  <div className="dropdown-placeholder">
-                    {placeholder}
-                    <div className="dropdown-label">
-                    {selected}
-                    </div>
-                  </div>
-                ):
-              (<div className="dropdown-label">{selected}</div>)):
-              (<div className="dropdown-placeholder">{placeholder}</div>)
-          );
-        } else {
           labelString = (
             selected[propsLabel] ?
-              (type === "plhdSelect" ?
-              (
-                <div className="dropdown-placeholder">
-                  {placeholder}
-                  <div className="dropdown-label">
-                  {selected[propsLabel]}
-                  </div>
-                </div>):
-            (<div className="dropdown-label">{selected[propsLabel]}</div> )):
+            (<div className="dropdown-label">{selected[propsLabel]}</div>):
             (<div className="dropdown-placeholder">{placeholder}</div>)
           );
-        }
         return (
             <div style={style} className={styleNameClass}>
                 <div className="dropdown-control" onClick={this.onClickFunc}>
@@ -151,28 +107,15 @@ class Dropdown extends React.Component {
                 <div className={isOpen ? "dropdown-menu" : "hidden"} >
                     {
                         options.map(function (item, index) {
-                            if (typeof item !== "object") {
                                 return (
                                   <div
-                                    style={optionStyle}
+                                   style={optionStyle}
                                     key={index}
                                     className= {item === selected ? "hidden":"dropdown-option"}
                                     data-value={item}
                                     onClick={self.onSelectFunc.bind(self, item, item, index)}
-                                  >{item}
+                                  >{item.label}
                                 </div>);
-                            } else {
-                                return (
-                                  <div
-                                    style={optionStyle}
-                                    key={index}
-                                    className= {item[propsValue] === selected[propsValue] ? "hidden" : "dropdown-option"}
-                                    data-value={item[propsValue]}
-                                    onClick={self.onSelectFunc.bind(self, item[propsValue], item[propsLabel], index)}
-                                  >{item[propsLabel] ? item[propsLabel] : item[propsValue]}
-                                </div>
-                              );
-                            }
                         })
                       }
                 </div>
@@ -196,7 +139,6 @@ class Dropdown extends React.Component {
  * @prop {string} defaultClass input为dark时,内容为空则靠左对齐
  * @prop {string} value input的值
  * @prop {array} options 下拉框列表选项
- * @prop {string} optionType number:下拉框中列表选项数组为纯数字如[1,2,3],object:下拉框中列表选项数组为对象如[{'value':'123','label':'1'}]
  * @prop {string} type 下拉框为单选还是多选,目前尚未支持多选
  * @prop {object} style 下拉框外层div内联样式
  * @prop {string} propsValue 下拉框内展示value所取options的'key'
@@ -234,10 +176,10 @@ Dropdown.propTypes = {
     ]),
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
+      React.PropTypes.number,
     ]),
     options: React.PropTypes.array,
-    optionType: React.PropTypes.oneOf(['number','object']),
-    type: React.PropTypes.oneOf(['select','plhdSelect']),
+    type: React.PropTypes.oneOf(['select']),
     style: React.PropTypes.object,
     propsValue: React.PropTypes.string,
     propsLabel: React.PropTypes.string,
@@ -254,7 +196,6 @@ Dropdown.propTypes = {
  * @property options: [],
  * @property value: '',
  * @property type: 'select',
- * @property optionType: 'object',
  * @property style: {},
  * @property defaultOption: {},
  * @property propsValue: 'value'
@@ -267,7 +208,6 @@ Dropdown.defaultProps = {
     options:[],
     value: "",
     type: 'select',
-    optionType:'object',
     style:{},
     defaultOption: {"value":"","label":""},
     propsValue:'value',

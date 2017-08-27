@@ -59,19 +59,19 @@ $input-black-font-size-s: $font-size-xxs !default;
 
 /****************** dropdown ******************/
 $drop-bg-color: #fff !default;
-$drop-border-color: #B5B8C8 !default;
+$drop-border-color: #E0EAF2 !default;
 
-$drop-menu-bg-color: #EDEDED !default;
+$drop-menu-bg-color: #fff !default;
 
-$drop-arrow-border-color: #B5B8C8 !default;
+$drop-arrow-border-color: #4a4a4a !default;
+$drop-menu-color: #efefef !default;
+$drop-option-color: #151515 !default;
+$drop-color: #e6e6e6 !default;
 
-$drop-option-color: #585C68 !default;
-$drop-color: #4E515E !default;
-
-$drop-height: 80px !default;
+$drop-height: 40px !default;
 $drop-line-height: 40px !default;
 
-$drop-radius: 2px !default;
+$drop-radius: 4px !default;
 
 $dropdown-placeholder-width: 40% !default;
 /****************** dropdown ******************/

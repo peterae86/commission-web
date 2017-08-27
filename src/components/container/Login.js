@@ -5,7 +5,8 @@ const logo = require("../../images/logo.png");
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.changeValue = this.changeValue.bind(this);
+
+        this.changeValue = this.changeValue.bind(this);    
     }
 
     changeValue (value) {
@@ -21,6 +22,7 @@ class Login extends React.Component {
                 <div className="login-body">
                     <div className="login-panel-container">
                         <div className="login-panel">
+                        
                             <div className="panel-title">密码登录</div>
                             <div className="panel-body">
                                 <div className="body-form">
