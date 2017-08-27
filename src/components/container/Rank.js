@@ -3,6 +3,9 @@ import Table from '../component/Table/Table';
 class Rank extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            data: props.data
+        }
         this.changeValue = this.changeValue.bind(this);
     }
 
