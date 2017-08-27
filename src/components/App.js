@@ -4,59 +4,77 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import Login from './container/Login';
-import Rank from './container/Rank';
+import SideBar from './component/SideBar/SideBar'
+import Rank from "./container/Rank";
+import './App.scss'
+
+import {Router,Route,hashHistory } from 'react-router';
 
 
-import { Router, Route, hashHistory } from 'react-router';
+class App extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            pathNames:[],
+            buttons:[{
+                id: "1111",
+                name: "2222",
+                children: [{
+                    id: "1111",
+                    name: "dasd"
+                },
+                    {
+                        id: "rank",
+                        name: "333"
+                    },{
+                        id: "1111",
+                        name: "2fdds222"
+                    }
 
-
-var App = React.createClass({
-    render: function() {
-        return (
-            <div>
-                <h5 className="title">hello, yeoman app!</h5>
-                <div>React Router: </div>
-                <div><a href="#/list">list page</a></div>
-                <div><a href="#/detail">detail page</a></div>
-                <div><a href="#/login">Login page</a></div>
-                <div><a href="#/rank">Rank page</a></div>
-            </div>
-        );
+                ]
+            }],
+                currentPage:Blank
+        };
+        this.state.pages={
+            'rank':Rank
+        },
+        this.onSelected = this.onSelected.bind(this);
     }
-});
 
-var List = React.createClass({
-    render: function() {
-        return (
-            <div>
-                <h5 className="title">hello, yeoman app!</h5>
-                <div><a href="#/">返回首页</a></div>
-                <div>这是列表页</div>
-            </div>
-        );
+    onSelected (key, pathNames) {
+        this.setState({
+            currentPage: this.state.pages[key]||Blank,
+            pathNames: ['当前位置',...pathNames]
+        });
     }
-});
 
-var Detail = React.createClass({
-    render: function() {
-        return (
-            <div>
-                <h5 className="title">hello, yeoman app!</h5>
-                <div><a href="#/">返回首页</a></div>
-                <div>这是详情页</div>
+    render(){
+        const CurrentPage = this.state.currentPage;
+        const pathNames= this.state.pathNames;
+        return  <div>
+            <div className="">dasdada</div>
+            <div className="app-container">
+                <div className="app-sidebar">
+                <SideBar buttons={this.state.buttons} onSelected={this.onSelected}/>
+                </div>
+                <div className="app-page">
+                    <CurrentPage pathNames={pathNames}/>
+                </div>
             </div>
-        );
+        </div>
     }
-});
+}
+
+class Blank extends React.Component{
+    render(){
+        return <div/>
+    }
+}
 
 //最终渲染
 ReactDom.render((
     <Router history={hashHistory}>
         <Route path='/' component={App}></Route>
-        <Route path='/list' component={List} />
-        <Route path='/detail' component={Detail} />
         <Route path='/login' component={Login} />
-        <Route path='/rank' component={Rank} />
-        
     </Router>
 ), document.getElementById('app'));

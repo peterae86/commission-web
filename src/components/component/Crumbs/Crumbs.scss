@@ -1,0 +1,17 @@
+@import "../variables";
+
+.crumbs {
+  font-size: 14px;
+  line-height: 17px;
+  color: $crumbs-font-color;
+}
+
+.crumb-name {
+  margin: 0;
+  padding: 0;
+}
+
+.crumb-separator {
+  margin-left: 5px;
+  margin-right: 5px;
+}
