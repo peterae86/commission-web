@@ -10,7 +10,6 @@ class Rank extends React.Component {
         }
         this.changeValue = this.changeValue.bind(this);
     }
-
     changeValue (value) {
         console.log(value);
     }
@@ -58,11 +57,26 @@ class Rank extends React.Component {
      for (let i = 0; i< 20;i++) {
        data.push(datas);
      }
+     const drop = [{
+       value: "1",
+       label: "测试"
+     },{
+       value: "2",
+       label: "测试1"
+     }];
         return (
             <div className="rank-container">
-              <div>
+              <div className="container-title">
                 <Crumbs names={this.state.pathNames}/>
-                <div>
+                <div className="title-right">
+                    <div className="right-company">
+                        <span>城市：</span>
+                        <Dropdown options={drop} />
+                    </div>
+                    <div  className="right-company">
+                        <span>公司：</span>
+                        <Dropdown options={drop} value="1"/>
+                    </div>
                 </div>
               </div>
 

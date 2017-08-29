@@ -2,4 +2,18 @@
 	background-color: #f6f6f8;
 	padding: 20px;
 	overflow-y: auto;
+	.container-title {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 16px;
+		.title-right {
+			display: flex;
+			justify-content: flex-end;
+			font-size: 14px;
+			.right-company {
+				display: flex;
+				margin-right: 20px;
+			}
+		}
+	}
 }
