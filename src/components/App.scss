@@ -1,10 +1,19 @@
-.app-container{
-  display: flex;
-}
-.app-sidebar{
+.app-body {
+	height: 90%;
+	.app-header {
+		height: 65px;
+		box-shadow: 5px 2px 4px 0 #F0F0F0
+	}
+	.app-container{
+	  display: flex;
+	  height: 100%;
+	}
+	.app-sidebar{
 
-}
-.app-page{
-  width: 100%;
-  min-width: 814px;
+	}
+	.app-page{
+	  width: 100%;
+	  overflow: hidden;
+	  min-width: 814px;
+	}
 }

@@ -17,23 +17,28 @@ class App extends React.Component{
         this.state = {
             pathNames:[],
             buttons:[{
-                id: "1111",
-                name: "2222",
+                id: "rank",
+                name: "职级管理",
+            },{
+                id: "2",
+                name: "积分管理"
+            },{
+                id: "3",
+                name: "提佣管理"
+            },{
+                id: "4",
+                name: "薪资管理",
                 children: [{
-                    id: "1111",
-                    name: "dasd"
+                    id: "41",
+                    name: "保障薪资配置"
                 },
-                    {
-                        id: "rank",
-                        name: "333"
-                    },{
-                        id: "1111",
-                        name: "2fdds222"
-                    }
-
+                {
+                    id: "42",
+                    name: "底薪配置"
+                }
                 ]
             }],
-                currentPage:Blank
+            currentPage:Blank
         };
         this.state.pages={
             'rank':Rank
@@ -51,8 +56,8 @@ class App extends React.Component{
     render(){
         const CurrentPage = this.state.currentPage;
         const pathNames= this.state.pathNames;
-        return  <div>
-            <div className="">dasdada</div>
+        return  <div className="app-body">
+            <div className="app-header">dasdada</div>
             <div className="app-container">
                 <div className="app-sidebar">
                 <SideBar buttons={this.state.buttons} onSelected={this.onSelected}/>
@@ -67,7 +72,7 @@ class App extends React.Component{
 
 class Blank extends React.Component{
     render(){
-        return <div/>
+        return <Rank />
     }
 }
 
