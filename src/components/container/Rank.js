@@ -14,16 +14,6 @@ class Rank extends React.Component {
     }
 
     render() {
-         "minScore": 50,
-         "maxScore": 100,
-         "baseScore": 50,
-         "createTs": "2017-08-08 12:00:00",
-         "updateTs": "2017-08-08 12:00:00",
-         "masterCommissionRatio": "0.75",
-         "dutyLevel": "A0",
-         "masterScoreRatio": "0.2",
-         "corpCode": "yi_wu_fen_gong_si"
-
 
         const config = {
             colum: [
@@ -64,8 +54,8 @@ class Rank extends React.Component {
          "masterScoreRatio": "0.2",
          "corpCode": "yi_wu_fen_gong_si"
        }
-     ]；
-       
+     ];
+
         return (
             <div className="rank-container">
                 <Table data = {data} config = {config}/>
