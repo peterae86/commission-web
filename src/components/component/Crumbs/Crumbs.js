@@ -4,7 +4,6 @@ import './Crumbs.scss';
 class Crumbs extends React.Component {
     constructor(props) {
         super(props);
-        debugger
         this.state = {
             names : this.props.names
         };
