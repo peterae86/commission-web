@@ -7,6 +7,7 @@ import Login from './container/Login';
 import SideBar from './component/SideBar/SideBar'
 import Rank from "./container/Rank";
 import './App.scss'
+import logo from '../images/logo.png';
 
 import {Router,Route,hashHistory } from 'react-router';
 
@@ -57,7 +58,15 @@ class App extends React.Component{
         const CurrentPage = this.state.currentPage;
         const pathNames= this.state.pathNames;
         return  <div className="app-body">
-            <div className="app-header">dasdada</div>
+            <div className="app-header">
+                <div className="app-header-left">
+                    <img src={logo}/>
+                </div>
+                <div className="app-header-right">
+                    <div className="app-title">积分提佣系统</div>
+                    <div className="welcome">您好，<span>xxx</span></div>
+                </div>
+            </div>
             <div className="app-container">
                 <div className="app-sidebar">
                 <SideBar buttons={this.state.buttons} onSelected={this.onSelected}/>
