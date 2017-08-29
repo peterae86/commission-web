@@ -48,6 +48,7 @@ class App extends React.Component{
     }
 
     onSelected (key, pathNames) {
+        debugger
         this.setState({
             currentPage: this.state.pages[key]||Blank,
             pathNames: ['当前位置',...pathNames]

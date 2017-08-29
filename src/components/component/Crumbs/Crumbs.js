@@ -4,18 +4,21 @@ import './Crumbs.scss';
 class Crumbs extends React.Component {
     constructor(props) {
         super(props);
+        debugger
+        this.state = {
+            names : this.props.names
+        };
+        if (typeof this.state.names === 'string') {
+            this.state.names = [names];
+        }
+        //names.unshift('当前位置');
     }
 
     render() {
         const {separator} = this.props;
-        let names = this.props.names;
-        if (typeof names === 'string') {
-            names = [names];
-        }
-        names.unshift('当前位置');
         return <span className="crumbs">
             {
-                names.map((item, index) => {
+                this.state.names.map((item, index) => {
                     return <span
                         key={index}
                     >
