@@ -14,7 +14,7 @@ class Rank extends React.Component {
             cityData: [], // 城市合计
             cityCode: "", //当前选中那个城市
             companyData: [],
-            showConfirm: true,
+            showConfirm: false,
             message: "测试测试", // alert message
         }
         this.config = {
