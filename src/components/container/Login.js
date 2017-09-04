@@ -6,7 +6,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        this.changeValue = this.changeValue.bind(this);    
+        this.changeValue = this.changeValue.bind(this);
     }
 
     changeValue (value) {
@@ -22,7 +22,7 @@ class Login extends React.Component {
                 <div className="login-body">
                     <div className="login-panel-container">
                         <div className="login-panel">
-                        
+
                             <div className="panel-title">密码登录</div>
                             <div className="panel-body">
                                 <div className="body-form">
@@ -35,15 +35,15 @@ class Login extends React.Component {
                                 </div>
                                 <div className="body-form">
                                     <p className="tip">忘记密码</p>
-                                    <Button value="马上登录" styleName="btn-middle"/>
+                                    <Button value="马上登录" styleName="btn-square"/>
                                 </div>
-                                
+
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         );
     }

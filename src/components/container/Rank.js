@@ -2,6 +2,7 @@ import React from 'react';
 import Table from '../component/Table/Table';
 import Crumbs from '../component/Crumbs/Crumbs';
 import Dropdown from '../component/Dropdown/Dropdown';
+import ModalAlert from '../component/ModalAlert/ModalAlert';
 class Rank extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +12,10 @@ class Rank extends React.Component {
             pageSize: 10, // 默认分页
             currentPage: 0, // 当前页码
             cityData: [], // 城市合计
-            cityCode: "" //当前选中那个城市
+            cityCode: "", //当前选中那个城市
+            companyData: [],
+            showConfirm: true,
+            message: "测试测试", // alert message
         }
         this.config = {
             colum: [
@@ -39,9 +43,20 @@ class Rank extends React.Component {
             ]
         }
         this.onSelectCity = this.onSelectCity.bind(this);
+        this.onQuery = this.onQuery.bind(this);
     }
     componentWillMount () {
         this.getCity();
+    }
+    renderAlert() {
+        const modalProps = {
+             show: this.state.showConfirm,
+             message: this.state.message,
+             type: 'alert',
+             cancelClick: () => {this.setState({showConfirm: false});},
+             confirmClick: () => { this.deleteClick();}
+           };
+        return <ModalAlert {...modalProps} />
     }
     getCity () {
         this.setState({
@@ -57,15 +72,37 @@ class Rank extends React.Component {
             }]
         });
     }
-    getCompany () {
-        
+    getCompany (value) {
+        this.setState({
+            companyData: [ {
+              'corpCode':'yi_wu_fen_gong_si',
+              'corpName':'义乌坐标'
+             },
+             {
+              'corpCode':'jin_hua_fen_gong_si',
+              'corpName':'金华坐标'
+             }]
+        });
     }
 
     onSelectCity (value) {
-        this.getCompany();
+        this.getCompany(value);
         this.setState({
-            cityCode: value
-        })
+            cityCode: value,
+            corpCode: ""
+        });
+    }
+
+    onQuery (value) {
+        this.setState({
+            corpCode: value
+        });
+        const param = {
+            corpCode: value,
+            pageSize: this.state.pageSize,
+            currentPage: this.state.currentPage
+        };
+        console.log(param);
     }
 
 
@@ -84,7 +121,7 @@ class Rank extends React.Component {
          "corpCode": "yi_wu_fen_gong_si"
        };
        let data = [];
-     for (let i = 0; i< 20;i++) {
+     for (let i = 0; i< 10;i++) {
        data.push(datas);
      }
      const drop = [{
@@ -94,24 +131,25 @@ class Rank extends React.Component {
        value: "2",
        label: "测试1"
      }];
-     const {corpCode, cityCode, cityData} = this.state;
+     const {corpCode, cityCode, cityData, companyData} = this.state;
         return (
             <div className="rank-container">
+            {this.renderAlert()}
               <div className="container-title">
                 <Crumbs names={this.state.pathNames}/>
                 <div className="title-right">
                     <div className="right-company">
                         <span>城市：</span>
-                        <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode"  value={cityCode} propsLabel="cityName"/>
+                        <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode" placeholder="请选择城市" value={cityCode} propsLabel="cityName"/>
                     </div>
                     <div  className="right-company">
                         <span>公司：</span>
-                        <Dropdown options={drop} value={corpCode}/>
+                        <Dropdown onSelect={this.onQuery} options={companyData} propsValue="corpCode" placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
                     </div>
                 </div>
               </div>
 
-                <Table data = {data} config = {this.config}/>
+                <Table data = {data} config = {this.config} />
             </div>
         );
     }

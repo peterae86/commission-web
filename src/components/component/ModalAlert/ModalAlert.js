@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Button from '../Button/Button';
 require('./ModalAlert.scss');
 /**
  * @module ModalAlert
@@ -58,13 +59,12 @@ class ModalAlert extends React.Component {
                     {
                         type === "alert" ?
                         (
-                            <div className="alert-view" onClick={this.cancelFunc}>{confirm}</div>
+                            <Button value={confirm} styleName="btn-middle" onClick={this.cancelFunc}/>
                         ) :
                         (
                             <div className="comfirm-button">
-                                <div className="comfirm-view" onClick={this.cancelFunc}>{cancel}</div>
-                                <div className="border"></div>
-                                <div className="comfirm-view" onClick={this.comfirmFunc}>{confirm}</div>
+                                <Button value={cancel} styleName="btn-middle" onClick={this.cancelFunc}/>
+                                <Button value={confirm} styleName="btn-middle" onClick={this.comfirmFunc}/>
                             </div>
                         )
                     }
@@ -127,7 +127,7 @@ ModalAlert.propTypes = {
 ModalAlert.defaultProps = {
   show: true,
   type: 'confirm',
-  title: '',
+  title: '提示',
   message: '',
   confirm: '确定',
   cancel: '取消',

@@ -33,9 +33,14 @@
     border-radius: 100px;
   }
   .middle {
-    width: 100%;
-    padding: 7px 47px;
-    font-size: $font-size-xs;
+      padding: 7px 37px;
+      font-size: $font-size-xs;
+      border-radius: 100px
+  }
+  .square {
+      width: 100%;
+      padding: 7px 47px;
+      font-size: $font-size-xs;
   }
   .small {
     height: $btn-height-s;
