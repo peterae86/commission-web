@@ -6,16 +6,14 @@ class Rank extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pathNames: props.pathNames
+            pathNames: props.pathNames,
+            corpCode: "", // 城市公司下编码
+            pageSize: 10, // 默认分页
+            currentPage: 0, // 当前页码
+            cityData: [], // 城市合计
+            cityCode: "" //当前选中那个城市
         }
-        this.changeValue = this.changeValue.bind(this);
-    }
-    changeValue (value) {
-        console.log(value);
-    }
-
-    render() {
-        const config = {
+        this.config = {
             colum: [
                 {name: "所属列表", key:"dutyScope", textAlign: "center", width: "10%"},
                 {name: "职级", key:"dutyLevel", textAlign: "center", width: "10%"},
@@ -40,6 +38,38 @@ class Rank extends React.Component {
                 ]}
             ]
         }
+        this.onSelectCity = this.onSelectCity.bind(this);
+    }
+    componentWillMount () {
+        this.getCity();
+    }
+    getCity () {
+        this.setState({
+            cityData: [ {
+              "id": 1,
+              "cityName": "义乌",
+              "cityCode": "yi_wu"
+            },
+            {
+              "id": 2,
+              "cityName": "金华",
+              "cityCode": "jin_hua"
+            }]
+        });
+    }
+    getCompany () {
+        
+    }
+
+    onSelectCity (value) {
+        this.getCompany();
+        this.setState({
+            cityCode: value
+        })
+    }
+
+
+    render() {
         let datas = {
          "id":1,
          "dutyScope": "A",
@@ -64,6 +94,7 @@ class Rank extends React.Component {
        value: "2",
        label: "测试1"
      }];
+     const {corpCode, cityCode, cityData} = this.state;
         return (
             <div className="rank-container">
               <div className="container-title">
@@ -71,16 +102,16 @@ class Rank extends React.Component {
                 <div className="title-right">
                     <div className="right-company">
                         <span>城市：</span>
-                        <Dropdown options={drop} />
+                        <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode"  value={cityCode} propsLabel="cityName"/>
                     </div>
                     <div  className="right-company">
                         <span>公司：</span>
-                        <Dropdown options={drop} value="1"/>
+                        <Dropdown options={drop} value={corpCode}/>
                     </div>
                 </div>
               </div>
 
-                <Table data = {data} config = {config}/>
+                <Table data = {data} config = {this.config}/>
             </div>
         );
     }

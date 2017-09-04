@@ -19,7 +19,7 @@
 
 */
 import React from 'react';
-require('./Dropdown.scss');
+import './Dropdown.scss';
 /**
  * @module Dropdown
  * @desc 下拉框 import { Dropdown } from 'component';
@@ -73,9 +73,13 @@ class Dropdown extends React.Component {
         this.setState({isOpen:false});
         // 当没有返回 或者 返回true的时候 获取当前的索引
     }
-    doDealDefault (defaultOption) {
+    doDealDefault (deOption) {
         // 对于初始化时,组件对默认值的处理
         const {propsValue, propsLabel} = this.props;
+        const defaultOption = deOption || {
+            [propsValue]: "",
+            [propsLabel]: ""
+        }
           let selected = {};
           selected[propsValue] = defaultOption[propsValue].toString() || "";
           selected[propsLabel] = defaultOption[propsLabel] || "";
@@ -112,9 +116,8 @@ class Dropdown extends React.Component {
                                    style={optionStyle}
                                     key={index}
                                     className= {item === selected ? "hidden":"dropdown-option"}
-                                    data-value={item}
-                                    onClick={self.onSelectFunc.bind(self, item, item, index)}
-                                  >{item.label}
+                                    onClick={self.onSelectFunc.bind(self, item[propsValue], item[propsLabel], index)}
+                                  >{item[propsLabel]}
                                 </div>);
                         })
                       }
@@ -209,7 +212,6 @@ Dropdown.defaultProps = {
     value: "",
     type: 'select',
     style:{},
-    defaultOption: {"value":"","label":""},
     propsValue:'value',
     propsLabel:'label',
     optionStyle: {},
