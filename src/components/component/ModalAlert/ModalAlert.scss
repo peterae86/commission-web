@@ -36,18 +36,19 @@
         .alert-button {
             color: $alert-botton-color;
             text-align: right;
-            padding-right: 32px;
             .comfirm-button {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-around;
+                justify-content: flex-end;
+                .button-content {
+                    margin: 0;
+                }
                 .border {
                     width: 1px; /*px*/
                     background-color: $alert-border-color;
                 }
                 .comfirm-view {
-                    margin: 0 auto;
-                    padding: 27px 0;
+                    margin-right:20px;
                 }
             }
             .alert-view {

@@ -33,3 +33,25 @@
 		}
 	}
 }
+.pager-container {
+	display: flex;
+	font-size: 12px;
+	.upstairs {
+		width: 54px;
+	}
+	li{
+		list-style-type: none;
+		color: #6E737A;
+		background: #FFFFFF;
+		border: 1px solid #E0EAF2;
+		border-radius: 4px;
+		width: 20px;
+		text-align: center;
+		margin: 0 3px;
+	}
+	.active {
+		color: #FFFFFF;
+		background: #469BFA;
+		border: 1px solid #1B77DD;
+	}
+}

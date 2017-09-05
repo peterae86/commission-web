@@ -6,60 +6,74 @@ import ModalAlert from '../component/ModalAlert/ModalAlert';
 class Rank extends React.Component {
     constructor(props) {
         super(props);
+        const self = this;
         this.state = {
             pathNames: props.pathNames,
             corpCode: "", // 城市公司下编码
             pageSize: 10, // 默认分页
             currentPage: 0, // 当前页码
+            totalCount: 0, // 分页总条数
             cityData: [], // 城市合计
             cityCode: "", //当前选中那个城市
             companyData: [],
             showConfirm: false,
-            message: "测试测试", // alert message
-        }
-        this.config = {
-            colum: [
-                {name: "所属列表", key:"dutyScope", textAlign: "center", width: "10%"},
-                {name: "职级", key:"dutyLevel", textAlign: "center", width: "10%"},
-                {name: "职级积分下线", key:"minScore", textAlign: "center", width: "10%"},
-                {name: "职级积分上线", key:"maxScore", textAlign: "center", width: "10%"},
-                {name: "职级基础分", key:"baseScore", textAlign: "center", width: "10%"},
-                {name: "师徒制积分贡献比例", key:"masterScoreRatio", textAlign: "center", width: "15%"},
-                {name: "师徒制提佣积分贡献系数", key:"masterCommissionRatio", textAlign: "center", width: "15%"},
-                {name: "操作", key:"opt", textAlign: "center", width: "20%", content: [
-                    {
-                        key: "操作历史",
-                        func: (index)=> {
-                            console.log(index);
+            message: "", // alert message
+            config: {
+                colum: [
+                    {name: "所属列表", key:"dutyScope", textAlign: "center", width: "10%"},
+                    {name: "职级", key:"dutyLevel", textAlign: "center", width: "10%"},
+                    {name: "职级积分下线", key:"minScore", textAlign: "center", width: "10%"},
+                    {name: "职级积分上线", key:"maxScore", textAlign: "center", width: "10%"},
+                    {name: "职级基础分", key:"baseScore", textAlign: "center", width: "10%"},
+                    {name: "师徒制积分贡献比例", key:"masterScoreRatio", textAlign: "center", width: "15%"},
+                    {name: "师徒制提佣积分贡献系数", key:"masterCommissionRatio", textAlign: "center", width: "15%"},
+                    {name: "操作", key:"opt", textAlign: "center", width: "20%", content: [
+                        {
+                            key: "操作历史",
+                            func: (index)=> {
+                                console.log(index);
+                            }
+                        },
+                         {
+                            key: "修改",
+                            func: (index)=> {
+                                console.log(index);
+                            }
                         }
-                    },
-                     {
-                        key: "修改",
-                        func: (index)=> {
-                            console.log(index);
-                        }
-                    }
-                ]}
-            ]
+                    ]}
+                ]
+            },
+            pager: {
+                pageSize: 10,
+                clickPager: function (index) {
+                    self.onQuery({
+                        corpCode: self.state.corpCode,
+                        currentPage: index
+                    })
+                }
+            }
         }
         this.onSelectCity = this.onSelectCity.bind(this);
+        this.onSelectCompnay = this.onSelectCompnay.bind(this);
         this.onQuery = this.onQuery.bind(this);
     }
     componentWillMount () {
         this.getCity();
     }
+    // 渲染碳层
     renderAlert() {
         const modalProps = {
              show: this.state.showConfirm,
              message: this.state.message,
              type: 'alert',
              cancelClick: () => {this.setState({showConfirm: false});},
-             confirmClick: () => { this.deleteClick();}
            };
         return <ModalAlert {...modalProps} />
     }
+    //获取城市
     getCity () {
         this.setState({
+            totalCount:20,
             cityData: [ {
               "id": 1,
               "cityName": "义乌",
@@ -72,6 +86,7 @@ class Rank extends React.Component {
             }]
         });
     }
+    // 获取指定城市下的公司
     getCompany (value) {
         this.setState({
             companyData: [ {
@@ -84,25 +99,46 @@ class Rank extends React.Component {
              }]
         });
     }
-
+    // 选择城市回调
     onSelectCity (value) {
-        this.getCompany(value);
+        this.getCompany(value);;
         this.setState({
             cityCode: value,
             corpCode: ""
         });
     }
-
-    onQuery (value) {
+    // 选择公司回调
+    onSelectCompnay (value) {
         this.setState({
             corpCode: value
         });
+        if (!value) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择公司"
+            });
+            return false;
+        }
         const param = {
             corpCode: value,
-            pageSize: this.state.pageSize,
-            currentPage: this.state.currentPage
+            currentPage: 0
         };
-        console.log(param);
+        this.onQuery(param);
+    }
+     // 搜索函数
+    onQuery(p) {
+        // console.log(param); // 准备发请求
+        const param = {
+            ...p,
+            pageSize: this.state.pageSize
+        }
+        this.setState({
+            pager: {
+                ...this.state.pager,
+                currentPage: p.currentPage,
+                totalCount: 101
+            }
+        });
     }
 
 
@@ -131,7 +167,7 @@ class Rank extends React.Component {
        value: "2",
        label: "测试1"
      }];
-     const {corpCode, cityCode, cityData, companyData} = this.state;
+     const {config, corpCode, cityCode, cityData, companyData, pager} = this.state;
         return (
             <div className="rank-container">
             {this.renderAlert()}
@@ -144,12 +180,12 @@ class Rank extends React.Component {
                     </div>
                     <div  className="right-company">
                         <span>公司：</span>
-                        <Dropdown onSelect={this.onQuery} options={companyData} propsValue="corpCode" placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
+                        <Dropdown onSelect={this.onSelectCompnay} options={companyData} propsValue="corpCode" placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
                     </div>
                 </div>
               </div>
 
-                <Table data = {data} config = {this.config} />
+                <Table data = {data} config = {config} pager={pager}/>
             </div>
         );
     }

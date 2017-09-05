@@ -63,8 +63,8 @@ class ModalAlert extends React.Component {
                         ) :
                         (
                             <div className="comfirm-button">
-                                <Button value={cancel} styleName="btn-middle" onClick={this.cancelFunc}/>
-                                <Button value={confirm} styleName="btn-middle" onClick={this.comfirmFunc}/>
+                                <Button value={confirm} styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
+                                <Button value={cancel} styleName="btn-middle-gray" onClick={this.cancelFunc}/>
                             </div>
                         )
                     }
