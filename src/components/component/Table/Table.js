@@ -16,9 +16,10 @@ class Tabel extends React.Component {
    }
 
    componentWillReceiveProps (newProps) {
-       const {pager} = newProps;
+       const {pager, data} = newProps;
        this.setState({
-         pager: pager
+         pager: pager,
+         data: data
        });
    }
 
@@ -90,29 +91,28 @@ class Tabel extends React.Component {
               }
             </li>
             {
-            data.map((item, index)=> {
-              const row = config.colum.map((cof, indexs)=> {
-                const style={
-                    width: cof.width,
-                    textAlign: cof.textAlign
-                };
-                let renderStr = "";
+                data.length > 0 ? data.map((item, index)=> {
+                  const row = config.colum.map((cof, indexs)=> {
+                    const style={
+                        width: cof.width,
+                        textAlign: cof.textAlign
+                    };
+                    let renderStr = "";
 
-                if (cof.key === "opt"){
-                  renderStr = cof.content.map((cons, indexOpt)=> {
-                    return this.dealOpt(index, cons.key, cons.func)
+                    if (cof.key === "opt"){
+                      renderStr = cof.content.map((cons, indexOpt)=> {
+                        return this.dealOpt(index, cons.key, cons.func)
+                      });
+
+                    } else {
+                      renderStr = item[cof.key];
+                    }
+
+                    return <div key = {indexs} className="list-item" style={style}>{renderStr}</div>
                   });
-
-                } else {
-                  renderStr = item[cof.key];
-                }
-
-                return <div key = {indexs} className="list-item" style={style}>{renderStr}</div>
-              });
-
-              return  <li className="container-list " key={index}>{row}</li>
-            })
-          }
+                  return  <li className="container-list " key={index}>{row}</li>
+              }): (<p className="table-empty">暂无数据</p>)
+            }
         </ul>
         <ul className="pager-container">
             {

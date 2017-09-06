@@ -3,6 +3,7 @@ import Table from '../component/Table/Table';
 import Crumbs from '../component/Crumbs/Crumbs';
 import Dropdown from '../component/Dropdown/Dropdown';
 import ModalAlert from '../component/ModalAlert/ModalAlert';
+import {requestByFetch, parseParamsGet} from '../../utils/request.js';
 class Rank extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,7 @@ class Rank extends React.Component {
             cityCode: "", //当前选中那个城市
             companyData: [],
             showConfirm: false,
+            listData: [], //数据列表
             message: "", // alert message
             config: {
                 colum: [
@@ -72,31 +74,23 @@ class Rank extends React.Component {
     }
     //获取城市
     getCity () {
-        this.setState({
-            totalCount:20,
-            cityData: [ {
-              "id": 1,
-              "cityName": "义乌",
-              "cityCode": "yi_wu"
-            },
-            {
-              "id": 2,
-              "cityName": "金华",
-              "cityCode": "jin_hua"
-            }]
+        const path = "../data/rankCity.json?";
+        //const path = "/cityconfig/queryByStatus?status=0"; // 真正接口
+        requestByFetch(path, "GET").then((res)=> {
+            this.setState({
+                cityData: res
+            });
         });
+
     }
     // 获取指定城市下的公司
     getCompany (value) {
-        this.setState({
-            companyData: [ {
-              'corpCode':'yi_wu_fen_gong_si',
-              'corpName':'义乌坐标'
-             },
-             {
-              'corpCode':'jin_hua_fen_gong_si',
-              'corpName':'金华坐标'
-             }]
+        const path = "../data/rankCompany.json";
+        //const path = `/cityConfig/queryCorpsByCityCode?cityCode=${value}`&corpStatus=0; // 真正接口
+        requestByFetch(path, "GET").then((res)=> {
+            this.setState({
+                companyData: res
+            });
         });
     }
     // 选择城市回调
@@ -127,47 +121,29 @@ class Rank extends React.Component {
     }
      // 搜索函数
     onQuery(p) {
-        // console.log(param); // 准备发请求
         const param = {
             ...p,
             pageSize: this.state.pageSize
         }
-        this.setState({
-            pager: {
-                ...this.state.pager,
-                currentPage: p.currentPage,
-                totalCount: 101
-            }
+
+        const path = "../data/rankList.json?";
+    //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        requestByFetch(path, "GET").then((res)=> {
+            console.log(res.dutyLevelInfoList);
+            this.setState({
+                listData: res.dutyLevelInfoList,
+                pager: {
+                    ...this.state.pager,
+                    currentPage: p.currentPage,
+                    totalCount: res.totalCount
+                }
+            });
         });
     }
 
 
-    render() {
-        let datas = {
-         "id":1,
-         "dutyScope": "A",
-         "minScore": 50,
-         "maxScore": 100,
-         "baseScore": 50,
-         "createTs": "2017-08-08 12:00:00",
-         "updateTs": "2017-08-08 12:00:00",
-         "masterCommissionRatio": "0.75",
-         "dutyLevel": "A0",
-         "masterScoreRatio": "0.2",
-         "corpCode": "yi_wu_fen_gong_si"
-       };
-       let data = [];
-     for (let i = 0; i< 10;i++) {
-       data.push(datas);
-     }
-     const drop = [{
-       value: "1",
-       label: "测试"
-     },{
-       value: "2",
-       label: "测试1"
-     }];
-     const {config, corpCode, cityCode, cityData, companyData, pager} = this.state;
+    render(){
+     const { listData, config, corpCode, cityCode, cityData, companyData, pager} = this.state;
         return (
             <div className="rank-container">
             {this.renderAlert()}
@@ -185,7 +161,7 @@ class Rank extends React.Component {
                 </div>
               </div>
 
-                <Table data = {data} config = {config} pager={pager}/>
+                <Table data={listData} config = {config} pager={pager}/>
             </div>
         );
     }

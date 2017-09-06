@@ -32,10 +32,17 @@
 			}
 		}
 	}
+	.table-empty {
+		text-align: center;
+		padding: 20px;
+		color: #666;
+	}
 }
 .pager-container {
 	display: flex;
 	font-size: 12px;
+	justify-content: center;
+	padding: 20px;
 	.upstairs {
 		width: 54px;
 	}
