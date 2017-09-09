@@ -142,16 +142,15 @@ $ceil-value-width: 60% !default;
 
 
 /****************** modalAlert ******************/
-$alert-width: 520px !default;
-$alert-height: 250px !default;
+$alert-width: 798px !default;
+$alert-min-width: 500px !default;
+$alert-height: 223px !default;
 $alert-background-opacity: rgba(47, 53, 73, .8) !default;
-
-$alert-border-radius: 25px !default;
+$alert-font-size: 16px;
 
 $alert-bg-color: #FFFFFF !default;
-$alert-font-color: #000 !default;
-$alert-font-color-anbang: #FE0000 !default;
-$alert-border-color: #e5e5e5 !default;
+$alert-font-color: #666 !default;
+$alert-border-color: #E4EAEF !default;
 
 $alert-botton-color: #666 !default;
 /****************** modalAlert ******************/
@@ -161,4 +160,3 @@ $alert-botton-color: #666 !default;
 $crumbs-font-color:#666666 !default;
 
 /******************* Crumbs *********************/
-

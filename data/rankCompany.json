@@ -1,0 +1,15 @@
+
+ {
+   "code": 0,
+   "message": "操作成功",
+   "data": [
+       {
+         "corpCode":"yi_wu_fen_gong_si",
+         "corpName":"义乌坐标"
+        },
+        {
+         "corpCode":"jin_hua_fen_gong_si",
+         "corpName":"金华坐标"
+        }
+   ]
+ }

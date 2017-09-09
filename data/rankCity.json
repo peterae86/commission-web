@@ -1,0 +1,16 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": [
+      {
+        "id": 1,
+        "cityName": "义乌",
+        "cityCode": "yi_wu"
+      },
+      {
+        "id": 2,
+        "cityName": "金华",
+        "cityCode": "jin_hua"
+    }
+  ]
+}
