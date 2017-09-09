@@ -9,55 +9,67 @@ import Rank from "./container/Rank";
 import './App.scss'
 import logo from '../images/logo.png';
 
-import {Router,Route,hashHistory } from 'react-router';
+import {Router, Route, hashHistory} from 'react-router';
 
 
-class App extends React.Component{
-    constructor(props){
+class App extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
-            pathNames:[],
-            buttons:[{
-                id: "rank",
-                name: "职级管理",
-            },{
-                id: "2",
-                name: "积分管理"
-            },{
-                id: "3",
-                name: "提佣管理"
-            },{
-                id: "4",
-                name: "薪资管理",
-                children: [{
-                    id: "41",
-                    name: "保障薪资配置"
-                },
-                {
-                    id: "42",
-                    name: "底薪配置"
-                }
-                ]
-            }],
-            currentPage:Blank
+            pathNames: [],
+            buttons: {
+                id: "root",
+                name: "当前位置",
+                path: "/",
+                children:
+                    [{
+                        id: "rank",
+                        name: "职级管理",
+                        path: "/rank"
+                    }
+                        , {
+                        id: "2",
+                        name: "积分管理",
+                    }, {
+                        id: "3",
+                        name: "提佣管理",
+                    }, {
+                        id: "4",
+                        name: "薪资管理",
+                        children: [
+                            {
+                                id: "41",
+                                name: "保障薪资配置"
+                            },
+                            {
+                                id: "42",
+                                name: "底薪配置"
+                            }
+                        ]
+                    }]
+            },
+            currentPage: Blank
         };
-        this.state.pages={
-            'rank':Rank
-        },
+        this.state.pages = {
+            'rank': Rank
+        };
         this.onSelected = this.onSelected.bind(this);
     }
 
-    onSelected (key, pathNames) {
-        this.setState({
-            currentPage: this.state.pages[key]||Blank,
-            pathNames: ['当前位置',...pathNames]
-        });
+    onSelected(key, pathNames, path) {
+        if (this.state.pages[key]) {
+            this.setState({
+                currentPage: this.state.pages[key],
+                pathNames: ['当前位置', ...pathNames]
+            });
+            hashHistory.push(path)
+        }
     }
 
-    render(){
+    render() {
         const CurrentPage = this.state.currentPage;
-        const pathNames= this.state.pathNames;
-        return  <div className="app-body">
+        const pathNames = this.state.pathNames;
+        return <div className="app-body">
             <div className="app-header">
                 <div className="app-header-left">
                     <img src={logo}/>
@@ -69,7 +81,7 @@ class App extends React.Component{
             </div>
             <div className="app-container">
                 <div className="app-sidebar">
-                <SideBar buttons={this.state.buttons} onSelected={this.onSelected}/>
+                    <SideBar buttons={this.state.buttons} onSelected={this.onSelected} location={this.props.location}/>
                 </div>
                 <div className="app-page">
                     <CurrentPage pathNames={pathNames}/>
@@ -79,16 +91,16 @@ class App extends React.Component{
     }
 }
 
-class Blank extends React.Component{
-    render(){
-        return <Rank />
+class Blank extends React.Component {
+    render() {
+        return <Rank/>
     }
 }
 
 //最终渲染
 ReactDom.render((
     <Router history={hashHistory}>
-        <Route path='/' component={App}></Route>
-        <Route path='/login' component={Login} />
+        <Route path='/login' component={Login}/>
+        <Route path='/**' component={App}/>
     </Router>
 ), document.getElementById('app'));
