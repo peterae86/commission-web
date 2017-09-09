@@ -1,0 +1,33 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": {
+    "totalCount": 12,
+    "queryType": "ZHI_JI_GUAN_LI",
+    "currentPage": 0,
+    "pageSize": 10,
+    "operateRecordList": [
+      {
+        "userCode": "20182480",
+        "userName": "夏斌",
+        "operateDesc": "新增记录描述",
+        "operateType": "新增",
+        "operateDate": "2017-09-06 11:26:50"
+      },
+      {
+        "userCode": "20182480",
+        "userName": "夏斌",
+        "operateDesc": "新增记录描述",
+        "operateType": "新增",
+        "operateDate": "2017-09-06 11:26:50"
+      },
+      {
+        "userCode": "20182480",
+        "userName": "夏斌",
+        "operateDesc": "新增记录描述",
+        "operateType": "新增",
+        "operateDate": "2017-09-06 11:26:50"
+      }
+    ]
+  }
+}

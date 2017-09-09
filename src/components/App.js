@@ -10,40 +10,55 @@ import './App.scss'
 import logo from '../images/logo.png';
 
 import {Router, Route, hashHistory} from 'react-router';
+import RankHistory from "./container/RankHistory";
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props)
         this.state = {
             pathNames: [],
+            location: this.props.location,
             buttons: {
                 id: "root",
                 name: "当前位置",
                 path: "/",
-                children:
-                    [{
+                children: [
+                    {
                         id: "rank",
                         name: "职级管理",
-                        path: "/rank"
-                    }
-                        , {
+                        path: "/rank",
+                        children: [
+                            {
+                                id: "rankHistory",
+                                name: "操作历史",
+                                path: "/rank/history",
+                                hide: true,
+                                children: []
+                            }
+                        ]
+                    }, {
                         id: "2",
                         name: "积分管理",
+                        children: []
                     }, {
                         id: "3",
                         name: "提佣管理",
+                        children: []
                     }, {
                         id: "4",
                         name: "薪资管理",
                         children: [
                             {
                                 id: "41",
-                                name: "保障薪资配置"
+                                name: "保障薪资配置",
+                                children: []
                             },
                             {
                                 id: "42",
-                                name: "底薪配置"
+                                name: "底薪配置",
+                                children: []
                             }
                         ]
                     }]
@@ -51,24 +66,44 @@ class App extends React.Component {
             currentPage: Blank
         };
         this.state.pages = {
-            'rank': Rank
+            'rank': Rank,
+            'rankHistory': RankHistory
         };
-        this.onSelected = this.onSelected.bind(this);
+        this.onSelectedChange = this.onSelectedChange.bind(this);
     }
 
-    onSelected(key, pathNames, path) {
+    onSelectedChange(key, pathNames, path) {
+        debugger
         if (this.state.pages[key]) {
             this.setState({
                 currentPage: this.state.pages[key],
-                pathNames: ['当前位置', ...pathNames]
+                pathNames: [...pathNames]
             });
-            hashHistory.push(path)
+            if (path != this.state.location.pathname) {
+                hashHistory.push({
+                    pathname: path
+                });
+            }
         }
     }
 
+    componentWillReceiveProps(props) {
+        debugger
+        this.setState({
+            location: props.location
+        })
+    }
+
+    onJump(path) {
+        hashHistory.push(path);
+    }
+
     render() {
+        debugger
         const CurrentPage = this.state.currentPage;
         const pathNames = this.state.pathNames;
+        const onJump = this.onJump;
+
         return <div className="app-body">
             <div className="app-header">
                 <div className="app-header-left">
@@ -81,10 +116,13 @@ class App extends React.Component {
             </div>
             <div className="app-container">
                 <div className="app-sidebar">
-                    <SideBar buttons={this.state.buttons} onSelected={this.onSelected} location={this.props.location}/>
+                    <SideBar buttons={this.state.buttons} onSelectedChange={this.onSelectedChange} location={this.state.location}/>
                 </div>
                 <div className="app-page">
-                    <CurrentPage pathNames={pathNames}/>
+                    {
+                        CurrentPage ? <CurrentPage pathNames={pathNames} location={this.state.location}
+                                                   onJump={onJump}/> : null
+                    }
                 </div>
             </div>
         </div>
@@ -93,7 +131,7 @@ class App extends React.Component {
 
 class Blank extends React.Component {
     render() {
-        return <Rank/>
+        return <div/>
     }
 }
 

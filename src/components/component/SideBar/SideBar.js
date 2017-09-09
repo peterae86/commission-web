@@ -1,16 +1,15 @@
 import React from 'react';
 import './SideBar.scss'
-import {browserHistory} from 'react-router';
+import {hashHistory} from 'react-router';
 
 
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {};
         this.state.buttonTreeNode = this.createButtons(props.buttons, 0, []);
         this.renderButton.bind(this);
-        this.onButtonClick.bind(this)
+        this.onButtonClick.bind(this);
     }
 
     componentWillMount() {
@@ -18,37 +17,43 @@ class SideBar extends React.Component {
     }
 
     createButtons(x, depth, pathNames) {
-        let hasChild = x.children && x.children.length > 0 || false;
         let res = {
-            hasChild: hasChild,
+            hasChild: false,
             selected: false,
             depth: depth,
             pathNames: [...pathNames, x.name],
-            ...x
+            children: [],
+            id: x.id,
+            name: x.name,
+            path: x.path
         };
-        if (res.hasChild) {
-            res.children = [];
-            x.children.forEach((c) => {
-                res.children.push(this.createButtons(c, depth + 1, res.pathNames));
-            });
-        }
+        x.children.forEach((c) => {
+            res.children.push(this.createButtons(c, depth + 1, res.pathNames));
+            if (!c.hide) {
+                res.hasChild = true
+            }
+        });
         return res;
     }
 
+    componentWillReceiveProps(props) {
+        this.selectByPath(this.state.buttonTreeNode, props.location.pathname);
+    }
+
     selectByPath(x, path) {
-        if (x.hasChild) {
+        if (x.path === path) {
+            if (this.props.onSelectedChange && !x.selected) {
+                this.props.onSelectedChange(x.id, x.pathNames, x.path);
+            }
+            x.selected = true;
+            return true;
+        } else if (x.children.length > 0) {
             for (let i = 0; i < x.children.length; i++) {
                 if (this.selectByPath(x.children[i], path)) {
                     x.selected = true;
                     return true;
                 }
             }
-        } else if (x.path === path) {
-            x.selected = true;
-            if (this.props.onSelected) {
-                this.props.onSelected(x.id, x.pathNames, x.path);
-            }
-            return true;
         }
         x.selected = false;
         return false;
@@ -58,7 +63,7 @@ class SideBar extends React.Component {
     onButtonClick(item) {
         this.state.buttonTreeNode.children.forEach(x => {
             let selected = false;
-            x.hasChild && x.children.forEach((c) => {
+            x.children.forEach((c) => {
                 c.selected = (c.id === item.id);
                 if (c.selected) {
                     selected = true;
@@ -67,8 +72,8 @@ class SideBar extends React.Component {
             x.selected = selected || x.id === item.id;
         });
 
-        if (this.props.onSelected) {
-            this.props.onSelected(item.id, item.pathNames, item.path);
+        if (this.props.onSelectedChange) {
+            this.props.onSelectedChange(item.id, item.pathNames, item.path);
         }
         this.setState(this.state);
     }

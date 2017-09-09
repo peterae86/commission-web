@@ -4,6 +4,7 @@ import Crumbs from '../component/Crumbs/Crumbs';
 import Dropdown from '../component/Dropdown/Dropdown';
 import ModalAlert from '../component/ModalAlert/ModalAlert';
 import {requestByFetch, parseParamsGet} from '../../utils/request.js';
+
 class Rank extends React.Component {
     constructor(props) {
         super(props);
@@ -21,28 +22,31 @@ class Rank extends React.Component {
             listData: [], //数据列表
             message: "", // alert message
             config: {
-                colum: [
-                    {name: "所属列表", key:"dutyScope", textAlign: "center", width: "10%"},
-                    {name: "职级", key:"dutyLevel", textAlign: "center", width: "10%"},
-                    {name: "职级积分下线", key:"minScore", textAlign: "center", width: "10%"},
-                    {name: "职级积分上线", key:"maxScore", textAlign: "center", width: "10%"},
-                    {name: "职级基础分", key:"baseScore", textAlign: "center", width: "10%"},
-                    {name: "师徒制积分贡献比例", key:"masterScoreRatio", textAlign: "center", width: "15%"},
-                    {name: "师徒制提佣积分贡献系数", key:"masterCommissionRatio", textAlign: "center", width: "15%"},
-                    {name: "操作", key:"opt", textAlign: "center", width: "20%", content: [
+                column: [
+                    {name: "所属列表", key: "dutyScope", textAlign: "center", width: "10%"},
+                    {name: "职级", key: "dutyLevel", textAlign: "center", width: "10%"},
+                    {name: "职级积分下线", key: "minScore", textAlign: "center", width: "10%"},
+                    {name: "职级积分上线", key: "maxScore", textAlign: "center", width: "10%"},
+                    {name: "职级基础分", key: "baseScore", textAlign: "center", width: "10%"},
+                    {name: "师徒制积分贡献比例", key: "masterScoreRatio", textAlign: "center", width: "15%"},
+                    {name: "师徒制提佣积分贡献系数", key: "masterCommissionRatio", textAlign: "center", width: "15%"},
+                    {
+                        name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
                         {
                             key: "操作历史",
-                            func: (index)=> {
+                            func: (index) => {
+                                this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
                                 console.log(index);
                             }
                         },
-                         {
+                        {
                             key: "修改",
-                            func: (index)=> {
+                            func: (index) => {
                                 console.log(index);
                             }
                         }
-                    ]}
+                    ]
+                    }
                 ]
             },
             pager: {
@@ -58,51 +62,68 @@ class Rank extends React.Component {
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
         this.onQuery = this.onQuery.bind(this);
+        this.jumpToHistory.bind(this);
     }
-    componentWillMount () {
+
+    componentWillMount() {
         this.getCity();
+        this.state.pager.clickPager(0);
     }
+
+    jumpToHistory(index) {
+        
+        this.props.onJump();
+        console.log(index);
+    }
+
     // 渲染碳层
     renderAlert() {
         const modalProps = {
-             show: this.state.showConfirm,
-             message: this.state.message,
-             type: 'alert',
-             cancelClick: () => {this.setState({showConfirm: false});},
-           };
+            show: this.state.showConfirm,
+            message: this.state.message,
+            type: 'alert',
+            cancelClick: () => {
+                this.setState({showConfirm: false});
+            },
+        };
         return <ModalAlert {...modalProps} />
     }
+
     //获取城市
-    getCity () {
+    getCity() {
         const path = "../data/rankCity.json?";
         //const path = "/cityconfig/queryByStatus?status=0"; // 真正接口
-        requestByFetch(path, "GET").then((res)=> {
+        requestByFetch(path, "GET").then((res) => {
             this.setState({
                 cityData: res
             });
         });
 
     }
+
     // 获取指定城市下的公司
-    getCompany (value) {
+    getCompany(value) {
         const path = "../data/rankCompany.json";
         //const path = `/cityConfig/queryCorpsByCityCode?cityCode=${value}`&corpStatus=0; // 真正接口
-        requestByFetch(path, "GET").then((res)=> {
+        requestByFetch(path, "GET").then((res) => {
             this.setState({
                 companyData: res
             });
         });
     }
+
     // 选择城市回调
-    onSelectCity (value) {
-        this.getCompany(value);;
+    onSelectCity(value) {
+        this.getCompany(value);
+        ;
         this.setState({
             cityCode: value,
             corpCode: ""
         });
     }
+
     // 选择公司回调
-    onSelectCompnay (value) {
+    onSelectCompnay(value) {
         this.setState({
             corpCode: value
         });
@@ -119,7 +140,8 @@ class Rank extends React.Component {
         };
         this.onQuery(param);
     }
-     // 搜索函数
+
+    // 搜索函数
     onQuery(p) {
         const param = {
             ...p,
@@ -127,8 +149,8 @@ class Rank extends React.Component {
         }
 
         const path = "../data/rankList.json?";
-    //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
-        requestByFetch(path, "GET").then((res)=> {
+        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        requestByFetch(path, "GET").then((res) => {
             console.log(res.dutyLevelInfoList);
             this.setState({
                 listData: res.dutyLevelInfoList,
@@ -142,26 +164,28 @@ class Rank extends React.Component {
     }
 
 
-    render(){
-     const { listData, config, corpCode, cityCode, cityData, companyData, pager} = this.state;
+    render() {
+        const {listData, config, corpCode, cityCode, cityData, companyData, pager} = this.state;
         return (
             <div className="rank-container">
-            {this.renderAlert()}
-              <div className="container-title">
-                <Crumbs names={this.state.pathNames}/>
-                <div className="title-right">
-                    <div className="right-company">
-                        <span>城市：</span>
-                        <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode" placeholder="请选择城市" value={cityCode} propsLabel="cityName"/>
-                    </div>
-                    <div  className="right-company">
-                        <span>公司：</span>
-                        <Dropdown onSelect={this.onSelectCompnay} options={companyData} propsValue="corpCode" placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
+                {this.renderAlert()}
+                <div className="container-title">
+                    <Crumbs names={this.state.pathNames}/>
+                    <div className="title-right">
+                        <div className="right-company">
+                            <span>城市：</span>
+                            <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode"
+                                      placeholder="请选择城市" value={cityCode} propsLabel="cityName"/>
+                        </div>
+                        <div className="right-company">
+                            <span>公司：</span>
+                            <Dropdown onSelect={this.onSelectCompnay} options={companyData} propsValue="corpCode"
+                                      placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
+                        </div>
                     </div>
                 </div>
-              </div>
 
-                <Table data={listData} config = {config} pager={pager}/>
+                <Table data={listData} config={config} pager={pager}/>
             </div>
         );
     }

@@ -81,7 +81,7 @@ class Tabel extends React.Component {
           <ul className="table-container">
             <li className="container-header">
               {
-                config.colum.map((items, indexs)=> {
+                config.column.map((items, indexs)=> {
                   const style={
                     width: items.width,
                     textAlign: items.textAlign
@@ -92,7 +92,7 @@ class Tabel extends React.Component {
             </li>
             {
                 data.length > 0 ? data.map((item, index)=> {
-                  const row = config.colum.map((cof, indexs)=> {
+                  const row = config.column.map((cof, indexs)=> {
                     const style={
                         width: cof.width,
                         textAlign: cof.textAlign
