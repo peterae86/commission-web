@@ -47,7 +47,6 @@ class Tabel extends React.Component {
     }
 
     renderPager() {
-        debugger
         let list = [];
         const {totalCount, currentPage, pageSize} = this.state.pager;
         const lenght = Math.ceil(totalCount / pageSize);

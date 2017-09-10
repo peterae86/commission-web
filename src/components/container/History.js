@@ -46,7 +46,6 @@ class History extends React.Component {
             queryType: this.state.queryType
         };
         const path = this.state.queryUrl;
-        debugger
         //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
             this.setState({

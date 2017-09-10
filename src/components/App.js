@@ -16,6 +16,7 @@ import FormulaList from "./container/socre/FormulaList";
 import AddParam from "./container/socre/AddParam";
 import ParamHistory from "./container/socre/ParamHistory";
 import FormulaHistory from "./container/socre/FormulaHistory";
+import RankRadioList from "./container/commission/RankRadioList";
 
 
 class App extends React.Component {
@@ -83,9 +84,16 @@ class App extends React.Component {
                             }
                         ]
                     }, {
-                        id: "3",
+                        id: "commission",
                         name: "提佣管理",
-                        children: []
+                        children: [
+                            {
+                                id: "rankRadioList",
+                                name: "本人提佣系数管理",
+                                path: "/commission/rankRadioList",
+                                children: []
+                            }
+                        ]
                     }, {
                         id: "4",
                         name: "薪资管理",
@@ -112,13 +120,13 @@ class App extends React.Component {
             'paramHistory': ParamHistory,
             'formulaList': FormulaList,
             'addParam': AddParam,
-            'formulaHistory': FormulaHistory
+            'formulaHistory': FormulaHistory,
+            'rankRadioList': RankRadioList
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
 
     onSelectedChange(key, pathNames, path) {
-        debugger
         if (this.state.pages[key]) {
             this.setState({
                 currentPage: this.state.pages[key],
@@ -133,7 +141,6 @@ class App extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        debugger
         this.setState({
             location: props.location
         })
@@ -144,7 +151,6 @@ class App extends React.Component {
     }
 
     render() {
-        debugger
         const CurrentPage = this.state.currentPage;
         const pathNames = this.state.pathNames;
         const onJump = this.onJump;

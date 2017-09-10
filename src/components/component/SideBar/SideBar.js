@@ -41,22 +41,22 @@ class SideBar extends React.Component {
     }
 
     selectByPath(x, path) {
+        let res = false;
         if (x.path === path) {
             if (this.props.onSelectedChange && !x.selected) {
                 this.props.onSelectedChange(x.id, x.pathNames, x.path);
             }
-            x.selected = true;
-            return true;
-        } else if (x.children.length > 0) {
+            res = true;
+        }
+        if (x.children.length > 0) {
             for (let i = 0; i < x.children.length; i++) {
                 if (this.selectByPath(x.children[i], path)) {
-                    x.selected = true;
-                    return true;
+                    res = true;
                 }
             }
         }
-        x.selected = false;
-        return false;
+
+        return x.selected = res;
     }
 
 
