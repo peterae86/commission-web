@@ -17,14 +17,37 @@ class FormulaList extends React.Component {
             },
             config: {
                 column: [
-                    {name: "参数编码", key: "userCode", textAlign: "center", width: "20%"},
-                    {name: "参数名称", key: "userName", textAlign: "center", width: "20%"},
-                    {name: "是否可计算", key: "operateType", textAlign: "center", width: "20%"},
-                    {name: "操作", key: "operateDesc", textAlign: "center", width: "20%"},
+                    {name: "公式编码", key: "userCode", textAlign: "center", width: "20%"},
+                    {name: "公式名称", key: "userName", textAlign: "center", width: "20%"},
+                    {name: "公式详情", key: "operateType", textAlign: "center", width: "20%"},
+                    {name: "状态", key: "userName", textAlign: "center", width: "20%"},
+                    {name: "备注（公式描述）", key: "operateType", textAlign: "center", width: "20%"},
+                    {
+                        name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
+                        {
+                            key: "操作历史",
+
+                            func: (index) => {
+                                this.props.onJump('/score/formulaHistory?id=' + this.state.listData[index].id);
+                                console.log(index);
+                            }
+                        },
+                        {
+                            key: "修改",
+                            func: (index) => {
+                                console.log(index);
+                            }
+                        }
+                    ]
+                    },
                 ]
             },
             listData: []
         };
+    }
+
+    componentWillMount() {
+        this.onQuery({})
     }
 
     onSelectCity(value, dd) {

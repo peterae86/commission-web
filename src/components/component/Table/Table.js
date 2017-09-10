@@ -24,7 +24,12 @@ class Tabel extends React.Component {
     componentWillReceiveProps(newProps) {
         const {pager, data} = newProps;
         this.setState({
-            pager: pager,
+            pager: pager || {
+                pageSize: 0,
+                clickPager: function () {
+
+                }
+            },
             data: data
         });
     }
@@ -92,6 +97,7 @@ class Tabel extends React.Component {
 
     render() {
         const {data, config, pager} = this.state;
+        console.log(this.state);
         return (
             <div>
                 <ul className="table-container">

@@ -1,11 +1,11 @@
 import History from '../History';
 
-class RankHistory extends History {
+class FormulaHistory extends History {
     constructor(props) {
         super(props);
         this.state.queryUrl = '../data/rankHistory.json';//'/dutyLevelConfig/queryConfigsByCorpCode';
-        this.state.queryType = 'ZHI_JI_GUAN_LI';
+        this.state.queryType = 'JI_FEN_CAN_SHU';
     }
 }
 
-export default RankHistory;
+export default FormulaHistory;

@@ -19,7 +19,24 @@ class ParamList extends React.Component {
                     {name: "参数编码", key: "id", textAlign: "center", width: "20%"},
                     {name: "参数名称", key: "scoreItemDesc", textAlign: "center", width: "20%"},
                     {name: "是否可计算", key: "computeType", textAlign: "center", width: "20%"},
-                    {name: "操作", key: "operateDesc", textAlign: "center", width: "20%"},
+                    {
+                        name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
+                        {
+                            key: "操作历史",
+
+                            func: (index) => {
+                                this.props.onJump('/score/paramHistory?id=' + this.state.listData[index].id);
+                                console.log(index);
+                            }
+                        },
+                        {
+                            key: "修改",
+                            func: (index) => {
+                                console.log(index);
+                            }
+                        }
+                    ]
+                    },
                 ]
             },
             listData: []

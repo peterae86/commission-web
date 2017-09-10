@@ -14,6 +14,8 @@ import RankHistory from "./container/rank/RankHistory";
 import ParamList from "./container/socre/ParamList";
 import FormulaList from "./container/socre/FormulaList";
 import AddParam from "./container/socre/AddParam";
+import ParamHistory from "./container/socre/ParamHistory";
+import FormulaHistory from "./container/socre/FormulaHistory";
 
 
 class App extends React.Component {
@@ -57,6 +59,13 @@ class App extends React.Component {
                                         path: "/score/addParam",
                                         hide: true,
                                         children: []
+                                    },
+                                    {
+                                        id: "paramHistory",
+                                        name: "参数修改历史",
+                                        path: "/score/paramHistory",
+                                        hide: true,
+                                        children: []
                                     }
                                 ]
                             },
@@ -64,7 +73,13 @@ class App extends React.Component {
                                 id: "formulaList",
                                 name: "积分计算管理",
                                 path: "/score/formulaList",
-                                children: []
+                                children: [{
+                                    id: "formulaHistory",
+                                    name: "公式修改历史",
+                                    path: "/score/formulaHistory",
+                                    hide: true,
+                                    children: []
+                                }]
                             }
                         ]
                     }, {
@@ -94,8 +109,10 @@ class App extends React.Component {
             'rank': Rank,
             'rankHistory': RankHistory,
             'paramList': ParamList,
+            'paramHistory': ParamHistory,
             'formulaList': FormulaList,
-            'addParam':AddParam
+            'addParam': AddParam,
+            'formulaHistory': FormulaHistory
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
