@@ -1,9 +1,9 @@
 import React from 'react';
-import Table from '../component/Table/Table';
-import Crumbs from '../component/Crumbs/Crumbs';
-import Dropdown from '../component/Dropdown/Dropdown';
-import ModalAlert from '../component/ModalAlert/ModalAlert';
-import {requestByFetch, parseParamsGet} from '../../utils/request.js';
+import Table from '../../component/Table/Table';
+import Crumbs from '../../component/Crumbs/Crumbs';
+import Dropdown from '../../component/Dropdown/Dropdown';
+import ModalAlert from '../../component/ModalAlert/ModalAlert';
+import {requestByFetch, parseParamsGet} from '../../../utils/request.js';
 
 class Rank extends React.Component {
     constructor(props) {

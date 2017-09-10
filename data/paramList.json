@@ -1,0 +1,24 @@
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+    {
+      "id": 1,
+      "scoreItemKey": "4a8a8fb0-bb00-4cdf-b8ed-13f42850fd92",
+      "scoreItemDesc": "期末积分",
+      "createTs": "2017-08-22 16:45:30",
+      "updateTs": "2017-08-22 16:45:30",
+      "computeType": 0,
+      "corpCode": "yi_wu_fen_gong_si"
+    },
+    {
+      "id": 1,
+      "scoreItemKey": "4a8a8fb0-bb00-4cdf-b8ed-13f42850fd92",
+      "scoreItemDesc": "期末积分",
+      "createTs": "2017-08-22 16:45:30",
+      "updateTs": "2017-08-22 16:45:30",
+      "computeType": 0,
+      "corpCode": "yi_wu_fen_gong_si"
+    }
+  ]
+}

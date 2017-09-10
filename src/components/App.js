@@ -5,12 +5,15 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Login from './container/Login';
 import SideBar from './component/SideBar/SideBar'
-import Rank from "./container/Rank";
+import Rank from "./container/rank/Rank";
 import './App.scss'
 import logo from '../images/logo.png';
 
 import {Router, Route, hashHistory} from 'react-router';
-import RankHistory from "./container/RankHistory";
+import RankHistory from "./container/rank/RankHistory";
+import ParamList from "./container/socre/ParamList";
+import FormulaList from "./container/socre/FormulaList";
+import AddParam from "./container/socre/AddParam";
 
 
 class App extends React.Component {
@@ -39,9 +42,31 @@ class App extends React.Component {
                             }
                         ]
                     }, {
-                        id: "2",
+                        id: "score",
                         name: "积分管理",
-                        children: []
+                        path: "",
+                        children: [
+                            {
+                                id: "paramList",
+                                name: "参数管理",
+                                path: "/score/paramList",
+                                children: [
+                                    {
+                                        id: "addParam",
+                                        name: "新增参数",
+                                        path: "/score/addParam",
+                                        hide: true,
+                                        children: []
+                                    }
+                                ]
+                            },
+                            {
+                                id: "formulaList",
+                                name: "积分计算管理",
+                                path: "/score/formulaList",
+                                children: []
+                            }
+                        ]
                     }, {
                         id: "3",
                         name: "提佣管理",
@@ -67,7 +92,10 @@ class App extends React.Component {
         };
         this.state.pages = {
             'rank': Rank,
-            'rankHistory': RankHistory
+            'rankHistory': RankHistory,
+            'paramList': ParamList,
+            'formulaList': FormulaList,
+            'addParam':AddParam
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
@@ -116,7 +144,8 @@ class App extends React.Component {
             </div>
             <div className="app-container">
                 <div className="app-sidebar">
-                    <SideBar buttons={this.state.buttons} onSelectedChange={this.onSelectedChange} location={this.state.location}/>
+                    <SideBar buttons={this.state.buttons} onSelectedChange={this.onSelectedChange}
+                             location={this.state.location}/>
                 </div>
                 <div className="app-page">
                     {

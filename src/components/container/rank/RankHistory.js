@@ -1,7 +1,7 @@
 import React from 'react';
-import Table from '../component/Table/Table';
-import Crumbs from '../component/Crumbs/Crumbs';
-import {requestByFetch} from "../../utils/request";
+import Table from '../../component/Table/Table';
+import Crumbs from '../../component/Crumbs/Crumbs';
+import {requestByFetch} from "../../../utils/request";
 import {hashHistory} from "react-router";
 
 class RankHistory extends React.Component {
@@ -24,6 +24,7 @@ class RankHistory extends React.Component {
                 ]
             },
             pager: {
+                pageSize: props.location.query.pageSize || 10,
                 clickPager: function (index) {
                     self.onQuery({
                         ...self.state.query,
@@ -43,11 +44,8 @@ class RankHistory extends React.Component {
         const param = {
             ...p
         };
-        hashHistory.push({
-            pathname: this.props.location.pathname,
-            query: param,
-        });
         const path = "../data/rankHistory.json?";
+
         //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
             this.setState({
