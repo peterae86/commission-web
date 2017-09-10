@@ -8,6 +8,7 @@ class SideBar extends React.Component {
         super(props);
         this.state = {};
         this.state.buttonTreeNode = this.createButtons(props.buttons, 0, []);
+        this.state.selectedPath = '';
         this.renderButton.bind(this);
         this.onButtonClick.bind(this);
     }
@@ -37,13 +38,18 @@ class SideBar extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        this.selectByPath(this.state.buttonTreeNode, props.location.pathname);
+        if (this.state.selectedPath !== props.location.pathname) {
+            this.selectByPath(this.state.buttonTreeNode, props.location.pathname);
+            this.setState({
+                selectedPath: props.location.pathname
+            });
+        }
     }
 
     selectByPath(x, path) {
         let res = false;
         if (x.path === path) {
-            if (this.props.onSelectedChange && !x.selected) {
+            if (this.props.onSelectedChange) {
                 this.props.onSelectedChange(x.id, x.pathNames, x.path);
             }
             res = true;
