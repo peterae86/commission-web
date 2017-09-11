@@ -3,6 +3,7 @@ import Table from '../../component/Table/Table';
 import Crumbs from '../../component/Crumbs/Crumbs';
 import Dropdown from '../../component/Dropdown/Dropdown';
 import ModalAlert from '../../component/ModalAlert/ModalAlert';
+import Modal from '../../component/Modal/Modal';
 import {requestByFetch, parseParamsGet} from '../../../utils/request.js';
 
 class Rank extends React.Component {
@@ -19,6 +20,7 @@ class Rank extends React.Component {
             cityCode: "", //当前选中那个城市
             companyData: [],
             showConfirm: false,
+            modifyModal: true,
             listData: [], //数据列表
             message: "", // alert message
             config: {
@@ -71,7 +73,7 @@ class Rank extends React.Component {
     }
 
     jumpToHistory(index) {
-        
+
         this.props.onJump();
         console.log(index);
     }
@@ -87,6 +89,12 @@ class Rank extends React.Component {
             },
         };
         return <ModalAlert {...modalProps} />
+    }
+    renderModify () {
+        const modal = {
+            show: this.state.modifyModal
+        };
+        return <Modal {...modal} />
     }
 
     //获取城市
@@ -169,6 +177,7 @@ class Rank extends React.Component {
         return (
             <div className="rank-container">
                 {this.renderAlert()}
+                {this.renderModify()}
                 <div className="container-title">
                     <Crumbs names={this.state.pathNames}/>
                     <div className="title-right">
