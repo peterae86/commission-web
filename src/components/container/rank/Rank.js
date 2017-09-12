@@ -18,10 +18,11 @@ class Rank extends React.Component {
             totalCount: 0, // 分页总条数
             companyData: [],
             showConfirm: false,
-            modifyModal: true,
+            modifyModal: false,
             listData: [], //数据列表
             message: "", // alert message
             currentCity:{},
+            formData: [],
             config: {
                 column: [
                     {name: "所属列表", key: "dutyScope", textAlign: "center", width: "10%"},
@@ -37,13 +38,18 @@ class Rank extends React.Component {
                             key: "操作历史",
                             func: (index) => {
                                 this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
-                                console.log(index);
                             }
                         },
                         {
                             key: "修改",
                             func: (index) => {
-                                console.log(index);
+                                this.setState({
+                                    modifyModal: true,
+                                    formData: [{
+                                        label: "vesh ",
+                                        value: "333"
+                                    }]
+                                });
                             }
                         }
                     ]
@@ -71,9 +77,7 @@ class Rank extends React.Component {
     }
 
     jumpToHistory(index) {
-
         this.props.onJump();
-        console.log(index);
     }
 
     // 渲染碳层
@@ -91,7 +95,8 @@ class Rank extends React.Component {
 
     renderModify() {
         const modal = {
-            show: this.state.modifyModal
+            show: this.state.modifyModal,
+            formData: this.state.formData
         };
         return <Modal {...modal} />
     }
@@ -133,7 +138,6 @@ class Rank extends React.Component {
         const path = "../data/rankList.json?";
         //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
-            console.log(res.dutyLevelInfoList);
             this.setState({
                 listData: res.dutyLevelInfoList,
                 pager: {

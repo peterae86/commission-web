@@ -48,7 +48,7 @@ class Modal extends React.Component {
                               formData.map((item, index)=> {
                                   return (<li key={index} className="body-list">
                                           <span>{item.label}</span>
-                                          <Input inputStyle={{height: "30px"}} value={item.value} />
+                                          <Input style={{width: "75%"}} inputStyle={{width: "75%",height: "30px"}} value={item.value} />
                                   </li>)
                               })
                           }
