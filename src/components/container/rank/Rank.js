@@ -23,7 +23,6 @@ class Rank extends React.Component {
             message: "", // alert message
             formData: [],
             currentCity:{},
-            formData: [],
             config: {
                 column: [
                     {name: "所属列表", key: "dutyScope", textAlign: "center", width: "10%"},
@@ -66,7 +65,7 @@ class Rank extends React.Component {
                     })
                 }
             }
-        }
+        };
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
         this.onQuery = this.onQuery.bind(this);
