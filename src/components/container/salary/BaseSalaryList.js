@@ -11,18 +11,15 @@ class BaseSalaryList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "公式编码", key: "userCode", textAlign: "center", width: "20%"},
-                {name: "公式名称", key: "userName", textAlign: "center", width: "20%"},
-                {name: "公式详情", key: "operateType", textAlign: "center", width: "20%"},
-                {name: "状态", key: "userName", textAlign: "center", width: "20%"},
-                {name: "备注（公式描述）", key: "operateType", textAlign: "center", width: "20%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
+                {name: "底薪", key: "baseSalaryAmount", textAlign: "center", width: "20%"},
                 {
                     name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
                     {
                         key: "操作历史",
 
                         func: (index) => {
-                            this.props.onJump('/score/formulaHistory?id=' + this.state.table.listData[index].id);
+                            this.props.onJump('/salary/baseSalaryHistory?id=' + this.state.table.listData[index].id);
                             console.log(index);
                         }
                     },
@@ -43,8 +40,8 @@ class BaseSalaryList extends ListPage {
     }
 
     onQuery(p) {
-        const path = '/data/formulaList.json';
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        const path = '/data/BaseSalary.json';
+        //    const paths = `/dutyLevelRelatedInfo/queryDutyLevelBaseSalaryByCorpCode?${parseParamsGet(param)}`; // 真正接口
         this.setState({
             queryParams: p
         });
@@ -55,7 +52,7 @@ class BaseSalaryList extends ListPage {
             this.setState({
                 table: {
                     ...this.table,
-                    listData: res.commissionRatioVoList,
+                    listData: res.baseSalaryConfigs,
                     pager: {
                         ...this.state.table.pager,
                         currentPage: p.currentPage,

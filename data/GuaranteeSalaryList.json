@@ -1,0 +1,34 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": {
+    "totalCount": 101,
+    "corpCode": "yi_wu_fen_gong_si",
+    "currentPage": 2,
+    "pageSize": 20,
+    "guaranteeConfigList": [
+      {
+        "id": 1,
+        "corpCode": "yi_wu_fen_gong_si",
+        "dutyLevel": "A2",
+        "guaranteeStanderAmount": 2500,
+        "guarantee0Amount": 4500,
+        "guarantee50Amount": 6500,
+        "guarantee100Amount": 12500,
+        "createTs": "2017-09-04 22:39:28",
+        "updateTs": "2017-09-04 22:39:28"
+      },
+      {
+        "id": 1,
+        "corpCode": "yi_wu_fen_gong_si",
+        "dutyLevel": "B2",
+        "guaranteeStanderAmount": 2500,
+        "guarantee0Amount": 4500,
+        "guarantee50Amount": 6500,
+        "guarantee100Amount": 12500,
+        "createTs": "2017-09-04 22:39:28",
+        "updateTs": "2017-09-04 22:39:28"
+      }
+    ]
+  }
+}

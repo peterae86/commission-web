@@ -1,0 +1,28 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": {
+    "totalCount": 101,
+    "currentPage": 2,
+    "pageSize": 20,
+    "corpCode": "jin_hua_fen_gong_si",
+    "baseSalaryConfigs": [
+      {
+        "id": 1,
+        "dutyLevel": "A2",
+        "baseSalaryAmount": 2500,
+        "createTs": "2017-09-04 22:33:53",
+        "updateTs": "2017-09-04 22:33:53",
+        "corpCode": "jin_hua_fen_gong_si"
+      },
+      {
+        "id": 1,
+        "dutyLevel": "B2",
+        "baseSalaryAmount": 4500,
+        "createTs": "2017-09-04 22:33:53",
+        "updateTs": "2017-09-04 22:33:53",
+        "corpCode": "jin_hua_fen_gong_si"
+      }
+    ]
+  }
+}

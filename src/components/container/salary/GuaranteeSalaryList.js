@@ -11,18 +11,18 @@ class GuaranteeSalaryList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "公式编码", key: "userCode", textAlign: "center", width: "20%"},
-                {name: "公式名称", key: "userName", textAlign: "center", width: "20%"},
-                {name: "公式详情", key: "operateType", textAlign: "center", width: "20%"},
-                {name: "状态", key: "userName", textAlign: "center", width: "20%"},
-                {name: "备注（公式描述）", key: "operateType", textAlign: "center", width: "20%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
+                {name: "保障标准", key: "guaranteeStanderAmount", textAlign: "center", width: "20%"},
+                {name: "担保0%保障上限", key: "guarantee0Amount", textAlign: "center", width: "20%"},
+                {name: "担保50%保障上限", key: "guarantee50Amount", textAlign: "center", width: "20%"},
+                {name: "担保100%保障上限", key: "guarantee100Amount", textAlign: "center", width: "20%"},
                 {
                     name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
                     {
                         key: "操作历史",
 
                         func: (index) => {
-                            this.props.onJump('/score/formulaHistory?id=' + this.state.table.listData[index].id);
+                            this.props.onJump('/salary/guaranteeSalaryHistory?id=' + this.state.table.listData[index].id);
                             console.log(index);
                         }
                     },
@@ -43,8 +43,8 @@ class GuaranteeSalaryList extends ListPage {
     }
 
     onQuery(p) {
-        const path = '/data/formulaList.json';
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        const path = '/data/GuaranteeSalaryList.json';
+        //    const paths = `/dutyLevelRelatedInfo/queryDutyLevelGuaranteeSalaryInfoByCorpCode?${parseParamsGet(param)}`; // 真正接口
         this.setState({
             queryParams: p
         });
@@ -55,7 +55,7 @@ class GuaranteeSalaryList extends ListPage {
             this.setState({
                 table: {
                     ...this.table,
-                    listData: res.commissionRatioVoList,
+                    listData: res.guaranteeConfigList,
                     pager: {
                         ...this.state.table.pager,
                         currentPage: p.currentPage,
