@@ -21,6 +21,7 @@ class Rank extends React.Component {
             modifyModal: false,
             listData: [], //数据列表
             message: "", // alert message
+            formData: [],
             currentCity:{},
             formData: [],
             config: {
