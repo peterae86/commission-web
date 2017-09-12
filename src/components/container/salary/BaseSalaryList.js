@@ -6,7 +6,7 @@ import {requestByFetch} from "../../../utils/request";
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
 
-class FormulaList extends ListPage {
+class BaseSalaryList extends ListPage {
     constructor(props) {
         super(props);
         this.state.table.config = {
@@ -71,5 +71,5 @@ class FormulaList extends ListPage {
     }
 }
 
-export default FormulaList;
+export default BaseSalaryList;
 

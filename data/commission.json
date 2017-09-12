@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": {
+
+    "corpCode": "yi_wu_fen_gong_si",
+    "totalCount": 123,
+    "currentPage": 0,
+    "pageSize": 10,
+    "commissionRatioVoList": [
+      {
+        "id":1,
+        "dutyLevel": "A3",
+        "baseSalaryModelRatio": 0.24,
+        "doubleSalaryModelRatio": 0.12
+      },
+      {
+        "id":2,
+        "dutyLevel": "C3",
+        "baseSalaryModelRatio": 0.243,
+        "doubleSalaryModelRatio": 0.123
+      }
+    ]
+  }
+}

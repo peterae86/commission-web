@@ -1,6 +1,6 @@
 import History from '../History';
 
-class RankHistory extends History {
+class BaseSalaryHistory extends History {
     constructor(props) {
         super(props);
         this.state.queryUrl = '/data/rankHistory.json';//'/dutyLevelConfig/queryConfigsByCorpCode';
@@ -8,4 +8,4 @@ class RankHistory extends History {
     }
 }
 
-export default RankHistory;
+export default BaseSalaryHistory;

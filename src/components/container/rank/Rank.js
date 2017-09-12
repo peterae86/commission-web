@@ -16,13 +16,12 @@ class Rank extends React.Component {
             pageSize: 10, // 默认分页
             currentPage: 0, // 当前页码
             totalCount: 0, // 分页总条数
-            cityData: [], // 城市合计
-            cityCode: "", //当前选中那个城市
             companyData: [],
             showConfirm: false,
             modifyModal: true,
             listData: [], //数据列表
             message: "", // alert message
+            currentCity:{},
             config: {
                 column: [
                     {name: "所属列表", key: "dutyScope", textAlign: "center", width: "10%"},
@@ -68,7 +67,6 @@ class Rank extends React.Component {
     }
 
     componentWillMount() {
-        this.getCity();
         this.state.pager.clickPager(0);
     }
 
@@ -90,43 +88,19 @@ class Rank extends React.Component {
         };
         return <ModalAlert {...modalProps} />
     }
-    renderModify () {
+
+    renderModify() {
         const modal = {
             show: this.state.modifyModal
         };
         return <Modal {...modal} />
     }
 
-    //获取城市
-    getCity() {
-        const path = "../data/rankCity.json?";
-        //const path = "/cityconfig/queryByStatus?status=0"; // 真正接口
-        requestByFetch(path, "GET").then((res) => {
-            this.setState({
-                cityData: res
-            });
-        });
-
-    }
-
-    // 获取指定城市下的公司
-    getCompany(value) {
-        const path = "../data/rankCompany.json";
-        //const path = `/cityConfig/queryCorpsByCityCode?cityCode=${value}`&corpStatus=0; // 真正接口
-        requestByFetch(path, "GET").then((res) => {
-            this.setState({
-                companyData: res
-            });
-        });
-    }
-
     // 选择城市回调
     onSelectCity(value) {
         this.getCompany(value);
-        ;
         this.setState({
-            cityCode: value,
-            corpCode: ""
+            currentCity: this.props.cities.find(x => x.cityCode === value)
         });
     }
 
@@ -173,7 +147,7 @@ class Rank extends React.Component {
 
 
     render() {
-        const {listData, config, corpCode, cityCode, cityData, companyData, pager} = this.state;
+        const {listData, config, corpCode, cityCode, currentCity, companyData, pager} = this.state;
         return (
             <div className="rank-container">
                 {this.renderAlert()}
@@ -183,12 +157,12 @@ class Rank extends React.Component {
                     <div className="title-right">
                         <div className="right-company">
                             <span>城市：</span>
-                            <Dropdown onSelect={this.onSelectCity} options={cityData} propsValue="cityCode"
-                                      placeholder="请选择城市" value={cityCode} propsLabel="cityName"/>
+                            <Dropdown onSelect={this.onSelectCity} options={this.props.cities} propsValue="cityCode"
+                                      placeholder="请选择城市" value={currentCity.cityCode} propsLabel="cityName"/>
                         </div>
                         <div className="right-company">
                             <span>公司：</span>
-                            <Dropdown onSelect={this.onSelectCompnay} options={companyData} propsValue="corpCode"
+                            <Dropdown onSelect={this.onSelectCompnay} options={currentCity.corps} propsValue="corpCode"
                                       placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
                         </div>
                     </div>

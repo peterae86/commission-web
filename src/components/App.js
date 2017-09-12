@@ -17,6 +17,11 @@ import AddParam from "./container/socre/AddParam";
 import ParamHistory from "./container/socre/ParamHistory";
 import FormulaHistory from "./container/socre/FormulaHistory";
 import RankRadioList from "./container/commission/RankRadioList";
+import {requestByFetch} from "../utils/request";
+import GuaranteeSalaryList from "./container/salary/GuaranteeSalaryList";
+import GuaranteeSalaryHistory from "./container/salary/GuaranteeSalaryHistory";
+import BaseSalaryList from "./container/salary/BaseSalaryList";
+import BaseSalaryHistory from "./container/salary/BaseSalaryHistory";
 
 
 class App extends React.Component {
@@ -95,18 +100,32 @@ class App extends React.Component {
                             }
                         ]
                     }, {
-                        id: "4",
+                        id: "salary",
                         name: "薪资管理",
                         children: [
                             {
-                                id: "41",
-                                name: "保障薪资配置",
-                                children: []
+                                id: "guaranteeSalaryList",
+                                name: "保障薪资管理",
+                                path: "/salary/guaranteeSalaryList",
+                                children: [{
+                                    id: "guaranteeSalaryHistory",
+                                    name: "保障薪资修改历史",
+                                    path: "/salary/guaranteeSalaryHistory",
+                                    hide: true,
+                                    children: []
+                                }]
                             },
                             {
-                                id: "42",
-                                name: "底薪配置",
-                                children: []
+                                id: "baseSalaryList",
+                                name: "底薪管理",
+                                path: "/salary/baseSalaryList",
+                                children: [{
+                                    id: "baseSalaryHistory",
+                                    name: "公式修改历史",
+                                    path: "/salary/baseSalaryHistory",
+                                    hide: true,
+                                    children: []
+                                }]
                             }
                         ]
                     }]
@@ -121,7 +140,11 @@ class App extends React.Component {
             'formulaList': FormulaList,
             'addParam': AddParam,
             'formulaHistory': FormulaHistory,
-            'rankRadioList': RankRadioList
+            'rankRadioList': RankRadioList,
+            'guaranteeSalaryList': GuaranteeSalaryList,
+            'guaranteeSalaryHistory': GuaranteeSalaryHistory,
+            'baseSalaryList': BaseSalaryList,
+            'baseSalaryHistory': BaseSalaryHistory
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
@@ -146,14 +169,32 @@ class App extends React.Component {
         })
     }
 
-    onJump(path) {
+    componentWillMount() {
+        this.getCityAndCorp();
+    }
+
+    getCityAndCorp() {
+        const path = "../data/cityAndCorp.json?";
+        //const path = " /cityconfig/queryCityCorpsByStatus?status=0"; // 真正接口
+        requestByFetch(path, "GET").then((res) => {
+            for (let i = 0; i < res.cities.length; i++) {
+                res.cities[i].corps = res.corps[res.cities[i].cityCode] || [];
+            }
+            this.setState({
+                cities: res.cities,
+            });
+        });
+    }
+
+    static onJump(path) {
         hashHistory.push(path);
     }
 
     render() {
         const CurrentPage = this.state.currentPage;
         const pathNames = this.state.pathNames;
-        const onJump = this.onJump;
+        const onJump = App.onJump;
+        const {location, cities} = this.state;
 
         return <div className="app-body">
             <div className="app-header">
@@ -172,8 +213,8 @@ class App extends React.Component {
                 </div>
                 <div className="app-page">
                     {
-                        CurrentPage ? <CurrentPage pathNames={pathNames} location={this.state.location}
-                                                   onJump={onJump}/> : null
+                        CurrentPage ? <CurrentPage pathNames={pathNames} location={location}
+                                                   onJump={onJump} cities={cities}/> : null
                     }
                 </div>
             </div>

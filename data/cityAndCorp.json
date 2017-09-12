@@ -1,0 +1,34 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": {
+    "cities": [
+      {
+        "id": 1,
+        "cityName": "义乌",
+        "cityCode": "yi_wu"
+      },
+      {
+        "id": 11,
+        "cityName": "金华",
+        "cityCode": "jin_hua"
+      }
+    ],
+    "corps": {
+      "yi_wu": [
+        {
+          "id": 11,
+          "corpName": "金华分公司",
+          "corpCode": "jin_hua_fen_gong_si"
+        }
+      ],
+      "jin_hua": [
+        {
+          "id": 1,
+          "corpName": "金华分公司",
+          "corpCode": "jin_hua_fen_gong_si"
+        }
+      ]
+    }
+  }
+}
