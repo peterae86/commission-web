@@ -119,7 +119,7 @@ class Rank extends React.Component {
             show: this.state.showConfirm,
             message: this.state.message,
             type: 'alert',
-            cancelClick: () => {
+            onCancel: () => {
                 this.setState({showConfirm: false});
             },
         };
@@ -130,6 +130,7 @@ class Rank extends React.Component {
         const modal = {
             show: this.state.modifyModal,
             formData: this.state.formData,
+            title: "修改职级",
             onCancel: () => {
                 this.setState({modifyModal: false});
             },
