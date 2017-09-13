@@ -24,6 +24,7 @@ class Input extends React.Component {
       inputType: {
         "numeric":  /^[0-9a-zA-Z]*$/,
         "digital": /^[0-9]*$/,
+        "float": /[^\d+(\.\d*)]*$/,
         "normal": '',
       }[props.inputType] || ""
     };
@@ -50,7 +51,7 @@ class Input extends React.Component {
       return ;
     }
     const {onClick} = this.props;
-   
+
     if (typeof onClick === 'function'){
       onClick();
     }
@@ -66,13 +67,14 @@ class Input extends React.Component {
        return false;
      }
      const nameClass = this.props.styleName;
-    
+
      this.setState({
        value: e.target.value,
      });
-     const {onChange} = this.props;
+     const {onChange, changeRef} = this.props;
+
      if (typeof onChange === 'function'){
-       onChange(e.target.value);
+       onChange(e.target.value, changeRef);
      }
    }
 
@@ -101,7 +103,7 @@ class Input extends React.Component {
       "opacity": cursorValue,
       ...curSurStyle
     };
-  
+
     return (
       <div className="input-container" style={style}>
             <input
@@ -170,29 +172,12 @@ Input.propTypes = {
   shouldFocus: React.PropTypes.bool,
   curSurStyle:React.PropTypes.object,
   autocomplete: React.PropTypes.string,
-  inputType: React.PropTypes.oneOf(['numeric', 'digital', 'normal']),
+  inputType: React.PropTypes.oneOf(['numeric', 'digital', 'normal','float']),
   readOnly: React.PropTypes.bool,
+  changeRef: React.PropTypes.string,
 };
 
-/**
- * @var {object} defaultProps
- * @memberOf module:Input
- * @desc 参数
- * @property maxLength: null
- * @property placeholder: '请输入',
- * @property styleName: 'input',
- * @property normalClass: '',
- * @property defaultClass: '',
- * @property type: 'text',
- * @property style: {},
- * @property inputStyle: {},
- * @property value: '',
- * @property shouldFocus: false
- * @property curSurStyle: {},
- * @property autocomplete: 'on',
- * @property inputType: 'normal'
- * @property readOnly: false,
- */
+
 Input.defaultProps = {
   maxLength: null,
   placeholder: '请输入',
@@ -208,5 +193,6 @@ Input.defaultProps = {
   autocomplete: "on",
   inputType :'normal',    //numeric为数字和字母    digital为纯数字
   readOnly: false,
+  changeRef: "",
 };
 export default Input;

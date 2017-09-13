@@ -21,7 +21,6 @@ class BaseSalaryList extends ListPage {
 
                         func: (index) => {
                             this.props.onJump('/salary/baseSalaryHistory?id=' + this.state.table.listData[index].id);
-                            console.log(index);
                         }
                     },
                     {
@@ -84,4 +83,3 @@ class BaseSalaryList extends ListPage {
 }
 
 export default BaseSalaryList;
-

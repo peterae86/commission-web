@@ -10,7 +10,6 @@ class Login extends React.Component {
     }
 
     changeValue (value) {
-        console.log(value);
     }
 
     render() {

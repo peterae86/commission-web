@@ -271,7 +271,6 @@ class PasswordKeyboard extends React.Component {
      显示键盘: self.refs.getPasswordKeyboard.showKeyboard();
      获得密码: self.refs.getPasswordKeyboard.getPassword();
      请求成功后: self.refs.getPasswordKeyboard.succeed().then((res) => {
-              console.log('bbb', res)
             });
      请求失败会弹出ModalAlert: self.refs.getPasswordKeyboard.requestFailure(type, mess); type:0->重新输入,忘记密码 1->取消,忘记密码 mess: 错误信息
      关闭键盘: self.refs.getPasswordKeyboard.hideKeyboard();

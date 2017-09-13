@@ -21,13 +21,11 @@ class RankRadioList extends ListPage {
 
                         func: (index) => {
                             this.props.onJump('/score/paramHistory?id=' + this.state.table.listData[index].id);
-                            console.log(index);
                         }
                     },
                     {
                         key: "修改",
                         func: (index) => {
-                            console.log(index);
                         }
                     }
                 ]
@@ -70,4 +68,3 @@ class RankRadioList extends ListPage {
 }
 
 export default RankRadioList;
-

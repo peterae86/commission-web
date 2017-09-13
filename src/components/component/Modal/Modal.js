@@ -8,13 +8,15 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: props.show
+      show: props.show,
+      formData: props.formData
     };
     this.cancelFunc = this.cancelFunc.bind(this);
     this.comfirmFunc = this.comfirmFunc.bind(this);
+    this.changeValue = this.changeValue.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({show: nextProps.show});
+    this.setState({show: nextProps.show,formData: nextProps.formData});
   }
   cancelFunc () {
       this.setState({
@@ -31,12 +33,30 @@ class Modal extends React.Component {
       });
       const func = this.props.onConfirm;
       if (func) {
-          func();
+          func(this.state.formData);
       }
+  }
+  changeValue(value, key) {
+      let newFormData = [];
+      this.state.formData.map((item, index)=>{
+          if (key === item.key) {
+              newFormData.push({
+                  ...item,
+                  value: +value
+              });
+          } else{
+              newFormData.push(item);
+          }
+      });
+
+      this.setState({
+          formData: newFormData
+      })
   }
 
   render() {
-      const { title,confirm, cancel, formData} = this.props;
+      const { title,confirm, cancel} = this.props;
+      const {formData} = this.state;
       const flag = (formData.length > 0) && this.state.show;
       return (
           <div  style={{ display: flag ? null : 'none', }} className="m-modal">
@@ -46,10 +66,13 @@ class Modal extends React.Component {
                       <ul className="modal-body">
                           {
                               formData.map((item, index)=> {
-                                  return (<li key={index} className="body-list">
-                                          <span>{item.label}</span>
-                                          <Input style={{width: "75%"}} inputStyle={{width: "75%",height: "30px"}} value={item.value} />
-                                  </li>)
+                                  if (item.label) {
+                                      return (<li key={index} className="body-list">
+                                              <span>{item.label}</span>
+                                              <Input onChange={this.changeValue} changeRef={item.key} inputType={item.inputType || "digital"} style={{width: "75%"}} inputStyle={{width: "75%",height: "30px",background:item.readOnly? "#e6e6e6": "#fff"}} readOnly={item.readOnly} value={item.value} />
+                                      </li>)
+                                  }
+
                               })
                           }
                       </ul>

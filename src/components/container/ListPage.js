@@ -117,7 +117,6 @@ class ListPage extends React.Component {
             query: p
         });
         requestByFetch(path, "GET").then((res) => {
-            console.log(res.commissionRatioVoList);
             this.setState({
                 table: {
                     ...this.table,
@@ -137,7 +136,6 @@ class ListPage extends React.Component {
 
     renderSearchInputs() {
         const {queryFormData} = this.state;
-        console.log(this.state);
         return <div className="title-right">
             <div className="right-company">
                 <span>城市：</span>
@@ -153,7 +151,6 @@ class ListPage extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         const {table, pathNames, modifyModal} = this.state;
         return (
             <div className="rank-container">

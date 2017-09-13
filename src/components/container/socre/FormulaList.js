@@ -23,13 +23,12 @@ class FormulaList extends ListPage {
 
                         func: (index) => {
                             this.props.onJump('/score/formulaHistory?id=' + this.state.table.listData[index].id);
-                            console.log(index);
+
                         }
                     },
                     {
                         key: "修改",
                         func: (index) => {
-                            console.log(index);
                         }
                     }
                 ]
@@ -72,4 +71,3 @@ class FormulaList extends ListPage {
 }
 
 export default FormulaList;
-

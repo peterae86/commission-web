@@ -52,7 +52,6 @@ export function requestByFetch(path, methodOrJsonBody = {}) {
           });
         }
         if (response.status === 200) {
-
             if (json.code === 0) {
                 return resolve(json.data);
             }

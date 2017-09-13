@@ -25,7 +25,7 @@ class Rank extends React.Component {
             currentCity:{},
             config: {
                 column: [
-                    {name: "所属列表", key: "dutyScope", textAlign: "center", width: "10%"},
+                    {name: "所属序列", key: "dutyScope", textAlign: "center", width: "10%"},
                     {name: "职级", key: "dutyLevel", textAlign: "center", width: "10%"},
                     {name: "职级积分下线", key: "minScore", textAlign: "center", width: "10%"},
                     {name: "职级积分上线", key: "maxScore", textAlign: "center", width: "10%"},
@@ -43,11 +43,44 @@ class Rank extends React.Component {
                         {
                             key: "修改",
                             func: (index) => {
+                                const obj = this.state.listData[index];
                                 this.setState({
                                     modifyModal: true,
                                     formData: [{
-                                        label: "vesh ",
-                                        value: "333"
+                                        value:obj.id,
+                                        key: "id",
+                                    },{
+                                        label: "所属序列",
+                                        key: "dutyScope",
+                                        value: obj.dutyScope,
+                                        readOnly: true
+                                    },{
+                                        label: "职级",
+                                        key: "dutyLevel",
+                                        value: obj.dutyLevel,
+                                        readOnly: true
+                                    },{
+                                        label: "职级积分下线",
+                                        key: "minScore",
+                                        value: obj.minScore,
+                                    },{
+                                        label: "职级积分上线",
+                                        key: "maxScore",
+                                        value: obj.maxScore,
+                                    },{
+                                        label: "职级基础分",
+                                        key: "baseScore",
+                                        value: obj.baseScore,
+                                    },{
+                                        label: "师徒制积分贡献比例",
+                                        key: "masterScoreRatio",
+                                        value: obj.masterScoreRatio,
+                                        inputType: "float"
+                                    },{
+                                        label: "师徒制提佣积分贡献系数",
+                                        key: "masterCommissionRatio",
+                                        value: obj.masterCommissionRatio,
+                                        inputType: "float"
                                     }]
                                 });
                             }
@@ -96,14 +129,42 @@ class Rank extends React.Component {
     renderModify() {
         const modal = {
             show: this.state.modifyModal,
-            formData: this.state.queryFormData
+            formData: this.state.formData,
+            onCancel: () => {
+                this.setState({modifyModal: false});
+            },
+            onConfirm: (queryData)=> {
+                const path = "../data/rankUpdate.json";
+                let data = {};
+                queryData.map((item)=> {
+                    data[item.key] = item.value;
+                });
+                this.setState({
+                    modifyModal: false,
+                    showConfirm: true,
+                    message: "修改成功!"
+                });
+                const param = {
+                    corpCode: this.state.corpCode,
+                    currentPage: this.state.currentPage
+                };
+                this.onQuery(param);
+
+                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
+                // requestByFetch(path, data).then((res) => {
+                        // this.setState({
+                        //     modifyModal: false
+                        //     showConfirm: true,
+                        //     message: "修改成功!"
+                        // });
+                // });
+            }
         };
         return <Modal {...modal} />
     }
 
     // 选择城市回调
     onSelectCity(value) {
-        this.getCompany(value);
         this.setState({
             currentCity: this.props.cities.find(x => x.cityCode === value)
         });

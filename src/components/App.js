@@ -5,11 +5,13 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Login from './container/Login';
 import SideBar from './component/SideBar/SideBar'
-import Rank from "./container/rank/Rank";
 import './App.scss'
 import logo from '../images/logo.png';
 
 import {Router, Route, hashHistory} from 'react-router';
+
+import Rank from "./container/rank/Rank";
+import AddRank from "./container/rank/AddRank";
 import RankHistory from "./container/rank/RankHistory";
 import ParamList from "./container/socre/ParamList";
 import FormulaList from "./container/socre/FormulaList";
@@ -27,7 +29,6 @@ import BaseSalaryHistory from "./container/salary/BaseSalaryHistory";
 class App extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {
             pathNames: [],
             location: this.props.location,
@@ -41,6 +42,18 @@ class App extends React.Component {
                         name: "职级管理",
                         path: "/rank",
                         children: [
+                            {
+                                id: "rank",
+                                name: "职级列表",
+                                path: "/rank",
+                                children: []
+                            },
+                            {
+                                id: "addRank",
+                                name: "新增职级",
+                                path: "/rank/addRank",
+                                children: []
+                            },
                             {
                                 id: "rankHistory",
                                 name: "操作历史",
@@ -134,6 +147,7 @@ class App extends React.Component {
         };
         this.state.pages = {
             'rank': Rank,
+            'addRank': AddRank,
             'rankHistory': RankHistory,
             'paramList': ParamList,
             'paramHistory': ParamHistory,

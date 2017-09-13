@@ -1,4 +1,4 @@
-.rank-container {
+.rank-container{
 	background-color: #f6f6f8;
 	padding: 20px;
 	height: 100%;
@@ -17,4 +17,33 @@
 			}
 		}
 	}
+}
+.add-container{
+   background-color: #f6f6f8;
+   padding: 20px;
+   height: 100%;
+   overflow-y: auto;
+   .container-title {
+	   display: flex;
+	   justify-content: space-between;
+	   margin-bottom: 16px;
+   }
+   .form-body {
+	   .form {
+		   display: flex;
+		   align-items: center;
+		   width: 60%;
+		   font-size: 12px;
+		   margin: 15px 10px;
+		   height: 30px;
+		   .form-label {
+			   width: 25%;
+			   text-align: right;
+		   }
+		   .form-value {
+			   width: 75%;
+			   text-align: left;
+		   }
+	   }
+   }
 }

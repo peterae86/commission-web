@@ -23,13 +23,11 @@ class GuaranteeSalaryList extends ListPage {
 
                         func: (index) => {
                             this.props.onJump('/salary/guaranteeSalaryHistory?id=' + this.state.table.listData[index].id);
-                            console.log(index);
                         }
                     },
                     {
                         key: "修改",
                         func: (index) => {
-                            console.log(index);
                         }
                     }
                 ]
@@ -72,4 +70,3 @@ class GuaranteeSalaryList extends ListPage {
 }
 
 export default GuaranteeSalaryList;
-

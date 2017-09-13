@@ -8,11 +8,12 @@ input::-webkit-inner-spin-button {
 input::-webkit-outer-spin-button {
 -webkit-appearance: none;
 }
-  input::-webkit-input-placeholder{
-      text-shadow: none;
-      -webkit-text-fill-color: initial;
-      color: $input-placeholder-color;
-  }
+input::-webkit-input-placeholder{
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+    color: $input-placeholder-color;
+    font-size: 12px;
+}
 
 @mixin default-input {
   border: 1px solid $input-cursor-color;
