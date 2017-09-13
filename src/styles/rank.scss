@@ -44,6 +44,19 @@
 			   width: 75%;
 			   text-align: left;
 		   }
+		   .form-message {
+			   margin-left: 20px;
+		   }
+	   }
+	   .form-button {
+		   display: flex;
+		   width: 50%;
+		   margin-top: 40px;
+	   }
+	   .form-tips {
+		   color: #c6c6c6;
+		   font-size: 12px;
+		   margin: 40px 0 0 25px;
 	   }
    }
 }

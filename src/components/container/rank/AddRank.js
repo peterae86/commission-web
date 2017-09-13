@@ -2,6 +2,7 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Input from "../../component/Input/Input";
+import Button from '../../component/Button/Button';
 import {requestByFetch} from "../../../utils/request";
 import ModalAlert from '../../component/ModalAlert/ModalAlert';
 import {hashHistory} from "react-router";
@@ -26,14 +27,15 @@ class AddRank extends React.Component {
         this.onChangeFunc = this.onChangeFunc.bind(this);
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
+        this.comfirmFunc = this.comfirmFunc.bind(this);
+        this.cancelFunc = this.cancelFunc.bind(this);
     }
 
-    componentWillMount() {
-        // this.onQuery({})
-    }
     //修改input 值
     onChangeFunc(value, key) {
-        console.log(value, key);
+        this.setState({
+            [key]: value
+        });
     }
     // 渲染碳层
     renderAlert() {
@@ -41,7 +43,7 @@ class AddRank extends React.Component {
             show: this.state.showConfirm,
             message: this.state.message,
             type: 'alert',
-            cancelClick: () => {
+            onCancel: () => {
                 this.setState({showConfirm: false});
             },
         };
@@ -62,41 +64,69 @@ class AddRank extends React.Component {
         if (!value) {
             this.setState({
                 showConfirm: true,
-                message: "请选择公司"
+                message: "请选择公司!"
             });
             return false;
         }
     }
 
-
-    onQuery(p) {
-
-        requestByFetch(path, "GET").then((res) => {
+    comfirmFunc () {
+        const path = "../data/newRank.json";
+        //const path = "/dutyLevelConfig/addNew"; 真实路径
+        const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
+        if (!currentCity.cityCode || !corpCode) {
             this.setState({
-                table: {
-                    ...this.table,
-                    listData: res.baseSalaryConfigs,
-                    pager: {
-                        ...this.state.table.pager,
-                        currentPage: p.currentPage,
-                        totalCount: res.totalCount
-                    }
-                }
+                showConfirm: true,
+                message: "请选择城市和公司!"
             });
+            return false;
+        }
+        if (!dutyScope || !dutyLevel) {
+            this.setState({
+                showConfirm: true,
+                message: "请填写完整所属序列和职级!"
+            });
+            return false;
+        }
+        const param = {
+            cityCode:currentCity.cityCode,
+            corpCode: corpCode,
+            dutyScope: dutyScope,
+            dutyLevel: dutyLevel,
+            minScore: minScore,
+            maxScore: maxScore,
+            baseScore: baseScore,
+            masterScoreRatio: masterScoreRatio,
+            masterCommissionRatio: masterCommissionRatio
+        };
+        this.setState({
+            showConfirm: true,
+            message: "新增成功"
         });
+        setTimeout(()=> {
+            this.setState({
+                showConfirm: false,
+                message: ""
+            });
+            this.props.onJump('/rank');
+        }, 700);
     }
+    cancelFunc () {
+        this.props.onJump('/rank');
+    }
+
 
     render() {
         const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
         const list = [{
                 label: "所属序列",
                 key: "dutyScope",
-                inputType: "digital",
+                inputType: "numeric",
                 errorMessage: "请输入所属序列"
             },{
                 label: "职级",
                 key: "dutyLevel",
-                inputType: "digital",
+                inputType: "numeric",
                 errorMessage: "请输入职级"
             },
             {
@@ -133,28 +163,29 @@ class AddRank extends React.Component {
                         <Dropdown
                             className="form-value"
                             onSelect={this.onSelectCity}
-                            style={{height: "30px",lineHeight: "24px",width: "130px"}}
+                            style={{height: "30px",lineHeight: "24px",width: "175px"}}
                             options={this.props.cities}
                             propsValue="cityCode"
                             placeholder="请选择城市"
                             value={currentCity.cityCode}
                             propsLabel="cityName"/>
+                            <span className="form-message">* 请选择城市</span>
                     </div>
                     <div className="form">
                         <span className="form-label">公司：</span>
                         <Dropdown
                             className="form-value"
                             onSelect={this.onSelectCompnay}
-                            style={{height: "30px",lineHeight: "24px", width: "130px"}}
+                            style={{height: "30px",lineHeight: "24px", width: "175px"}}
                             options={currentCity.corps}
                             propsValue="corpCode"
                             placeholder="请选择公司"
                             propsLabel="corpName"
                             value={corpCode}/>
+                            <span className="form-message">* 请选择公司</span>
                     </div>
                     {
                         list.map((item, index)=> {
-                            console.log();
                             return <div className="form" key={index}>
                                 <span className="form-label">{item.label}：</span>
                                 <Input
@@ -166,10 +197,17 @@ class AddRank extends React.Component {
                                     inputStyle={{height: "30px", paddingLeft: "5px"}}
                                     value={this.state[item.key]}/>
 
-                                {item.errorMessage ? <span>* {item.errorMessage}</span>  : ""}
+                                {item.errorMessage ? <span className="form-message">* {item.errorMessage}</span>  : ""}
                             </div>
                         })
                     }
+                    <div className="form-button">
+                        <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
+                        <Button value="取消" styleName="btn-middle-gray" onClick={this.cancelFunc}/>
+                    </div>
+                    <div className="form-tips">
+                        <p>注意: 以*开头的选项为必填项.</p>
+                    </div>
 
                 </div>
             </div>
