@@ -26,7 +26,8 @@ class SideBar extends React.Component {
             children: [],
             id: x.id,
             name: x.name,
-            path: x.path
+            path: x.path,
+            hide: x.hide
         };
         x.children.forEach((c) => {
             res.children.push(this.createButtons(c, depth + 1, res.pathNames));
@@ -85,6 +86,9 @@ class SideBar extends React.Component {
     }
 
     renderButton(item, index) {
+        if(item.hide){
+            return null;
+        }
         return <li key={index}>
             <div
                 className={(item.selected ? "sidebar-item-selected " : "") + "sidebar-item-" + item.depth}

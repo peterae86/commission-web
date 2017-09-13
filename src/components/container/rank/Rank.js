@@ -22,7 +22,7 @@ class Rank extends React.Component {
             listData: [], //数据列表
             message: "", // alert message
             formData: [],
-            currentCity:{},
+            currentCity: {},
             config: {
                 column: [
                     {name: "所属序列", key: "dutyScope", textAlign: "center", width: "10%"},
@@ -47,36 +47,36 @@ class Rank extends React.Component {
                                 this.setState({
                                     modifyModal: true,
                                     formData: [{
-                                        value:obj.id,
+                                        value: obj.id,
                                         key: "id",
-                                    },{
+                                    }, {
                                         label: "所属序列",
                                         key: "dutyScope",
                                         value: obj.dutyScope,
                                         readOnly: true
-                                    },{
+                                    }, {
                                         label: "职级",
                                         key: "dutyLevel",
                                         value: obj.dutyLevel,
                                         readOnly: true
-                                    },{
+                                    }, {
                                         label: "职级积分下线",
                                         key: "minScore",
                                         value: obj.minScore,
-                                    },{
+                                    }, {
                                         label: "职级积分上线",
                                         key: "maxScore",
                                         value: obj.maxScore,
-                                    },{
+                                    }, {
                                         label: "职级基础分",
                                         key: "baseScore",
                                         value: obj.baseScore,
-                                    },{
+                                    }, {
                                         label: "师徒制积分贡献比例",
                                         key: "masterScoreRatio",
                                         value: obj.masterScoreRatio,
                                         inputType: "float"
-                                    },{
+                                    }, {
                                         label: "师徒制提佣积分贡献系数",
                                         key: "masterCommissionRatio",
                                         value: obj.masterCommissionRatio,
@@ -133,10 +133,10 @@ class Rank extends React.Component {
             onCancel: () => {
                 this.setState({modifyModal: false});
             },
-            onConfirm: (queryData)=> {
+            onConfirm: (queryData) => {
                 const path = "../data/rankUpdate.json";
                 let data = {};
-                queryData.map((item)=> {
+                queryData.map((item) => {
                     data[item.key] = item.value;
                 });
                 this.setState({
@@ -152,11 +152,11 @@ class Rank extends React.Component {
 
                 //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
                 // requestByFetch(path, data).then((res) => {
-                        // this.setState({
-                        //     modifyModal: false
-                        //     showConfirm: true,
-                        //     message: "修改成功!"
-                        // });
+                // this.setState({
+                //     modifyModal: false
+                //     showConfirm: true,
+                //     message: "修改成功!"
+                // });
                 // });
             }
         };
@@ -166,7 +166,8 @@ class Rank extends React.Component {
     // 选择城市回调
     onSelectCity(value) {
         this.setState({
-            currentCity: this.props.cities.find(x => x.cityCode === value)
+            currentCity: this.props.cities.find(x => x.cityCode === value),
+            corpCode: null
         });
     }
 
