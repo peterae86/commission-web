@@ -22,7 +22,7 @@ class ListPage extends React.Component {
                 ...props.location.query
             },
             //表单数据
-            formData: {
+            queryFormData: {
                 currentCity: {},
                 corpCode: ''
             },
@@ -45,7 +45,7 @@ class ListPage extends React.Component {
                 }
             },
             showConfirm: false,
-            modifyModal: true,
+            modifyModal: false,
             message: "", // alert message
         };
         this.onSelectCity = this.onSelectCity.bind(this);
@@ -70,17 +70,14 @@ class ListPage extends React.Component {
     //     return <ModalAlert {...modalProps} />
     // }
     //
-    // renderModify() {
-    //     const modal = {
-    //         show: this.state.modifyModal
-    //     };
-    //     return <Modal {...modal} />
-    // }
+    renderModify() {
+        return null;
+    }
 
     // 选择城市回调
     onSelectCity(value) {
         this.setState({
-            formData: {
+            queryFormData: {
                 currentCity: this.props.cities.find(x => x.cityCode === value)
             }
         });
@@ -89,8 +86,8 @@ class ListPage extends React.Component {
     // 选择公司回调
     onSelectCompany(value) {
         this.setState({
-            formData: {
-                ...this.state.formData,
+            queryFormData: {
+                ...this.state.queryFormData,
                 corpCode: value
             }
         });
@@ -117,7 +114,8 @@ class ListPage extends React.Component {
         });
         hashHistory.push({
             ...this.props.location,
-            query: p});
+            query: p
+        });
         requestByFetch(path, "GET").then((res) => {
             console.log(res.commissionRatioVoList);
             this.setState({
@@ -138,29 +136,29 @@ class ListPage extends React.Component {
 
 
     renderSearchInputs() {
-        const {formData} = this.state;
+        const {queryFormData} = this.state;
         console.log(this.state);
         return <div className="title-right">
             <div className="right-company">
                 <span>城市：</span>
                 <Dropdown onSelect={this.onSelectCity} options={this.props.cities} propsValue="cityCode"
-                          placeholder="请选择城市" value={formData.currentCity.cityCode} propsLabel="cityName"/>
+                          placeholder="请选择城市" value={queryFormData.currentCity.cityCode} propsLabel="cityName"/>
             </div>
             <div className="right-company">
                 <span>公司：</span>
-                <Dropdown onSelect={this.onSelectCompany} options={formData.currentCity.corps} propsValue="corpCode"
-                          placeholder="请选择公司" propsLabel="corpName" value={formData.corpCode}/>
+                <Dropdown onSelect={this.onSelectCompany} options={queryFormData.currentCity.corps} propsValue="corpCode"
+                          placeholder="请选择公司" propsLabel="corpName" value={queryFormData.corpCode}/>
             </div>
         </div>
     }
 
     render() {
         console.log(this.state);
-        const {table, pathNames} = this.state;
+        const {table, pathNames, modifyModal} = this.state;
         return (
             <div className="rank-container">
                 {/*{this.renderAlert()}*/}
-                {/*{this.renderModify()}*/}
+                {modifyModal ? this.renderModify() : null}
                 <div className="container-title">
                     <Crumbs names={pathNames}/>
                     {this.renderSearchInputs()}

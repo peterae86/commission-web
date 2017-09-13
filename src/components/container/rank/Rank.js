@@ -96,7 +96,7 @@ class Rank extends React.Component {
     renderModify() {
         const modal = {
             show: this.state.modifyModal,
-            formData: this.state.formData
+            formData: this.state.queryFormData
         };
         return <Modal {...modal} />
     }

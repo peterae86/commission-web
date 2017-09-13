@@ -5,6 +5,7 @@ import Table from "../../component/Table/Table";
 import {requestByFetch} from "../../../utils/request";
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
+import Modal from "../../component/Modal/Modal";
 
 class BaseSalaryList extends ListPage {
     constructor(props) {
@@ -26,7 +27,13 @@ class BaseSalaryList extends ListPage {
                     {
                         key: "修改",
                         func: (index) => {
-                            console.log(index);
+                            this.setState({
+                                modifyModal: true,
+                                formData: [{
+                                    label: "职级 ",
+                                    value: "333"
+                                }]
+                            });
                         }
                     }
                 ]
@@ -61,6 +68,14 @@ class BaseSalaryList extends ListPage {
                 }
             });
         });
+    }
+
+    renderModify() {
+        const modal = {
+            show: this.state.modifyModal,
+            formData: this.state.formData
+        };
+        return <Modal {...modal} />
     }
 
     render() {
