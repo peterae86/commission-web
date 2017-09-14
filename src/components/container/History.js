@@ -59,12 +59,17 @@ class History extends React.Component {
         });
     }
 
+    onBack(){
+        hashHistory.goBack();
+    }
+
     render() {
         const {listData, config, corpCode, cityCode, cityData, companyData, pager} = this.state;
         return (
             <div className="rank-container">
                 <div className="container-title">
                     <Crumbs names={this.state.pathNames}/>
+                    <a onClick={this.onBack} className="goBack">返回</a>
                 </div>
                 <Table data={listData} config={config} pager={pager}/>
             </div>

@@ -74,6 +74,19 @@ class ListPage extends React.Component {
         return null;
     }
 
+    renderAlert() {
+        const modalProps = {
+            show: this.state.showConfirm,
+            message: this.state.message,
+            type: 'alert',
+            onCancel: () => {
+                this.setState({showConfirm: false});
+            },
+        };
+        return <ModalAlert {...modalProps} />
+    }
+
+
     // 选择城市回调
     onSelectCity(value) {
         this.setState({
@@ -154,7 +167,7 @@ class ListPage extends React.Component {
         const {table, pathNames, modifyModal} = this.state;
         return (
             <div className="rank-container">
-                {/*{this.renderAlert()}*/}
+                {this.renderAlert()}
                 {modifyModal ? this.renderModify() : null}
                 <div className="container-title">
                     <Crumbs names={pathNames}/>

@@ -26,11 +26,21 @@ class BaseSalaryList extends ListPage {
                     {
                         key: "修改",
                         func: (index) => {
+                            const obj = this.state.table.listData[index];
                             this.setState({
                                 modifyModal: true,
                                 formData: [{
-                                    label: "职级 ",
-                                    value: "333"
+                                    value: obj.id,
+                                    key: "id",
+                                }, {
+                                    label: "职级",
+                                    key: "dutyLevel",
+                                    value: obj.dutyLevel,
+                                    readOnly: true
+                                }, {
+                                    label: "底薪",
+                                    key: "baseSalaryAmount",
+                                    value: obj.baseSalaryAmount,
                                 }]
                             });
                         }
@@ -72,7 +82,33 @@ class BaseSalaryList extends ListPage {
     renderModify() {
         const modal = {
             show: this.state.modifyModal,
-            formData: this.state.formData
+            formData: this.state.formData,
+            title: "修改底薪",
+            onCancel: () => {
+                this.setState({modifyModal: false});
+            },
+            onConfirm: (queryData) => {
+                const path = "../data/rankUpdate.json";
+                let data = {};
+                queryData.map((item) => {
+                    data[item.key] = item.value;
+                });
+                this.setState({
+                    modifyModal: false,
+                    showConfirm: true,
+                    message: "修改成功!"
+                });
+                this.onQuery(this.state.queryParams);
+
+                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
+                // requestByFetch(path, data).then((res) => {
+                // this.setState({
+                //     modifyModal: false
+                //     showConfirm: true,
+                //     message: "修改成功!"
+                // });
+                // });
+            }
         };
         return <Modal {...modal} />
     }
