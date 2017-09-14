@@ -63,9 +63,9 @@ class App extends React.Component {
                             }
                         ]
                     }, {
-                        id: "score",
+                        id: "paramList",
                         name: "积分管理",
-                        path: "",
+                        path: "/score/paramList",
                         children: [
                             {
                                 id: "paramList",

@@ -39,11 +39,22 @@
                 align-items: center;
                 font-size: 12px;
                 padding: 10px;
-                span {
+                .list-label {
                     width: 25%;
                     text-align: right;
                     margin-right: 30px;
                     color: #666;
+                }
+                .form-radio {
+                    width: 75%;
+                    display: flex;
+                    .radio-body {
+                        margin: 0 5px;
+                        .radio-label {
+                            margin-left: 5px;
+                        }
+                    }
+
                 }
             }
         }

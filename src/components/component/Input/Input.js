@@ -121,7 +121,6 @@ class Input extends React.Component {
               className={styleName}
               autoComplete={autocomplete}
             />
-
         </div>
     );
   }

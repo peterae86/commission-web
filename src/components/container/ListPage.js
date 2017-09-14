@@ -47,6 +47,7 @@ class ListPage extends React.Component {
             showConfirm: false,
             modifyModal: false,
             message: "", // alert message
+            formData: [],
         };
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompany = this.onSelectCompany.bind(this);
@@ -70,9 +71,7 @@ class ListPage extends React.Component {
     //     return <ModalAlert {...modalProps} />
     // }
     //
-    renderModify() {
-        return null;
-    }
+
 
     renderAlert() {
         const modalProps = {
@@ -168,7 +167,6 @@ class ListPage extends React.Component {
         return (
             <div className="rank-container">
                 {this.renderAlert()}
-                {modifyModal ? this.renderModify() : null}
                 <div className="container-title">
                     <Crumbs names={pathNames}/>
                     {this.renderSearchInputs()}
