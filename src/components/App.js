@@ -14,8 +14,8 @@ import Rank from "./container/rank/Rank";
 import AddRank from "./container/rank/AddRank";
 import RankHistory from "./container/rank/RankHistory";
 import ParamList from "./container/socre/ParamList";
-import FormulaList from "./container/socre/FormulaList";
 import AddParam from "./container/socre/AddParam";
+import FormulaList from "./container/socre/FormulaList";
 import ParamHistory from "./container/socre/ParamHistory";
 import FormulaHistory from "./container/socre/FormulaHistory";
 import RankRadioList from "./container/commission/RankRadioList";
@@ -73,13 +73,6 @@ class App extends React.Component {
                                 path: "/score/paramList",
                                 children: [
                                     {
-                                        id: "addParam",
-                                        name: "新增参数",
-                                        path: "/score/addParam",
-                                        hide: true,
-                                        children: []
-                                    },
-                                    {
                                         id: "paramHistory",
                                         name: "参数修改历史",
                                         path: "/score/paramHistory",
@@ -87,6 +80,12 @@ class App extends React.Component {
                                         children: []
                                     }
                                 ]
+                            },
+                            {
+                                id: "addParam",
+                                name: "新增参数",
+                                path: "/score/addParam",
+                                children: []
                             },
                             {
                                 id: "formulaList",

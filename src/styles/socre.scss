@@ -1,0 +1,49 @@
+.add-param-container{
+   background-color: #f6f6f8;
+   padding: 20px;
+   height: 100%;
+   overflow-y: auto;
+   .container-title {
+	   display: flex;
+	   justify-content: space-between;
+	   margin-bottom: 16px;
+   }
+   .form-body {
+	   .form {
+		   display: flex;
+		   align-items: center;
+		   width: 60%;
+		   font-size: 12px;
+		   margin: 15px 10px;
+		   height: 30px;
+		   .form-label {
+			   width: 25%;
+			   text-align: right;
+		   }
+           .form-radio {
+               display: flex;
+               .radio-body {
+                   margin-right: 20px;
+               }
+           }
+		   .form-value {
+			   width: 75%;
+			   text-align: left;
+		   }
+		   .form-message {
+			   margin-left: 20px;
+			   color: #c6c6c6;
+		   }
+	   }
+	   .form-button {
+		   display: flex;
+		   width: 50%;
+		   margin-top: 40px;
+	   }
+	   .form-tips {
+		   color: #c6c6c6;
+		   font-size: 12px;
+		   margin: 40px 0 0 25px;
+	   }
+   }
+}
