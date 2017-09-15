@@ -1,0 +1,22 @@
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+      "totalCount": 90,
+      "currentPage": 2,
+      "list": [
+      {
+              "id": 1,
+              "ruleName": "公式名称",
+              "ruleDesc": "公式描述",
+              "status": 0
+          },
+          {
+                  "id": 2,
+                  "ruleName": "公式名称2",
+                  "ruleDesc": "公式描述2",
+                  "status": 1
+              }
+  ]
+      }
+}

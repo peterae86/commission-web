@@ -58,21 +58,6 @@ class ListPage extends React.Component {
         this.state.pager.clickPager(0);
     }
 
-    // // 渲染碳层
-    // renderAlert() {
-    //     const modalProps = {
-    //         show: this.state.showConfirm,
-    //         message: this.state.message,
-    //         type: 'alert',
-    //         cancelClick: () => {
-    //             this.setState({showConfirm: false});
-    //         },
-    //     };
-    //     return <ModalAlert {...modalProps} />
-    // }
-    //
-
-
     renderAlert() {
         const modalProps = {
             show: this.state.showConfirm,
