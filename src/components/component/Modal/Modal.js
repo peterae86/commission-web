@@ -42,7 +42,7 @@ class Modal extends React.Component {
           if (key === item.key) {
               newFormData.push({
                   ...item,
-                  value: +value
+                  value: /^[\d,.]+$/.test(value) ?  +value : value
               });
           } else{
               newFormData.push(item);

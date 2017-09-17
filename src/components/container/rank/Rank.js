@@ -140,23 +140,21 @@ class Rank extends React.Component {
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
-                });
+
                 const param = {
                     corpCode: this.state.corpCode,
-                    currentPage: this.state.currentPage
+                    currentPage: this.state.currentPage,
+                    pageSize: this.state.pageSize
                 };
                 this.onQuery(param);
 
                 //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
                 // requestByFetch(path, data).then((res) => {
-                // this.setState({
-                //     modifyModal: false
-                //     showConfirm: true,
-                //     message: "修改成功!"
+                this.setState({
+                    modifyModal: false,
+                    showConfirm: true,
+                    message: "修改成功!"
+                });
                 // });
                 // });
             }

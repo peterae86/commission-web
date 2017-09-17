@@ -97,7 +97,8 @@ class ListPage extends React.Component {
         }
         const param = {
             corpCode: value,
-            currentPage: 0
+            currentPage: 0,
+            pageSize: 10
         };
         this.onQuery(param);
     }
