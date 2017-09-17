@@ -2,6 +2,7 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
+import ModalAlert from '../../component/ModalAlert/ModalAlert';
 import {requestByFetch} from "../../../utils/request";
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
@@ -37,25 +38,32 @@ class FormulaList extends ListPage {
                     },{
                         key: "删除",
                         func: (index) => {
-                            console.log(this.state);
+                            this.setState({
+                                deleteAlert: true,
+                                deleteId: this.state.table.listData[index].id,
+                                message: "确定删除这个公式么"
+                            });
                         }
                     }
                 ]
                 },
             ]
         };
+        this.state.deleteAlert = false;
+        this.state.deleteId = "";
     }
 
     componentWillMount() {
-        this.onQuery({})
+        this.onQuery()
     }
 
-    onQuery(p) {
+    onQuery(p={corpCode:this.state.corpCode, currentPage: this.state.currentPage, pageSize: this.state.pageSize}) {
         const path = '/data/formulaList.json';
         //    const paths = `/scoreRules/queryScoreRulesByCorpCode`; // 真正接口
         this.setState({
             queryParams: p
         });
+        console.log(this.state.queryParams);
         hashHistory.push({
             ...this.props.location,
             query: p});
@@ -77,8 +85,39 @@ class FormulaList extends ListPage {
         });
     }
 
+    deleteRender() {
+        const modalProps = {
+            show: this.state.deleteAlert,
+            message: this.state.message,
+            type: 'confirm',
+            onCancel: () => {
+                this.setState({showConfirm: false});
+            },
+            onConfirm: () => {
+                this.setState({
+                    deleteAlert: false,
+                    showConfirm: true,
+                    message: "删除成功"
+                });
+                setTimeout(()=> {
+                    this.setState({
+                        showConfirm: false,
+                        message: ""
+                    });
+                    this.onQuery();
+                }, 700);
+            },
+        };
+        return <ModalAlert {...modalProps} />
+    }
+
     render() {
-        return super.render();
+        return (
+            <div>
+            {this.deleteRender()}
+            {super.render()}
+            </div>
+        )
     }
 }
 
