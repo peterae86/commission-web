@@ -107,7 +107,7 @@ class ParamList extends ListPage {
 
     onQuery(p={}) {
         const path = '/data/paramList.json';
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });

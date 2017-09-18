@@ -47,3 +47,52 @@
 	   }
    }
 }
+
+.add-formula-container {
+    textarea::-webkit-input-placeholder {
+       color: #e6e6e6;
+     }
+    background-color: #f6f6f8;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+    .form-body {
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        .form-icon {
+            margin: 0 10px;
+        }
+        .form-row {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+             .form-label {
+                 margin-bottom: 20px;
+             }
+        }
+      .form {
+          display: flex;
+          align-items: center;
+          width: 60%;
+          font-size: 12px;
+          margin: 15px 10px;
+          height: 30px;
+          .form-label {
+              width: 25%;
+              text-align: right;
+              color: #666;
+          }
+      }
+  }
+  .formula{
+      height: 100px;
+      background: #EBEEF1;
+  }
+  .form-tips {
+      color: #666;
+      margin: 20px 0;
+  }
+}
