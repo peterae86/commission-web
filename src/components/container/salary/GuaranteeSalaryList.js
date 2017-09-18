@@ -12,13 +12,13 @@ class GuaranteeSalaryList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
-                {name: "保障标准", key: "guaranteeStanderAmount", textAlign: "center", width: "20%"},
-                {name: "担保0%保障上限", key: "guarantee0Amount", textAlign: "center", width: "20%"},
-                {name: "担保50%保障上限", key: "guarantee50Amount", textAlign: "center", width: "20%"},
-                {name: "担保100%保障上限", key: "guarantee100Amount", textAlign: "center", width: "20%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "10%"},
+                {name: "保障标准", key: "guaranteeStanderAmount", textAlign: "center", width: "18%"},
+                {name: "担保0%保障上限", key: "guarantee0Amount", textAlign: "center", width: "18%"},
+                {name: "担保50%保障上限", key: "guarantee50Amount", textAlign: "center", width: "18%"},
+                {name: "担保100%保障上限", key: "guarantee100Amount", textAlign: "center", width: "18%"},
                 {
-                    name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
+                    name: "操作", key: "opt", textAlign: "center", width: "18%", content: [
                     {
                         key: "操作历史",
 
@@ -84,13 +84,14 @@ class GuaranteeSalaryList extends ListPage {
             ...this.props.location,
             query: p});
         requestByFetch(path, "GET").then((res) => {
+            debugger
             this.setState({
                 table: {
                     ...this.table,
                     listData: res.guaranteeConfigList,
                     pager: {
                         ...this.state.table.pager,
-                        currentPage: p.currentPage,
+                        currentPage: res.currentPage,
                         totalCount: res.totalCount
                     }
                 }

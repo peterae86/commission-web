@@ -12,10 +12,10 @@ class BaseSalaryList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
-                {name: "底薪", key: "baseSalaryAmount", textAlign: "center", width: "20%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "30%"},
+                {name: "底薪", key: "baseSalaryAmount", textAlign: "center", width: "30%"},
                 {
-                    name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
+                    name: "操作", key: "opt", textAlign: "center", width: "40%", content: [
                     {
                         key: "操作历史",
 
@@ -71,7 +71,7 @@ class BaseSalaryList extends ListPage {
                     listData: res.baseSalaryConfigs,
                     pager: {
                         ...this.state.table.pager,
-                        currentPage: p.currentPage,
+                        currentPage: res.currentPage,
                         totalCount: res.totalCount
                     }
                 }

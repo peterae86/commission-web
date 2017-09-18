@@ -3,6 +3,7 @@ import Table from '../component/Table/Table';
 import Crumbs from '../component/Crumbs/Crumbs';
 import {requestByFetch} from "../../utils/request";
 import {hashHistory} from "react-router";
+import Button from "../component/Button/Button";
 
 class History extends React.Component {
     constructor(props) {
@@ -69,7 +70,7 @@ class History extends React.Component {
             <div className="rank-container">
                 <div className="container-title">
                     <Crumbs names={this.state.pathNames}/>
-                    <a onClick={this.onBack} className="goBack">返回</a>
+                    <Button onClick={this.onBack} styleName="btn-middle-gray"  className="btn-back" value="返回"/>
                 </div>
                 <Table data={listData} config={config} pager={pager}/>
             </div>

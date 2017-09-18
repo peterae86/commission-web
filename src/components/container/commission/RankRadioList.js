@@ -12,11 +12,11 @@ class RankRadioList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
-                {name: "提佣系数（底薪）", key: "baseSalaryModelRatio", textAlign: "center", width: "20%"},
-                {name: "提佣系数（双薪提成）", key: "doubleSalaryModelRatio", textAlign: "center", width: "20%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "25%"},
+                {name: "提佣系数（底薪）", key: "baseSalaryModelRatio", textAlign: "center", width: "25%"},
+                {name: "提佣系数（双薪提成）", key: "doubleSalaryModelRatio", textAlign: "center", width: "25%"},
                 {
-                    name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
+                    name: "操作", key: "opt", textAlign: "center", width: "25%", content: [
                     {
                         key: "操作历史",
 
