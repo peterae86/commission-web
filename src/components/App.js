@@ -15,6 +15,7 @@ import AddRank from "./container/rank/AddRank";
 import RankHistory from "./container/rank/RankHistory";
 import ParamList from "./container/socre/ParamList";
 import AddParam from "./container/socre/AddParam";
+import AddFormula from "./container/socre/AddFormula";
 import FormulaList from "./container/socre/FormulaList";
 import ParamHistory from "./container/socre/ParamHistory";
 import FormulaHistory from "./container/socre/FormulaHistory";
@@ -88,6 +89,12 @@ class App extends React.Component {
                                 children: []
                             },
                             {
+                                id: "addFormula",
+                                name: "新增计算公式",
+                                path: "/score/addFormula",
+                                children: []
+                            },
+                            {
                                 id: "formulaList",
                                 name: "积分计算管理",
                                 path: "/score/formulaList",
@@ -152,6 +159,7 @@ class App extends React.Component {
             'paramHistory': ParamHistory,
             'formulaList': FormulaList,
             'addParam': AddParam,
+            'addFormula': AddFormula,
             'formulaHistory': FormulaHistory,
             'rankRadioList': RankRadioList,
             'guaranteeSalaryList': GuaranteeSalaryList,

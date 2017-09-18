@@ -8,6 +8,9 @@ html, body {
     padding: 0px;
  }
 
+ input,button,select,textarea{ outline:none;}
+textarea{resize:none;    border: 1px solid #e6e6e6; padding: 10px;font-size: 12px;}
+
 #app {
     height: 100%;
     .title {
