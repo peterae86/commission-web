@@ -2,8 +2,10 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Table from "../../component/Table/Table";
 import {requestByFetch} from "../../../utils/request";
+import Dropdown from "../../component/Dropdown/Dropdown";
+import ModalAlert from "../../component/ModalAlert/ModalAlert";
 
-class CommissionType extends React.Component{
+class CommissionType extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,9 +23,13 @@ class CommissionType extends React.Component{
             },
             showConfirm: false,
             modifyModal: false,
-            message: "", // alert message
+            message: "请确认：是否对提用方式进行修改！", // alert message
             formData: [],
+            selectedType:'',
+            onConfirm: () => {
+            }
         };
+        this.onSelectType = this.onSelectType.bind(this);
     }
 
     componentWillMount() {
@@ -39,13 +45,55 @@ class CommissionType extends React.Component{
         });
     }
 
-    render(){
-        const {table, pathNames} = this.state;
+    onSelectType(x) {
+        this.setState({
+            showConfirm:true,
+            onConfirm:()=>{
+                debugger
+                this.setState({
+                    selectedType: x,
+                    showConfirm: false
+                })
+            }
+        })
+    }
+
+    renderAlert() {
+        const modalProps = {
+            show: this.state.showConfirm,
+            message: this.state.message,
+            type: 'confirm',
+            onCancel: () => {
+                debugger
+                this.setState({showConfirm: false});
+            },
+            onConfirm: this.state.onConfirm
+        };
+        return <ModalAlert {...modalProps} />
+    }
+
+    render() {
+        const options = [{
+            value: "BASE_SALARY",
+            desc: "底薪"
+        }, {
+            value: "DOUBLE_SALARY",
+            desc: "双薪"
+        }];
+        const {table, pathNames, selectedType} = this.state;
         return <div className="rank-container">
+            {this.renderAlert()}
             <div className="container-title">
                 <Crumbs names={pathNames}/>
             </div>
             <Table data={table.listData} config={table.config} pager={table.pager}/>
+            <div className="container-bottom">
+                <div className="form">
+                    <span>提佣方式选择：</span>
+                    <Dropdown onSelect={this.onSelectType} options={options}
+                              placeholder="请选择" value={selectedType} defaultOption={options[1]} propsLabel="desc"/>
+                </div>
+            </div>
         </div>
     }
 }

@@ -49,10 +49,11 @@ class Dropdown extends React.Component {
               // 如果变化之后的新值存在并且不等于上一次被选择的值
               this.setState({selected: options[this.index],isOpen:false, value:newValue});
               onChange && onChange(newValue,newLabel);
-          } else if (!newProps.value && newProps.placeholder) {
-              // 如果变化之后的新值不存在 并且placeholder存在
-              this.setState({ selected: { label: '', value: '' },isOpen:false, value:""});
           }
+          // else if (!newProps.value && newProps.placeholder) {
+          //     // 如果变化之后的新值不存在 并且placeholder存在
+          //     this.setState({ selected: { label: '', value: '' },isOpen:false, value:""});
+          // }
         this.setState({
           isOpen: isOpen
         });
@@ -79,11 +80,11 @@ class Dropdown extends React.Component {
         const defaultOption = deOption || {
             [propsValue]: "",
             [propsLabel]: ""
-        }
-          let selected = {};
-          selected[propsValue] = defaultOption[propsValue].toString() || "";
-          selected[propsLabel] = defaultOption[propsLabel] || "";
-          return selected;
+        };
+        let selected = {};
+        selected[propsValue] = defaultOption[propsValue].toString() || "";
+        selected[propsLabel] = defaultOption[propsLabel] || "";
+        return selected;
     }
     render() {
         const { isOpen, selected, placeholder} = this.state; // 需要dropdown内部维护的变量
