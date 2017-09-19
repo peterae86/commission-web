@@ -45,6 +45,7 @@
 		   font-size: 12px;
 		   margin: 40px 0 0 25px;
 	   }
+
    }
 }
 
@@ -73,6 +74,10 @@
                  margin-bottom: 20px;
              }
         }
+        .caculate-block {
+            display: flex;
+            flex-wrap: wrap;
+        }
       .form {
           display: flex;
           align-items: center;
@@ -88,7 +93,7 @@
       }
   }
   .formula{
-      height: 100px;
+      padding: 20px;
       background: #EBEEF1;
   }
   .form-tips {

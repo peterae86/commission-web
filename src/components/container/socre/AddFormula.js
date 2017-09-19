@@ -23,6 +23,9 @@ class AddFormula extends React.Component {
             ruleDesc: "",
             optIcon: "",
             scoreItemKey: "",
+            parameters:[], // 一共有几个积分公式
+            paramScoreCount: 1,
+            tmpStr: [], // 新增加的参数
         }
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
@@ -130,8 +133,22 @@ class AddFormula extends React.Component {
     //     this.props.onJump('/score/paramList');
     // }
     itemRender() {
-        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList,operator} = this.state;
+        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList,operator,paramScoreCount} = this.state;
         const list = [{
+            label: "参数运算符",
+            value: optIcon,
+            type: "dropdown",
+            onSelect: this.onSelectIcon,
+            options: operator,
+            style: {height: "30px",lineHeight: "24px"}
+        },{
+            label: "参数运算符",
+            value: optIcon,
+            type: "dropdown",
+            onSelect: this.onSelectIcon,
+            options: operator,
+            style: {height: "30px",lineHeight: "24px"}
+        },{
             label: "参数运算符",
             value: optIcon,
             type: "dropdown",
@@ -140,14 +157,28 @@ class AddFormula extends React.Component {
             style: {height: "30px",lineHeight: "24px"}
         }];
 
-        return <div className="">
-
-            </div>
-
+        let temp = [...this.state.tmpStr];
+        list.map((item, index)=>{
+            temp.push(
+                <div className="form-row" key={Math.random().toString(36).substr(2)}>
+                    <span className="form-label">{item.label}</span>
+                    <Dropdown
+                        className="form-value"
+                        style={item.style}
+                        onSelect={item.onSelect}
+                        options={item.options}
+                        value={item.value}/>
+                </div>
+            );
+        });
+        this.setState({
+            tmpStr: temp,
+            paramScoreCount: this.state.paramScoreCount++,
+        });
     }
 
     render() {
-        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList} = this.state;
+        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList, tmpStr} = this.state;
 
         return (
             <div className="add-formula-container">
@@ -213,35 +244,35 @@ class AddFormula extends React.Component {
                             propsLabel="scoreItemName"/>
                     </div>
                     <p className="form-icon">=</p>
-                    {this.itemRender()}
-                    <div className="form-row">
-                        <span className="form-label">参数运算符</span>
-                        <Dropdown
-                            className="form-value"
-                            style={{height: "30px",lineHeight: "24px"}}
-                            onSelect={this.onSelectIcon}
-                            options={this.state.operator}
-                            value={optIcon}/>
+                    <div className="caculate-block">
+                        <div className="form-row">
+                            <span className="form-label">参数系数</span>
+                            <Input
+                                className="form-value"
+                                inputStyle={{height: "30px", paddingLeft: "5px",width: "60px"}}
+                                value={ruleName}/>
+                        </div>
+                        <p className="form-icon">x</p>
+                        <div className="form-row">
+                            <span className="form-label">参数</span>
+                            <Dropdown
+                                className="form-value"
+                                style={{height: "30px",lineHeight: "24px"}}
+                                options={this.state.allParamList}
+                                propsValue="scoreItemKey"
+                                value={currentCity.cityCode}
+                                propsLabel="scoreItemName"/>
+                        </div>
                     </div>
-                    <p className="form-icon">x</p>
-                    <div className="form-row">
-                        <span className="form-label">参数系数</span>
-                        <Input
-                            className="form-value"
-                            inputStyle={{height: "30px", paddingLeft: "5px",width: "60px"}}
-                            value={ruleName}/>
+                    <div className="caculate-block">
+                    {
+                        tmpStr.map((item, index)=> {
+                            return item
+                        })
+                    }
                     </div>
-                    <p className="form-icon">x</p>
-                    <div className="form-row">
-                        <span className="form-label">参数</span>
-                        <Dropdown
-                            className="form-value"
-                            style={{height: "30px",lineHeight: "24px"}}
-                            options={this.state.allParamList}
-                            propsValue="scoreItemKey"
-                            value={currentCity.cityCode}
-                            propsLabel="scoreItemName"/>
-                    </div>
+
+                    <p className="add-new-param" onClick={this.itemRender}>㊉ 参数配置</p>
                 </div>
                 <div className="form-button">
                     <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
