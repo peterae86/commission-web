@@ -1,0 +1,16 @@
+{
+  "code": 0,
+  "message": "操作成功",
+  "data": [
+    {
+      "userCode": "2222222",
+      "commissionMode": "底薪",
+      "statusDesc": "开启"
+    },
+    {
+      "userCode": "2222222",
+      "commissionMode": "双薪提成",
+      "statusDesc": "关闭"
+    }
+  ]
+}

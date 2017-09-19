@@ -125,7 +125,7 @@ class Tabel extends React.Component {
                                     });
 
                                 } else {
-                                    renderStr = item[cof.key];
+                                    renderStr = cof.transform?cof.transform(item[cof.key]):item[cof.key];
                                 }
 
                                 return <div key={indexs} className="list-item" style={style}>{renderStr}</div>

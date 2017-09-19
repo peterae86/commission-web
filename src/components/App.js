@@ -25,6 +25,9 @@ import GuaranteeSalaryList from "./container/salary/GuaranteeSalaryList";
 import GuaranteeSalaryHistory from "./container/salary/GuaranteeSalaryHistory";
 import BaseSalaryList from "./container/salary/BaseSalaryList";
 import BaseSalaryHistory from "./container/salary/BaseSalaryHistory";
+import CommissionManagement from "./container/commission/CommissionManagement";
+import ComHistory from "./container/commission/ComHistory";
+import CommissionType from "./container/commission/CommissionType";
 
 
 class App extends React.Component {
@@ -110,12 +113,28 @@ class App extends React.Component {
                     }, {
                         id: "commission",
                         name: "提佣管理",
+                        path: "/commission",
                         children: [
                             {
                                 id: "rankRadioList",
                                 name: "本人提佣系数管理",
                                 path: "/commission/rankRadioList",
+                                children: [
+                                    {
+                                        id: "comHistory",
+                                        name: "提佣系数修改历史",
+                                        path: "/commission/history",
+                                        hide: true,
+                                        children: []
+                                    }
+                                ]
+                            },
+                            {
+                                id: "commissionType",
+                                name: "提佣方式配置",
+                                path: "/commission/type",
                                 children: []
+
                             }
                         ]
                     }, {
@@ -165,7 +184,10 @@ class App extends React.Component {
             'guaranteeSalaryList': GuaranteeSalaryList,
             'guaranteeSalaryHistory': GuaranteeSalaryHistory,
             'baseSalaryList': BaseSalaryList,
-            'baseSalaryHistory': BaseSalaryHistory
+            'baseSalaryHistory': BaseSalaryHistory,
+            'commission':CommissionManagement,
+            'comHistory':ComHistory,
+            'commissionType':CommissionType
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
