@@ -6,7 +6,27 @@ import Button from '../../component/Button/Button';
 import {requestByFetch} from "../../../utils/request";
 import ModalAlert from '../../component/ModalAlert/ModalAlert';
 import {hashHistory} from "react-router";
-
+const tempList = [{
+    label: "参数运算符",
+    type: "dropdown",
+    options: [{value:"ADD",label:"+"},{value:"MINUS",label:"-"}],
+    style: {height: "30px",lineHeight: "24px"}
+},{
+    label: "参数系数",
+    type: "input",
+    style: {height: "30px", paddingLeft: "5px",width: "60px"}
+},{
+    label: "参数",
+    type: "dropdown",
+    style: {height: "30px",lineHeight: "24px"}
+}];
+const defaultObj = {
+   "paramScoreKey": "",
+   "paramScoreDesc": "",
+   "symbolTag": "ADD", //左边的式子是加还是减
+   "ratio": "", // 中间input参数
+   "computeType": "" // 右边参数是否可计算 根据下拉框来决定
+};
 class AddFormula extends React.Component {
     constructor(props) {
         super(props);
@@ -14,23 +34,21 @@ class AddFormula extends React.Component {
             pathNames: props.pathNames,
             corpCode: "", // 城市公司下编码
             currentCity:{},
-            operator:[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}],
-            paramList: [],
+            paramList: [],   //
             allParamList: [],
             showConfirm: false,
             message: "", // alert message
             ruleName: "", // 公式名称
             ruleDesc: "",
-            optIcon: "",
-            scoreItemKey: "",
-            parameters:[], // 一共有几个积分公式
+            scoreKey: "", //左边的
+            parametersTemp: [tempList],
+            parameters:[defaultObj], // 一共有几个积分公式
             paramScoreCount: 1,
-            tmpStr: [], // 新增加的参数
         }
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
         this.onSelectIcon = this.onSelectIcon.bind(this);// 选择运算符
-        this.itemRender = this.itemRender.bind(this);
+        this.itemAddRender = this.itemAddRender.bind(this);
         // this.comfirmFunc = this.comfirmFunc.bind(this);
         // this.cancelFunc = this.cancelFunc.bind(this);
     }
@@ -70,7 +88,7 @@ class AddFormula extends React.Component {
     }
     onSelectIcon (value) {
         this.setState({
-            optIcon: value
+            symbolTag: value
         });
     }
 
@@ -93,93 +111,20 @@ class AddFormula extends React.Component {
         });
     }
 
-    // comfirmFunc () {
-    //     const path = "../data/newRank.json";
-    //     //const path = "/scoreRules/addNewScoreItem"; 真实路径
-    //     const {currentCity, corpCode, scoreItemName, compute} = this.state;
-    //     if (!currentCity.cityCode || !corpCode) {
-    //         this.setState({
-    //             showConfirm: true,
-    //             message: "请选择城市和公司!"
-    //         });
-    //         return false;
-    //     }
-    //     if (!scoreItemName) {
-    //         this.setState({
-    //             showConfirm: true,
-    //             message: "请输入参数名称!"
-    //         });
-    //         return false;
-    //     }
-    //     const param = {
-    //         cityCode:currentCity.cityCode,
-    //         corpCode: corpCode,
-    //         scoreItemName: scoreItemName,
-    //         computeType: ["NON_COMPUTABLE","COMPUTABLE"][compute]
-    //     };
-    //     this.setState({
-    //         showConfirm: true,
-    //         message: "新增成功"
-    //     });
-    //     setTimeout(()=> {
-    //         this.setState({
-    //             showConfirm: false,
-    //             message: ""
-    //         });
-    //         this.props.onJump('/score/paramList');
-    //     }, 700);
-    // }
-    // cancelFunc () {
-    //     this.props.onJump('/score/paramList');
-    // }
-    itemRender() {
-        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList,operator,paramScoreCount} = this.state;
-        const list = [{
-            label: "参数运算符",
-            value: optIcon,
-            type: "dropdown",
-            onSelect: this.onSelectIcon,
-            options: operator,
-            style: {height: "30px",lineHeight: "24px"}
-        },{
-            label: "参数运算符",
-            value: optIcon,
-            type: "dropdown",
-            onSelect: this.onSelectIcon,
-            options: operator,
-            style: {height: "30px",lineHeight: "24px"}
-        },{
-            label: "参数运算符",
-            value: optIcon,
-            type: "dropdown",
-            onSelect: this.onSelectIcon,
-            options: operator,
-            style: {height: "30px",lineHeight: "24px"}
-        }];
-
-        let temp = [...this.state.tmpStr];
-        list.map((item, index)=>{
-            temp.push(
-                <div className="form-row" key={Math.random().toString(36).substr(2)}>
-                    <span className="form-label">{item.label}</span>
-                    <Dropdown
-                        className="form-value"
-                        style={item.style}
-                        onSelect={item.onSelect}
-                        options={item.options}
-                        value={item.value}/>
-                </div>
-            );
-        });
+    itemAddRender() {
+        let newArray = [...this.state.parametersTemp];
+        let newparam = [...this.state.parameters];
+        newArray.push(tempList);
+        newparam.push(defaultObj);
         this.setState({
-            tmpStr: temp,
-            paramScoreCount: this.state.paramScoreCount++,
+            parametersTemp: newArray,
+            parameters: newparam
         });
     }
 
     render() {
-        const {currentCity, corpCode, compute, ruleName, ruleDesc, optIcon, paramList, tmpStr} = this.state;
-
+        const {currentCity, corpCode, compute, ruleName, ruleDesc, paramList,parameters ,parametersTemp} = this.state;
+        console.log(parametersTemp);
         return (
             <div className="add-formula-container">
                 {this.renderAlert()}
@@ -240,39 +185,42 @@ class AddFormula extends React.Component {
                             style={{height: "30px",lineHeight: "24px"}}
                             options={this.state.paramList}
                             propsValue="scoreItemKey"
-                            value={currentCity.cityCode}
                             propsLabel="scoreItemName"/>
                     </div>
                     <p className="form-icon">=</p>
                     <div className="caculate-block">
-                        <div className="form-row">
-                            <span className="form-label">参数系数</span>
-                            <Input
-                                className="form-value"
-                                inputStyle={{height: "30px", paddingLeft: "5px",width: "60px"}}
-                                value={ruleName}/>
-                        </div>
-                        <p className="form-icon">x</p>
-                        <div className="form-row">
-                            <span className="form-label">参数</span>
-                            <Dropdown
-                                className="form-value"
-                                style={{height: "30px",lineHeight: "24px"}}
-                                options={this.state.allParamList}
-                                propsValue="scoreItemKey"
-                                value={currentCity.cityCode}
-                                propsLabel="scoreItemName"/>
-                        </div>
-                    </div>
-                    <div className="caculate-block">
                     {
-                        tmpStr.map((item, index)=> {
-                            return item
-                        })
+                        parametersTemp.map((item, index)=> {
+                         return  item.map((it, indexs)=> {
+                             if (index === 0 && indexs === 0) {
+                                 return null;
+                             }
+                                return (<div className="form-row " key={Math.random().toString(36).substr(2)}>
+                                            <span className="form-label">{it.label}</span>
+                                            {
+                                                it.type==="dropdown" ? (
+                                                    <Dropdown
+                                                        className="form-value"
+                                                        style={it.style}
+                                                        onSelect={!indexs? this.onSelectZero: this.onSelectLast}
+                                                        options={it.options}
+                                                        value={!indexs? parameters[index].symbolTag: parameters[index].paramScoreKey}/>
+                                                ) : (
+                                                    <div className="form-caculate">
+                                                        <Input
+                                                            className="form-value"
+                                                            inputStyle={it.style}
+                                                            value={parameters[index].ratio}/>
+                                                            <p className="form-icon">X</p>
+                                                    </div>
+                                                )
+                                            }
+                                        </div>)
+                                })
+                            })
                     }
                     </div>
-
-                    <p className="add-new-param" onClick={this.itemRender}>㊉ 参数配置</p>
+                    <p className="add-new-param" onClick={this.itemAddRender}>㊉ 参数配置</p>
                 </div>
                 <div className="form-button">
                     <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
