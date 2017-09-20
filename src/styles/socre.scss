@@ -77,6 +77,16 @@
         }
         .form-show {
             flex-grow: 2;
+            .form-show-div {
+                background: #fff;
+                width: 338px;
+                height: 82px;
+                border: 1px solid #e6e6e6;
+            }
+        }
+        .form-block-btn {
+            display: flex;
+            justify-content: space-around;
         }
 
         .caculate-block {
@@ -98,16 +108,7 @@
       }
       .form-icon {
           margin: 0 10px;
-          flex-grow: 0.5;
       }
-  }
-  .add-new-param {
-      font-size: 12px;
-      color: #2085F8;
-      right: 5px;
-      bottom: 5px;
-      position: absolute;
-      cursor: pointer;
   }
   .formula{
       padding: 20px;

@@ -27,27 +27,50 @@ class AddFormula extends React.Component {
             message: "", // alert message
             ruleName: "", // 公式名称
             ruleDesc: "",
-            scoreKey: "", //左边的
-            parametersTemp: [],
-            parameters:[defaultObj], // 一共有几个积分公式
-            paramScoreCount: 1,
             symbolTag: "ADD",
             paramScoreKey:"", // 参数
             paramScoreDesc: "", //公式0的参数1的描述
             ruleLeftScoreKey: "", //"等式左边的积分参数
-            ruleLeftScoreDesc: "" //等式左边的积分参数描述
+            ruleLeftScoreDesc: "", //等式左边的积分参数描述
+            parameters: [],
+            currentParameters: defaultObj,
+            current: 0,
         }
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
+        this.changeValue = this.changeValue.bind(this);
+        this.changeName = this.changeName.bind(this);
         this.onSelectIcon = this.onSelectIcon.bind(this);// 选择运算符
         this.onSelectLeft = this.onSelectLeft.bind(this);
         this.onSelectRight = this.onSelectRight.bind(this);
-        this.itemAddRender = this.itemAddRender.bind(this);
         this.changeRatio = this.changeRatio.bind(this);
+        this.onCheckCity = this.onCheckCity.bind(this);
+        this.doneParam = this.doneParam.bind(this);
         // this.comfirmFunc = this.comfirmFunc.bind(this);
         // this.cancelFunc = this.cancelFunc.bind(this);
     }
-
+    // 公式描述
+    changeValue(e) {
+        this.setState({
+            ruleDesc: e.target.value
+        });
+    }
+    //公式名称
+    changeName(value) {
+        this.setState({
+            ruleName: value
+        });
+    }
+    //操作之前检查是否选择了城市
+    onCheckCity() {
+        if (!this.state.corpCode) {
+            this.setState({
+                showConfirm: true,
+                message: "请先选择城市和公司!"
+            });
+        }
+        return false;
+    }
     // 渲染碳层
     renderAlert() {
         const modalProps = {
@@ -81,31 +104,75 @@ class AddFormula extends React.Component {
         }
         this.getParam({corpCode:value}) //获取可计算的参数
     }
+    //选择操作符的
     onSelectIcon (value) {
+        const obj = {
+            ...this.state.currentParameters
+        };
+        obj["symbolTag"] = value;
         this.setState({
-            symbolTag: value
+            symbolTag: value,
+            currentParameters: obj
         });
     }
-
+    //选择左边公式参数
     onSelectLeft (value, label){
         this.setState({
             ruleLeftScoreKey: value,
             ruleLeftScoreDesc: label
         });
     }
-    onSelectRight (value, label) { //onSelect={this.onSelectRight}
+
+    //选择右边公式参数
+    onSelectRight (value, label) {
+        const {allParamList, currentParameters} = this.state;
+        const obj = {
+            ...currentParameters
+        };
+        obj["paramScoreKey"] = value;
+        obj["paramScoreDesc"] = label;
+        allParamList.map((item, index)=> {
+            if (item.scoreItemKey == value) {
+                obj["computeType"] = item.computable;
+                return ;
+            }
+        });
         this.setState({
             paramScoreKey: value,
-            paramScoreeDesc: label
+            paramScoreDesc: label,
+            currentParameters: obj
         });
     }
-
+    //更改参数系数
     changeRatio(value) {
+        if (value< 0 || value > 100) {
+            this.setState({
+                showConfirm: true,
+                message: "参数系数输入有误,请重新输入",
+                ratio: ""
+            });
+            return false;
+        }
+        const obj = {
+            ...this.state.currentParameters
+        };
+        const newValue = `${value/100}%`;
+        obj["ratio"] = newValue;
         this.setState({
-            ratio: value
+            ratio: value,
+            currentParameters:obj
         });
     }
-
+    doneParam() {
+        const {parameters, currentParameters, current} = this.state;
+        let newArray = [...parameters];
+        newArray.push(currentParameters);
+        this.setState({
+            parameters: newArray,
+            current: ++this.state.current
+        });
+    }
+    //根据城市获取参数列表
     getParam (p={}) {
         //获取所有的 参数列表
         const path = '/data/paramList.json';
@@ -125,19 +192,22 @@ class AddFormula extends React.Component {
         });
     }
 
-    itemAddRender() {
-        // let newArray = [...this.state.parametersTemp];
-        // let newparam = [...this.state.parameters];
-        // newArray.push(tempList);
-        // newparam.push(defaultObj);
-        // this.setState({
-        //     parametersTemp: newArray,
-        //     parameters: newparam
-        // });
-    }
 
     render() {
-        const {currentCity, corpCode, compute, ruleName, ruleDesc, paramList, allParamList, parameters ,symbolTag, paramScoreKey,ratio, ruleLeftScoreKey} = this.state;
+        const {
+            currentCity,
+            corpCode,
+            ruleName,
+            ruleDesc,
+            paramList,
+            allParamList,
+            symbolTag,
+            ruleLeftScoreDesc,
+            paramScoreKey,
+            ratio,
+            ruleLeftScoreKey,
+            currentParameters,
+            parameters } = this.state;
         const style = {height: "30px",lineHeight: "24px"};
         const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}]
         return (
@@ -178,6 +248,8 @@ class AddFormula extends React.Component {
                         <Input
                             className="form-value"
                             placeholder="请输入公式名称"
+                            onClick = {this.onCheckCity}
+                            onChange={this.changeName}
                             inputStyle={{height: "30px", paddingLeft: "5px"}}
                             value={ruleName}/>
                     </div>
@@ -187,6 +259,8 @@ class AddFormula extends React.Component {
                             className="form-value"
                             rows="4"
                             cols="50"
+                            onChange={this.changeValue}
+                            onClick = {this.onCheckCity}
                             placeholder="请输入公式描述"
                             value={ruleDesc} />
                     </div>
@@ -200,6 +274,7 @@ class AddFormula extends React.Component {
                             style={{height: "30px",lineHeight: "24px"}}
                             options={this.state.paramList}
                             onSelect={this.onSelectLeft}
+                            onClick = {this.onCheckCity}
                             propsValue="scoreItemKey"
                             value={ruleLeftScoreKey}
                             propsLabel="scoreItemName"/>
@@ -212,16 +287,18 @@ class AddFormula extends React.Component {
                                 className="form-value"
                                 style={style}
                                 onSelect={this.onSelectIcon}
+                                onClick = {this.onCheckCity}
                                 options={options}
                                 defaultOption={options[0]}
                                 value={symbolTag}/>
                         </div>
                         <div className="form-row">
-                            <span className="form-label">参数系数</span>
+                            <span className="form-label">参数系数(%)</span>
                             <Input
                                 className="form-value"
                                 inputStyle={{height: "30px", paddingLeft: "5px",width: "100px"}}
                                 inputType="float"
+                                onClick = {this.onCheckCity}
                                 onChange={this.changeRatio}
                                 value={ratio}/>
                         </div>
@@ -232,23 +309,26 @@ class AddFormula extends React.Component {
                                 className="form-value"
                                 style={style}
                                 onSelect={this.onSelectRight}
+                                onClick = {this.onCheckCity}
                                 options={allParamList}
                                 propsValue="scoreItemKey"
                                 propsLabel="scoreItemName"
                                 value={paramScoreKey}/>
                         </div>
+                        <div className="form-row form-block-btn">
+                            <Button value="增加参数" styleName="btn-small" onClick={this.doneParam}/>
+                            <Button value="重置" styleName="btn-small-gray"/>
+                        </div>
                         <div className="form-row form-show">
-                            <span className="form-label">公式展示：</span>
-                            <textarea
-                                className="form-value"
-                                rows="4"
-                                cols="50"
-                                readOnly
-                                placeholder="请选择"
-                                value={ruleDesc} />
+                            <span className="form-label">公式预览：</span>
+                            <div className="form-value form-show-div">
+                            {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
+                            {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
+                            {currentParameters.ratio ? currentParameters.ratio+" x ": ""}
+                            {paramScoreKey}
+                            </div>
                         </div>
                     </div>
-                    <p className="add-new-param" onClick={this.itemAddRender}>㊉ 参数配置</p>
                 </div>
                 <div className="form-button">
                     <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>

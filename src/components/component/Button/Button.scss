@@ -46,10 +46,11 @@
       font-size: $font-size-xs;
   }
   .small {
-    height: $btn-height-s;
-    line-height: $btn-height-s-line;
-    font-size: $btn-font-size-s;
-    margin-bottom:1px;/* px */
+      padding: 5px 0px;
+      width: 80px;
+      font-size: $font-size-xxs;
+      margin-bottom:1px;/* px */
+      border-radius: 50px
   }
   .full{
     border: 1px solid transparent; /* px */

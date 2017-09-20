@@ -16,7 +16,6 @@ require('./Input.scss');
 class Input extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.inputType);
     this.state={
       value: props.value,
       shouldFocus: false,
