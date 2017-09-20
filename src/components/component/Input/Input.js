@@ -16,6 +16,7 @@ require('./Input.scss');
 class Input extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.inputType);
     this.state={
       value: props.value,
       shouldFocus: false,
@@ -24,7 +25,7 @@ class Input extends React.Component {
       inputType: {
         "numeric":  /^[0-9a-zA-Z]*$/,
         "digital": /^[0-9]*$/,
-        "float": /[^\d+(\.\d*)]*$/,
+        "float": /^[\d\.]*$/,
         "normal": '',
       }[props.inputType] || ""
     };
