@@ -39,16 +39,20 @@ class Dropdown extends React.Component {
     }
 
     componentWillReceiveProps (newProps) {
-        const {options, propsValue, propsLabel, isOpen} = newProps;
+        const {options, propsValue, propsLabel, isOpen, value} = newProps;
         const {onChange} = this.props;
         const {selected} = this.state;
+          let newOption = options.find((x)=>x[propsValue]===value);
           // 如果props中传递的option数组中每个元素是对象
-          let newValue = options[this.index] ? options[this.index][propsValue] : "";
-          let newLabel = options[this.index] ? options[this.index][propsLabel] : "";
+          let newValue = newOption ? newOption[propsValue] : "";
+          let newLabel = newOption ? newOption[propsLabel] : "";
+
           if (newValue && newValue !== selected[propsValue]) {
               // 如果变化之后的新值存在并且不等于上一次被选择的值
-              this.setState({selected: options[this.index],isOpen:false, value:newValue});
+              this.setState({selected: newOption,isOpen:false, value:newValue});
               onChange && onChange(newValue,newLabel);
+          }else if(!newValue){
+              this.setState({selected: {},isOpen:false, value:newValue});
           }
           // else if (!newProps.value && newProps.placeholder) {
           //     // 如果变化之后的新值不存在 并且placeholder存在

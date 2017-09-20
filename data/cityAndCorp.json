@@ -19,7 +19,12 @@
         {
           "id": 11,
           "corpName": "义乌分公司",
-          "corpCode": "jin_hua_fen_gong_si"
+          "corpCode": "yi_wu_fen_gong_si"
+        },
+        {
+          "id": 12,
+          "corpName": "义乌分公司1",
+          "corpCode": "yi_wu_fen_gong_si1"
         }
       ],
       "jin_hua": [
@@ -27,6 +32,11 @@
           "id": 1,
           "corpName": "金华分公司",
           "corpCode": "jin_hua_fen_gong_si"
+        },
+        {
+          "id": 2,
+          "corpName": "金华分公司2",
+          "corpCode": "jin_hua_fen_gong_si2"
         }
       ]
     }

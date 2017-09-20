@@ -57,7 +57,7 @@ class RankRadioList extends ListPage {
     }
 
     componentWillMount() {
-        this.onQuery({})
+        this.onQuery(this.state.queryParams)
     }
 
     onQuery(p) {

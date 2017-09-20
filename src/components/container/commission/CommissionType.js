@@ -4,6 +4,7 @@ import Table from "../../component/Table/Table";
 import {requestByFetch} from "../../../utils/request";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
+import Button from "../../component/Button/Button";
 
 class CommissionType extends React.Component {
     constructor(props) {
@@ -26,10 +27,12 @@ class CommissionType extends React.Component {
             message: "请确认：是否对提用方式进行修改！", // alert message
             formData: [],
             selectedType:'',
+            userCode:'',
             onConfirm: () => {
             }
         };
         this.onSelectType = this.onSelectType.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -37,6 +40,7 @@ class CommissionType extends React.Component {
         //const path = '/dutyLevelCommission/queryCommissionTypeByUserCode';
         requestByFetch(path, "GET").then((res) => {
             this.setState({
+                userCode: res[0].userCode,
                 table: {
                     ...this.table,
                     listData: res
@@ -56,6 +60,25 @@ class CommissionType extends React.Component {
                 })
             }
         })
+    }
+
+    onSubmit(){
+        if(this.state.userCode&&this.state.selectedType) {
+            let path = "/dutyLevelCommission/changeCommissionMode";
+            requestByFetch(path, {
+                userCode: this.state.userCode,
+                commissionMode: this.state.selectedType
+            }).then((res) => {
+                this.setState({
+                    table: {
+                        ...this.table,
+                        listData: res
+                    }
+                });
+            });
+        }else{
+            this.props.onJump('/commission');
+        }
     }
 
     renderAlert() {
@@ -91,7 +114,13 @@ class CommissionType extends React.Component {
                 <div className="form">
                     <span>提佣方式选择：</span>
                     <Dropdown onSelect={this.onSelectType} options={options}
-                              placeholder="请选择" value={selectedType} defaultOption={options[1]} propsLabel="desc"/>
+                              placeholder="请选择" value={selectedType} propsLabel="desc"/>
+                </div>
+                <div className="form">
+                    <Button  onClick={this.onSubmit} styleName="btn-middle"  className="btn-back" value="提交"/>
+                    <Button  onClick={()=>{
+                        this.props.onJump('/commission');
+                    }} styleName="btn-middle-gray"  className="btn-back" value="返回"/>
                 </div>
             </div>
         </div>

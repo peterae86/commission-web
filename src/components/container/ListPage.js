@@ -9,13 +9,14 @@ import {hashHistory} from "react-router";
 
 class ListPage extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         const self = this;
         this.state = {
             //面包屑
             pathNames: props.pathNames,
             //搜索参数
             queryParams: {
+                cityCode: "",
                 corpCode: "",
                 pageSize: 10, // 默认分页
                 currentPage: 0, // 当前页码
@@ -55,7 +56,19 @@ class ListPage extends React.Component {
     }
 
     componentWillMount() {
-        this.state.pager.clickPager(0);
+        //this.state.pager.clickPager(0);
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.cities){
+            this.setState({
+                    queryFormData: {
+                        currentCity: newProps.cities.find(x=>x.cityCode===newProps.location.query.cityCode)||{},
+                        corpCode: newProps.location.query.corpCode
+                    }
+                }
+            )
+        }
     }
 
     renderAlert() {
@@ -75,7 +88,20 @@ class ListPage extends React.Component {
     onSelectCity(value) {
         this.setState({
             queryFormData: {
+                corpCode:'',
                 currentCity: this.props.cities.find(x => x.cityCode === value)
+            },
+            queryParams:{
+                ...this.state.queryParams,
+                cityCode:value
+            }
+        });
+        hashHistory.push({
+            ...this.props.location,
+            query:{
+                ...this.state.queryParams,
+                cityCode:value,
+                corpCode:''
             }
         });
     }
@@ -93,12 +119,10 @@ class ListPage extends React.Component {
                 showConfirm: true,
                 message: "请选择公司"
             });
-
         }
         const param = {
-            corpCode: value,
-            currentPage: 0,
-            pageSize: 10
+            ...this.state.queryParams,
+            corpCode: value
         };
         this.onQuery(param);
     }
@@ -137,13 +161,13 @@ class ListPage extends React.Component {
         return <div className="title-right">
             <div className="right-company">
                 <span>城市：</span>
-                <Dropdown onSelect={this.onSelectCity} options={this.props.cities} propsValue="cityCode"
-                          placeholder="请选择城市" value={queryFormData.currentCity.cityCode} propsLabel="cityName"/>
+                <Dropdown onSelect={this.onSelectCity} options={this.props.cities}
+                          placeholder="请选择城市" value={queryFormData.currentCity.cityCode} propsLabel="cityName" propsValue="cityCode"/>
             </div>
             <div className="right-company">
                 <span>公司：</span>
-                <Dropdown onSelect={this.onSelectCompany} options={queryFormData.currentCity.corps} propsValue="corpCode"
-                          placeholder="请选择公司" propsLabel="corpName" value={queryFormData.corpCode}/>
+                <Dropdown onSelect={this.onSelectCompany} options={queryFormData.currentCity.corps}
+                          placeholder="请选择公司" propsLabel="corpName" propsValue="corpCode" value={queryFormData.corpCode}/>
             </div>
         </div>
     }
