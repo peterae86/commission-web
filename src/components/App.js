@@ -28,6 +28,7 @@ import BaseSalaryHistory from "./container/salary/BaseSalaryHistory";
 import CommissionManagement from "./container/commission/CommissionManagement";
 import ComHistory from "./container/commission/ComHistory";
 import CommissionType from "./container/commission/CommissionType";
+import ExportManagement from "./container/export/ExportManagement";
 
 
 class App extends React.Component {
@@ -166,7 +167,13 @@ class App extends React.Component {
                                 }]
                             }
                         ]
-                    }]
+                    }, {
+                        id: "export",
+                        name: "导出管理",
+                        path: "/export",
+                        children: []
+                    }
+                    ]
             },
             currentPage: Blank
         };
@@ -187,7 +194,8 @@ class App extends React.Component {
             'baseSalaryHistory': BaseSalaryHistory,
             'commission':CommissionManagement,
             'comHistory':ComHistory,
-            'commissionType':CommissionType
+            'commissionType':CommissionType,
+            'export':ExportManagement
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
