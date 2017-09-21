@@ -79,9 +79,26 @@
             flex-grow: 2;
             .form-show-div {
                 background: #fff;
-                width: 338px;
-                height: 82px;
+                width: 328px;
+                height: 72px;
                 border: 1px solid #e6e6e6;
+                padding: 5px;
+                overflow-y: auto;
+            }
+            .form-card {
+                display: inline-flex;
+                background: #f6f6f6;
+                align-items: center;
+                height: 20px;
+                padding: 2px;
+                color: #2085F8;
+                span {
+                    margin-right: 5px;
+                }
+                .close {
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
             }
         }
         .form-block-btn {
@@ -109,6 +126,10 @@
       .form-icon {
           margin: 0 10px;
       }
+  }
+  .form-button {
+      display: flex;
+      margin-top: 30px;
   }
   .formula{
       padding: 20px;

@@ -46,6 +46,8 @@ class AddFormula extends React.Component {
         this.changeRatio = this.changeRatio.bind(this);
         this.onCheckCity = this.onCheckCity.bind(this);
         this.doneParam = this.doneParam.bind(this);
+        this.resetParam = this.resetParam.bind(this);
+        this.deleteParam = this.deleteParam.bind(this);
         // this.comfirmFunc = this.comfirmFunc.bind(this);
         // this.cancelFunc = this.cancelFunc.bind(this);
     }
@@ -164,12 +166,39 @@ class AddFormula extends React.Component {
         });
     }
     doneParam() {
-        const {parameters, currentParameters, current} = this.state;
+        const {parameters, currentParameters, current, ratio, paramScoreKey, symbolTag} = this.state;
+        if (!ratio || !paramScoreKey) {
+            this.setState({
+                showConfirm: true,
+                message: "请填写完整参数表达式!"
+            });
+            return false;
+        }
         let newArray = [...parameters];
         newArray.push(currentParameters);
         this.setState({
             parameters: newArray,
-            current: ++this.state.current
+            current: ++this.state.current,
+            currentParameters: defaultObj,
+            paramScoreKey: "",
+            ratio: "",
+            symbolTag: "ADD"
+        });
+    }
+    resetParam () {
+        const {ratio, paramScoreKey, symbolTag} = this.state;
+        this.setState({
+            paramScoreKey: "",
+            ratio: "",
+            symbolTag: "ADD"
+        });
+    }
+
+    deleteParam(index) {
+        let newArr = [...this.state.parameters];
+        newArr.splice(index,1);
+        this.setState({
+            parameters: newArr
         });
     }
     //根据城市获取参数列表
@@ -317,12 +346,21 @@ class AddFormula extends React.Component {
                         </div>
                         <div className="form-row form-block-btn">
                             <Button value="增加参数" styleName="btn-small" onClick={this.doneParam}/>
-                            <Button value="重置" styleName="btn-small-gray"/>
+                            <Button value="重置" onClick={this.resetParam} styleName="btn-small-gray"/>
                         </div>
                         <div className="form-row form-show">
                             <span className="form-label">公式预览：</span>
                             <div className="form-value form-show-div">
                             {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
+                            {parameters.map((item, index)=>{
+                                return (<div key={index} className="form-card">
+                                    <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
+                                    <span>{item.ratio}</span>
+                                    <span>x</span>
+                                    <span>{item.paramScoreKey}</span>
+                                    <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
+                                    </div>)
+                            })}
                             {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
                             {currentParameters.ratio ? currentParameters.ratio+" x ": ""}
                             {paramScoreKey}
