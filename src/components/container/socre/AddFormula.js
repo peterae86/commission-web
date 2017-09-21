@@ -34,7 +34,8 @@ class AddFormula extends React.Component {
             ruleLeftScoreDesc: "", //等式左边的积分参数描述
             parameters: [],
             currentParameters: defaultObj,
-            current: 0,
+            current: 0, // 当前编辑的是那个公式 默认第一个
+            finalParam:[]
         }
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
@@ -48,6 +49,7 @@ class AddFormula extends React.Component {
         this.doneParam = this.doneParam.bind(this);
         this.resetParam = this.resetParam.bind(this);
         this.deleteParam = this.deleteParam.bind(this);
+        this.addNewFormula = this.addNewFormula.bind(this);
         // this.comfirmFunc = this.comfirmFunc.bind(this);
         // this.cancelFunc = this.cancelFunc.bind(this);
     }
@@ -158,7 +160,7 @@ class AddFormula extends React.Component {
         const obj = {
             ...this.state.currentParameters
         };
-        const newValue = `${value/100}%`;
+        const newValue = `${value/100}`;
         obj["ratio"] = newValue;
         this.setState({
             ratio: value,
@@ -166,7 +168,12 @@ class AddFormula extends React.Component {
         });
     }
     doneParam() {
-        const {parameters, currentParameters, current, ratio, paramScoreKey, symbolTag} = this.state;
+        const {
+            ratio,
+            paramScoreKey,
+            parameters,
+            currentParameters
+        } = this.state;
         if (!ratio || !paramScoreKey) {
             this.setState({
                 showConfirm: true,
@@ -178,17 +185,18 @@ class AddFormula extends React.Component {
         newArray.push(currentParameters);
         this.setState({
             parameters: newArray,
-            current: ++this.state.current,
             currentParameters: defaultObj,
             paramScoreKey: "",
+            paramScoreDesc: "",
             ratio: "",
             symbolTag: "ADD"
         });
     }
     resetParam () {
-        const {ratio, paramScoreKey, symbolTag} = this.state;
+        const {ratio, paramScoreKey, paramScoreDesc,symbolTag} = this.state;
         this.setState({
             paramScoreKey: "",
+            paramScoreDesc: "",
             ratio: "",
             symbolTag: "ADD"
         });
@@ -199,6 +207,67 @@ class AddFormula extends React.Component {
         newArr.splice(index,1);
         this.setState({
             parameters: newArr
+        });
+    }
+
+    addNewFormula() {
+        const {
+            ruleName,
+            ruleDesc,
+            corpCode,
+            ruleLeftScoreKey,
+            ruleLeftScoreDesc,
+            finalParam,
+            current,
+            parameters,
+            ratio,
+            paramScoreKey,
+            paramScoreDesc,
+            symbolTag
+        } = this.state;
+
+        if (!!(!ratio ^ !paramScoreKey)) {
+            this.setState({
+                showConfirm: true,
+                message: "请先完成上面参数表达式!"
+            });
+            return false;
+        }
+        if (!ruleName || !ruleDesc) {
+            this.setState({
+                showConfirm: true,
+                message: "请填写公式名称和描述!"
+            });
+            return false;
+        }
+        if (parameters.length === 0) {
+            this.setState({
+                showConfirm: true,
+                message: "公式不可为空!"
+            });
+            return false;
+        }
+        let newfinal = [...finalParam];
+        newfinal.push({
+            "ruleName": ruleName,
+            "ruleDesc": ruleDesc,
+            "corpCode": corpCode,
+            "ruleLeftScoreKey": ruleLeftScoreKey,
+            "ruleLeftScoreDesc": ruleLeftScoreDesc,
+            "parameters":parameters
+        });
+        this.setState({
+            finalParam: newfinal,
+            ruleName: "",
+            ruleDesc: "",
+            ruleLeftScoreKey: "",
+            ruleLeftScoreDesc: "",
+            current: ++this.state.current,
+            parameters: [],
+            ratio: "",
+            paramScoreKey: "",
+            paramScoreDesc: "",
+            symbolTag: "ADD"
         });
     }
     //根据城市获取参数列表
@@ -233,12 +302,17 @@ class AddFormula extends React.Component {
             symbolTag,
             ruleLeftScoreDesc,
             paramScoreKey,
+            paramScoreDesc,
             ratio,
+            current,
             ruleLeftScoreKey,
             currentParameters,
-            parameters } = this.state;
+            parameters,
+            finalParam
+        } = this.state;
         const style = {height: "30px",lineHeight: "24px"};
-        const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}]
+        const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}];
+        console.log(finalParam);
         return (
             <div className="add-formula-container">
                 {this.renderAlert()}
@@ -271,103 +345,205 @@ class AddFormula extends React.Component {
                             value={corpCode}/>
                     </div>
                 </div>
-                <div className="form-body formula">
-                    <div className="form">
-                        <span className="form-label">公式名称：</span>
-                        <Input
-                            className="form-value"
-                            placeholder="请输入公式名称"
-                            onClick = {this.onCheckCity}
-                            onChange={this.changeName}
-                            inputStyle={{height: "30px", paddingLeft: "5px"}}
-                            value={ruleName}/>
-                    </div>
-                    <div className="form">
-                        <span className="form-label">公式描述：</span>
-                        <textarea
-                            className="form-value"
-                            rows="4"
-                            cols="50"
-                            onChange={this.changeValue}
-                            onClick = {this.onCheckCity}
-                            placeholder="请输入公式描述"
-                            value={ruleDesc} />
-                    </div>
-                </div>
-                <p  className="form-tips">公式配置：</p>
-                <div className="form-body formula">
-                    <div className="form-row">
-                        <span className="form-label">计算参数</span>
-                        <Dropdown
-                            className="form-value"
-                            style={{height: "30px",lineHeight: "24px"}}
-                            options={this.state.paramList}
-                            onSelect={this.onSelectLeft}
-                            onClick = {this.onCheckCity}
-                            propsValue="scoreItemKey"
-                            value={ruleLeftScoreKey}
-                            propsLabel="scoreItemName"/>
-                    </div>
-                    <p className="form-icon">=</p>
-                    <div className="caculate-block">
-                        <div className="form-row">
-                            <span className="form-label">参数运算符</span>
-                            <Dropdown
-                                className="form-value"
-                                style={style}
-                                onSelect={this.onSelectIcon}
-                                onClick = {this.onCheckCity}
-                                options={options}
-                                defaultOption={options[0]}
-                                value={symbolTag}/>
-                        </div>
-                        <div className="form-row">
-                            <span className="form-label">参数系数(%)</span>
+                {
+                    finalParam.map((final, finalIndex)=>{
+                        return ( <div className="form-block" key={finalIndex}>
+                            <div className="form-body formula">
+                                <div className="form">
+                                    <span className="form-label">公式名称：</span>
+                                    <Input
+                                        className="form-value"
+                                        placeholder="请输入公式名称"
+                                        onClick = {this.onCheckCity}
+                                        onChange={this.changeName}
+                                        inputStyle={{height: "30px", paddingLeft: "5px"}}
+                                        value={final.ruleName}/>
+                                </div>
+                                <div className="form">
+                                    <span className="form-label">公式描述：</span>
+                                    <textarea
+                                        className="form-value"
+                                        rows="4"
+                                        cols="50"
+                                        onChange={this.changeValue}
+                                        onClick = {this.onCheckCity}
+                                        placeholder="请输入公式描述"
+                                        value={final.ruleDesc} />
+                                </div>
+                            </div>
+                            <p  className="form-tips">公式配置：</p>
+                            <div className="form-body formula">
+                            <div className="form-row">
+                                <span className="form-label">计算参数</span>
+                                <Dropdown
+                                    className="form-value"
+                                    style={{height: "30px",lineHeight: "24px"}}
+                                    options={this.state.paramList}
+                                    onSelect={this.onSelectLeft}
+                                    onClick = {this.onCheckCity}
+                                    propsValue="scoreItemKey"
+                                    value={final.ruleLeftScoreKey}
+                                    propsLabel="scoreItemName"/>
+                            </div>
+                            <p className="form-icon">=</p>
+                            <div className="caculate-block">
+                                <div className="form-row">
+                                    <span className="form-label">参数运算符</span>
+                                    <Dropdown
+                                        className="form-value"
+                                        style={style}
+                                        onSelect={this.onSelectIcon}
+                                        onClick = {this.onCheckCity}
+                                        options={options}
+                                        defaultOption={options[0]}
+                                        value=""/>
+                                </div>
+                                    <div className="form-row">
+                                        <span className="form-label">参数系数(%)</span>
+                                        <Input
+                                            className="form-value"
+                                            inputStyle={{height: "30px", paddingLeft: "5px",width: "100px"}}
+                                            inputType="float"
+                                            onClick = {this.onCheckCity}
+                                            onChange={this.changeRatio}
+                                            value=""/>
+                                    </div>
+                                    <p className="form-icon">x</p>
+                                    <div className="form-row">
+                                        <span className="form-label">参数</span>
+                                        <Dropdown
+                                            className="form-value"
+                                            style={style}
+                                            onSelect={this.onSelectRight}
+                                            onClick = {this.onCheckCity}
+                                            options={allParamList}
+                                            propsValue="scoreItemKey"
+                                            propsLabel="scoreItemName"
+                                            value=""/>
+                                    </div>
+                                    <div className="form-row form-show">
+                                        <span className="form-label">公式预览：</span>
+                                        <div className="form-value form-show-div">
+                                        {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
+                                        {final.parameters.map((item, index)=>{
+                                            return (<div key={index} className="form-card">
+                                                <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
+                                                <span>{item.ratio}%</span>
+                                                <span>x</span>
+                                                <span>{item.paramScoreDesc}</span>
+                                                <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
+                                                </div>)
+                                        })}
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <div className="form-cover" style={current == finalIndex-1 ?{display:"none"}:{display:""}}><span>修改</span></div>
+                        </div>)
+                    })
+                }
+
+                <div className="form-block">
+                    <div className="form-body formula">
+                        <div className="form">
+                            <span className="form-label">公式名称：</span>
                             <Input
                                 className="form-value"
-                                inputStyle={{height: "30px", paddingLeft: "5px",width: "100px"}}
-                                inputType="float"
+                                placeholder="请输入公式名称"
                                 onClick = {this.onCheckCity}
-                                onChange={this.changeRatio}
-                                value={ratio}/>
+                                onChange={this.changeName}
+                                inputStyle={{height: "30px", paddingLeft: "5px"}}
+                                value={ruleName}/>
                         </div>
-                        <p className="form-icon">x</p>
+                        <div className="form">
+                            <span className="form-label">公式描述：</span>
+                            <textarea
+                                className="form-value"
+                                rows="4"
+                                cols="50"
+                                onChange={this.changeValue}
+                                onClick = {this.onCheckCity}
+                                placeholder="请输入公式描述"
+                                value={ruleDesc} />
+                        </div>
+                    </div>
+                    <p  className="form-tips">公式配置：</p>
+                    <div className="form-body formula">
                         <div className="form-row">
-                            <span className="form-label">参数</span>
+                            <span className="form-label">计算参数</span>
                             <Dropdown
                                 className="form-value"
-                                style={style}
-                                onSelect={this.onSelectRight}
+                                style={{height: "30px",lineHeight: "24px"}}
+                                options={this.state.paramList}
+                                onSelect={this.onSelectLeft}
                                 onClick = {this.onCheckCity}
-                                options={allParamList}
                                 propsValue="scoreItemKey"
-                                propsLabel="scoreItemName"
-                                value={paramScoreKey}/>
+                                value={ruleLeftScoreKey}
+                                propsLabel="scoreItemName"/>
                         </div>
-                        <div className="form-row form-block-btn">
-                            <Button value="增加参数" styleName="btn-small" onClick={this.doneParam}/>
-                            <Button value="重置" onClick={this.resetParam} styleName="btn-small-gray"/>
-                        </div>
-                        <div className="form-row form-show">
-                            <span className="form-label">公式预览：</span>
-                            <div className="form-value form-show-div">
-                            {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
-                            {parameters.map((item, index)=>{
-                                return (<div key={index} className="form-card">
-                                    <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
-                                    <span>{item.ratio}</span>
-                                    <span>x</span>
-                                    <span>{item.paramScoreKey}</span>
-                                    <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
-                                    </div>)
-                            })}
-                            {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
-                            {currentParameters.ratio ? currentParameters.ratio+" x ": ""}
-                            {paramScoreKey}
+                        <p className="form-icon">=</p>
+                        <div className="caculate-block">
+                            <div className="form-row">
+                                <span className="form-label">参数运算符</span>
+                                <Dropdown
+                                    className="form-value"
+                                    style={style}
+                                    onSelect={this.onSelectIcon}
+                                    onClick = {this.onCheckCity}
+                                    options={options}
+                                    defaultOption={options[0]}
+                                    value={symbolTag}/>
+                            </div>
+                            <div className="form-row">
+                                <span className="form-label">参数系数(%)</span>
+                                <Input
+                                    className="form-value"
+                                    inputStyle={{height: "30px", paddingLeft: "5px",width: "100px"}}
+                                    inputType="float"
+                                    onClick = {this.onCheckCity}
+                                    onChange={this.changeRatio}
+                                    value={ratio}/>
+                            </div>
+                            <p className="form-icon">x</p>
+                            <div className="form-row">
+                                <span className="form-label">参数</span>
+                                <Dropdown
+                                    className="form-value"
+                                    style={style}
+                                    onSelect={this.onSelectRight}
+                                    onClick = {this.onCheckCity}
+                                    options={allParamList}
+                                    propsValue="scoreItemKey"
+                                    propsLabel="scoreItemName"
+                                    value={paramScoreKey}/>
+                            </div>
+                            <div className="form-row form-block-btn">
+                                <Button value="增加参数" styleName="btn-small" onClick={this.doneParam}/>
+                                <Button value="重置" onClick={this.resetParam} styleName="btn-small-gray"/>
+                            </div>
+                            <div className="form-row form-show">
+                                <span className="form-label">公式预览：</span>
+                                <div className="form-value form-show-div">
+                                {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
+                                {parameters.map((item, index)=>{
+                                    return (<div key={index} className="form-card">
+                                        <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
+                                        <span>{item.ratio}%</span>
+                                        <span>x</span>
+                                        <span>{item.paramScoreDesc}</span>
+                                        <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
+                                        </div>)
+                                })}
+                                {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
+                                {currentParameters.ratio ? currentParameters.ratio+" x ": ""}
+                                {paramScoreDesc}
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+                <div className="form-tips form-add" onClick={this.addNewFormula}>╬新增公式</div>
                 <div className="form-button">
                     <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
                     <Button value="取消" styleName="btn-middle-gray" onClick={this.cancelFunc}/>
