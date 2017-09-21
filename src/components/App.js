@@ -29,6 +29,7 @@ import CommissionManagement from "./container/commission/CommissionManagement";
 import ComHistory from "./container/commission/ComHistory";
 import CommissionType from "./container/commission/CommissionType";
 import ExportManagement from "./container/export/ExportManagement";
+import ImportComponent from "./container/import/ImportComponent";
 
 
 class App extends React.Component {
@@ -167,7 +168,12 @@ class App extends React.Component {
                                 }]
                             }
                         ]
-                    }, {
+                    },  {
+                        id: "import",
+                        name: "导入管理",
+                        path: "/import",
+                        children: []
+                    },{
                         id: "export",
                         name: "导出管理",
                         path: "/export",
@@ -195,7 +201,8 @@ class App extends React.Component {
             'commission':CommissionManagement,
             'comHistory':ComHistory,
             'commissionType':CommissionType,
-            'export':ExportManagement
+            'export':ExportManagement,
+            'import': ImportComponent
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
