@@ -29,6 +29,7 @@ import CommissionManagement from "./container/commission/CommissionManagement";
 import ComHistory from "./container/commission/ComHistory";
 import CommissionType from "./container/commission/CommissionType";
 import ExportManagement from "./container/export/ExportManagement";
+import ScoreExport from "./container/export/ScoreExport";
 import ImportComponent from "./container/import/ImportComponent";
 
 
@@ -177,7 +178,14 @@ class App extends React.Component {
                         id: "export",
                         name: "导出管理",
                         path: "/export",
-                        children: []
+                        children: [
+                            {
+                                id: "exportScore",
+                                name: "积分明细列表",
+                                path: "/export/score",
+                                children: []
+                            }
+                        ]
                     }
                     ]
             },
@@ -202,6 +210,7 @@ class App extends React.Component {
             'comHistory':ComHistory,
             'commissionType':CommissionType,
             'export':ExportManagement,
+            'exportScore':ScoreExport,
             'import': ImportComponent
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
