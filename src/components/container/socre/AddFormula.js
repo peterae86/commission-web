@@ -35,7 +35,9 @@ class AddFormula extends React.Component {
             parameters: [],
             currentParameters: defaultObj,
             current: 0, // 当前编辑的是那个公式 默认第一个
-            finalParam:[]
+            finalParam:[],
+            showFinalCheck: false,
+            messageFinal: "",
         }
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
@@ -50,8 +52,8 @@ class AddFormula extends React.Component {
         this.resetParam = this.resetParam.bind(this);
         this.deleteParam = this.deleteParam.bind(this);
         this.addNewFormula = this.addNewFormula.bind(this);
-        // this.comfirmFunc = this.comfirmFunc.bind(this);
-        // this.cancelFunc = this.cancelFunc.bind(this);
+        this.comfirmFunc = this.comfirmFunc.bind(this);
+        this.cancelFunc = this.cancelFunc.bind(this);
     }
     // 公式描述
     changeValue(e) {
@@ -270,6 +272,113 @@ class AddFormula extends React.Component {
             symbolTag: "ADD"
         });
     }
+
+    modifyFormula(index) {
+         const {finalParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
+        let newArray = [...finalParam];
+        if (parameters.length > 0){
+            newArray.push({
+                "ruleName": ruleName,
+                "ruleDesc": ruleDesc,
+                "corpCode": corpCode,
+                "ruleLeftScoreKey": ruleLeftScoreKey,
+                "ruleLeftScoreDesc": ruleLeftScoreDesc,
+                "parameters":parameters
+            });
+        }
+        const obj = newArray[index]; // 取到要修改的对象
+        newArray.splice(index, 1);
+        this.setState({
+            parameters: obj.parameters,
+            ruleName: obj.ruleName,
+            ruleDesc: obj.ruleDesc,
+            symbolTag: obj.symbolTag,
+            ruleLeftScoreKey:obj.ruleLeftScoreKey,
+            ruleLeftScoreDesc: obj.ruleLeftScoreDesc,
+            finalParam: newArray,
+            current: --this.state.current
+        });
+    }
+
+    cancelFunc () {
+        this.props.onJump('/score/formulaList');
+    }
+
+    comfirmFunc() {
+        const {finalParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
+        let newArray = [...finalParam];
+        if (parameters.length === 0 && finalParam.length === 0) {
+            this.setState({
+                showConfirm: true,
+                message: "暂无可提交的公式！"
+            });
+            return false;
+        }
+       if (parameters.length > 0){
+           newArray.push({
+               "ruleName": ruleName,
+               "ruleDesc": ruleDesc,
+               "corpCode": corpCode,
+               "ruleLeftScoreKey": ruleLeftScoreKey,
+               "ruleLeftScoreDesc": ruleLeftScoreDesc,
+               "parameters":parameters
+           });
+       }
+       this.setState({
+           finalParam: newArray
+       });
+       this.doRenderAlert(newArray);
+    }
+    doRenderAlert (list) {
+        let message = "";
+        let tempMessage = [];
+        list.map((item, index)=> {
+            let str = `${item.ruleLeftScoreDesc}=`;
+            let strArra = [];
+            item.parameters.map((it, idx)=>{
+                const symbol = {
+                    "ADD": "+",
+                    "MINUS": "-"
+                }[it.symbolTag];
+                strArra.push(`${symbol}${it.paramScoreDesc}*${(it.ratio*100).toFixed(2)}%`);
+            });
+            tempMessage.push(`${str}${strArra.join("").replace(/^\+/g,"")}`);
+        });
+
+        this.setState({
+            showFinalCheck: true,
+            messageFinal: tempMessage.join("\n")
+        });
+    }
+    // 渲染碳层
+    renderFinaleAlert() {
+        const modalProps = {
+            show: this.state.showFinalCheck,
+            message: this.state.messageFinal,
+            title: "公式预览",
+            type: 'confirm',
+            confirm: "提交",
+            onCancel: () => {
+                this.setState({showFinalCheck: false});
+            },
+            onConfirm: () => {
+                //    const paths = `/scoreRules/addNewScoreRule`; // 真正接口
+                //requestByFetch(path, JSON.stringify(this.state.finalParam)).then((res) => {
+                    this.setState({
+                        showConfirm:true,
+                        message: "添加公式成功"
+                    });
+                    setTimeout(()=> {
+                        this.setState({
+                            showConfirm: false
+                        });
+                        this.props.onJump('/score/formulaList');
+                    }, 700);
+                //});
+            },
+        };
+        return <ModalAlert {...modalProps} />
+    }
     //根据城市获取参数列表
     getParam (p={}) {
         //获取所有的 参数列表
@@ -312,10 +421,11 @@ class AddFormula extends React.Component {
         } = this.state;
         const style = {height: "30px",lineHeight: "24px"};
         const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}];
-        console.log(finalParam);
+
         return (
             <div className="add-formula-container">
                 {this.renderAlert()}
+                {this.renderFinaleAlert()}
                 <div className="container-title">
                     <Crumbs names={this.state.pathNames}/>
                 </div>
@@ -438,7 +548,7 @@ class AddFormula extends React.Component {
                                    </div>
                                 </div>
                             </div>
-                            <div className="form-cover" style={current == finalIndex-1 ?{display:"none"}:{display:""}}><span>修改</span></div>
+                            <div className="form-cover" onClick={this.modifyFormula.bind(this, finalIndex)} style={current == finalIndex-1 ?{display:"none"}:{display:""}}><span>修改</span></div>
                         </div>)
                     })
                 }
@@ -535,7 +645,7 @@ class AddFormula extends React.Component {
                                         </div>)
                                 })}
                                 {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
-                                {currentParameters.ratio ? currentParameters.ratio+" x ": ""}
+                                {currentParameters.ratio ? currentParameters.ratio+"% x ": ""}
                                 {paramScoreDesc}
                                 </div>
                             </div>
