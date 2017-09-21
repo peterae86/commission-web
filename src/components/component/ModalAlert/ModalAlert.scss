@@ -28,6 +28,9 @@
             color: $alert-font-color;
             padding: 25px 28px;
             text-align: left;
+            p {
+                margin-bottom: 15px;
+            }
         }
         .messageWrap{
             text-align: center;
