@@ -1,7 +1,7 @@
 import React from "react";
-import {Uploader} from 'react-file-upload';
 import Upload from 'rc-upload';
 import Table from '../../component/Table/Table';
+import Button from '../../component/Button/Button';
 import Crumbs from '../../component/Crumbs/Crumbs';
 import ModalAlert from '../../component/ModalAlert/ModalAlert';
 import Modal from '../../component/Modal/Modal';
@@ -16,6 +16,8 @@ class  ImportComponent extends React.Component{
             showImportant: false,
             showConfirm: false,
             message: "", // alert message
+            uploadTips: "请选择需要导入的文件",
+            onUploading: false,
             config: {
                 column: [
                     {name: "导入信息项", key: "name", textAlign: "center", width: "50%"},
@@ -38,6 +40,7 @@ class  ImportComponent extends React.Component{
                                 func: (index) => {
                                     this.setState({
                                         showImportant: true,
+                                        alertTitle: this.state.listData[index].name,
                                         importType: this.state.listData[index].importType
                                     });
                                 }
@@ -49,26 +52,38 @@ class  ImportComponent extends React.Component{
         const that = this;
         this.uploaderProps = {
              self: that,
-             action: '/upload.do', // 请求地址
+             name: "productFile",
+             action: '/config/import/informationImport', // 请求地址
              data: { importType: this.state.importType},
             //  headers: {
             //    Authorization: 'xxxxxxx',
             //  },
+            style: {
+                background: "#2085F8",
+                color: "#fff",
+                padding: "5px 20px",
+                borderRadius: "20px"
+            },
              multiple: false, // 能否一次上传多个
              beforeUpload (file) {
                  const strRegex = "(.xls|.xlsx)$"; //用于验证表格扩展名的正则表达式
                  const re=new RegExp(strRegex);
                  if (!re.test(file.name.toLowerCase())){
-                   this.self.checkError("导入文件格式仅支持.xls与xlsx");
+                   that.checkError("导入文件格式仅支持.xls与xlsx");
                    return false;
                  }
              },
-             onStart: (file) => {
-               console.log('onStart', file.name);
-               // this.refs.inner.abort(file);
+             onStart (file) {
+                 that.setState({
+                     onUploading: true,
+                     uploadTips: "开始上传，请勿离开当前页面"
+                 });
              },
              onSuccess(file) {
-               console.log('onSuccess', file);
+                 that.setState({
+                     uploadTips: "导入成功",
+                     onUploading: false,
+                 });
              },
              onProgress(step, file) {
                console.log('onProgress', Math.round(step.percent), file.name);
@@ -78,6 +93,7 @@ class  ImportComponent extends React.Component{
              }
         };
         this.checkError = this.checkError.bind(this);
+        this.comfirmFunc = this.comfirmFunc.bind(this);
     }
 
     componentWillMount() {
@@ -108,13 +124,30 @@ class  ImportComponent extends React.Component{
     checkError (mess) {
         this.setState({
             showConfirm: true,
-            message: mess
+            message: mess,
+            uploadTips: "请选择需要导入的文件",
+            onUploading: false,
+        });
+    }
+
+    comfirmFunc() {
+        if (this.state.onUploading) {
+            this.setState({
+                showConfirm: true,
+                message: "正在上传，请稍后"
+            });
+            return false;
+        }
+        this.setState({
+            alertTitle: "",
+            showImportant: false,
+            message: ""
         });
     }
 
     render(){
 
-        const {listData, config, pathNames ,showImportant} = this.state;
+        const {listData, config, pathNames ,showImportant, alertTitle,uploadTips} = this.state;
         return (
             <div className="import-container">
                 <Crumbs names={pathNames}/>
@@ -131,7 +164,23 @@ class  ImportComponent extends React.Component{
                 {this.renderAlert()}
                 {
                     showImportant ?
-                    (<Upload {...this.uploaderProps} ref="inner">导入</Upload>) :
+                    (
+                        <div className="upload-alert">
+                            <div className="upload">
+                                <div className="upload-title">{alertTitle}</div>
+                                <div className="upload-body">
+                                    <p className="upload-tips">{uploadTips}</p>
+                                    <Upload {...this.uploaderProps} ref="inner">导入</Upload>
+                                </div>
+
+                                <div className="upload-btn">
+                                    <Button value="确定" styleName="btn-middle" onClick={this.comfirmFunc}/>
+                                    <Button value="取消" styleName="btn-middle-gray" onClick={this.comfirmFunc}/>
+                                </div>
+                            </div>
+                        </div>
+
+                    ) :
                     null
                 }
 

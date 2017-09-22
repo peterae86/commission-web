@@ -10,4 +10,47 @@
         color: red;
         font-weight: 800;
     }
+    .upload-alert {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(47, 53, 73, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .upload {
+            width: 500px;
+            height: 156px;
+            background: #fff;
+            padding: 30px;
+            position: relative;
+            .upload-title {
+                text-align: left;
+                padding-bottom: 30px;
+                font-size: 14px;
+                color: #666;
+                font-weight: 600;
+                border-bottom: 1px solid #e6e6e6; /*px*/
+            }
+            .upload-btn {
+                display: flex;
+                justify-content: flex-end;
+                .button-content{
+                    margin: 0 0 0 30px !important;
+                }
+            }
+            .upload-body {
+                display: flex;
+                padding-top: 40px;
+                align-items: center;
+                p {
+                    font-size: 12px;
+                    margin-right: 20px;
+                    justify-content: center;
+                }
+            }
+        }
+    }
 }
