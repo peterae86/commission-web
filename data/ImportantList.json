@@ -1,0 +1,34 @@
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+          {
+              "name": "初始职级导入",
+              "importType": "INIT_DUTY_LEVEL_IMPORT"
+          },
+          {
+              "name": "初始积分导入",
+              "importType": "INIT_SCORE_IMPORT"
+          },
+          {
+              "name": "每期业绩导入",
+              "importType": "YE_JI_IMPORT"
+          },
+          {
+              "name": "积分修订导入",
+              "importType": "SCORE_CORRECT_IMPORT"
+          },
+          {
+              "name": "状态调整导入",
+              "importType": "STATUS_ADJUST_IMPORT"
+          },
+          {
+              "name": "双薪模式底薪导入",
+              "importType": "BASE_SALARY_OF_MODEL2_IMPORT"
+          },
+          {
+              "name": "员工关系导入",
+              "importType": "USER_RELATIONSHIP_IMPORT"
+          }
+      ]
+}

@@ -1,0 +1,13 @@
+.import-container {
+    background-color: #f6f6f8;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+    .import-table {
+        margin-top: 20px;
+    }
+    .import-tips {
+        color: red;
+        font-weight: 800;
+    }
+}
