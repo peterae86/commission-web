@@ -36,7 +36,9 @@ import InitDutyLevel from "./container/import/InitDutyLevel";
 import InitScore from "./container/import/InitScore";
 import Status from "./container/import/Status";
 import Yeji from "./container/import/Yeji";
-
+import ScoreCorrect from "./container/import/ScoreCorrect";
+import UserRelation from "./container/import/UserRelation";
+import BaseModal from "./container/import/BaseModal";
 
 class App extends React.Component {
     constructor(props) {
@@ -208,14 +210,32 @@ class App extends React.Component {
                                 id: "yeji",
                                 name: "每期业绩列表",
                                 path: "/import/yeji",
-                                children: [
-
-                                ]
+                                children: []
+                            },
+                            {
+                                id: "scoreCorrect",
+                                name: "积分修订列表",
+                                path: "/import/scoreCorrect",
+                                children: []
                             },
                             {
                                 id: "status",
                                 name: "状态调整列表",
                                 path: "/import/status",
+                                children: [
+
+                                ]
+                            },{
+                                id: "baseModal",
+                                name: "双薪模式底薪",
+                                path: "/import/baseModal",
+                                children: [
+
+                                ]
+                            },{
+                                id: "userRelation",
+                                name: "员工关系列表",
+                                path: "/import/userRelation",
                                 children: [
 
                                 ]
@@ -263,7 +283,10 @@ class App extends React.Component {
             'initLevel':InitDutyLevel,
             'initScore':InitScore,
             'status':Status,
-            'yeji':Yeji
+            'yeji':Yeji,
+            "scoreCorrect": ScoreCorrect,
+            "baseModal": BaseModal,
+            "userRelation": UserRelation
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }

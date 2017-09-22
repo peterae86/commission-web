@@ -30,9 +30,19 @@ class  ImportComponent extends React.Component{
                                 }
                             },
                             {
-                                key: "修改",
+                                key: "查看",
                                 func: (index) => {
+                                    const str = {
+                                        "INIT_DUTY_LEVEL_IMPORT": "initLevel",
+                                        "INIT_SCORE_IMPORT":"initScore",
+                                        "YE_JI_IMPORT": "yeji",
+                                        "SCORE_CORRECT_IMPORT":"scoreCorrect", //积分修订导入
+                                        "STATUS_ADJUST_IMPORT": "status", //状态调整导入
+                                        "USER_RELATIONSHIP_IMPORT": "userRelation" , //员工关系导入
+                                        "BASE_SALARY_OF_MODEL2_IMPORT": "baseModal" // 双薪模式底薪导入
+                                    }[ this.state.listData[index].importType]
 
+                                    this.props.onJump(`/import/${str}`);
                                 }
                             },
                             {
