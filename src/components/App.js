@@ -31,6 +31,11 @@ import CommissionType from "./container/commission/CommissionType";
 import ExportManagement from "./container/export/ExportManagement";
 import ScoreExport from "./container/export/ScoreExport";
 import ImportComponent from "./container/import/ImportComponent";
+import ImportHistory from "./container/import/ImportHistory";
+import InitDutyLevel from "./container/import/InitDutyLevel";
+import InitScore from "./container/import/InitScore";
+import Status from "./container/import/Status";
+import Yeji from "./container/import/Yeji";
 
 
 class App extends React.Component {
@@ -173,7 +178,49 @@ class App extends React.Component {
                         id: "import",
                         name: "导入管理",
                         path: "/import",
-                        children: []
+                        children: [
+                            {
+                                id: "importHistory",
+                                name: "导入操作历史",
+                                path: "/import/history",
+                                hide: true,
+                                children: [
+
+                                ]
+                            },
+                            {
+                                id: "initLevel",
+                                name: "初始职级列表",
+                                path: "/import/initLevel",
+                                children: [
+
+                                ]
+                            },
+                            {
+                                id: "initScore",
+                                name: "初始积分列表",
+                                path: "/import/initScore",
+                                children: [
+
+                                ]
+                            },
+                            {
+                                id: "yeji",
+                                name: "每期业绩列表",
+                                path: "/import/yeji",
+                                children: [
+
+                                ]
+                            },
+                            {
+                                id: "status",
+                                name: "状态调整列表",
+                                path: "/import/status",
+                                children: [
+
+                                ]
+                            }
+                        ]
                     },{
                         id: "export",
                         name: "导出管理",
@@ -211,7 +258,12 @@ class App extends React.Component {
             'commissionType':CommissionType,
             'export':ExportManagement,
             'exportScore':ScoreExport,
-            'import': ImportComponent
+            'import': ImportComponent,
+            'importHistory': ImportHistory,
+            'initLevel':InitDutyLevel,
+            'initScore':InitScore,
+            'status':Status,
+            'yeji':Yeji
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
