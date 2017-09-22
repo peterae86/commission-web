@@ -1,5 +1,4 @@
 import React from "react";
-import {Uploader} from 'react-file-upload';
 import Upload from 'rc-upload';
 import Table from '../../component/Table/Table';
 import Crumbs from '../../component/Crumbs/Crumbs';
@@ -24,7 +23,7 @@ class  ImportComponent extends React.Component{
                             {
                                 key: "操作历史",
                                 func: (index) => {
-
+                                    this.props.onJump('/import/history');
                                 }
                             },
                             {
