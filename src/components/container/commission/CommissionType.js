@@ -1,7 +1,7 @@
 import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Table from "../../component/Table/Table";
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
 import Button from "../../component/Button/Button";
@@ -27,7 +27,7 @@ class CommissionType extends React.Component {
             message: "请确认：是否对提用方式进行修改！", // alert message
             formData: [],
             selectedType:'',
-            userCode:'',
+            userCode:'123', // todo 使用lcoalstory
             onConfirm: () => {
             }
         };
@@ -36,8 +36,8 @@ class CommissionType extends React.Component {
     }
 
     componentWillMount() {
-        const path = '/data/commissiontype.json';
-        //const path = '/dutyLevelCommission/queryCommissionTypeByUserCode';
+        // const path = '/data/commissiontype.json';
+        const path = `/api/dutyLevelCommission/queryCommissionTypeByUserCode?userCode=${this.state.userCode}`;
         requestByFetch(path, "GET").then((res) => {
             this.setState({
                 userCode: res[0].userCode,
@@ -53,7 +53,6 @@ class CommissionType extends React.Component {
         this.setState({
             showConfirm:true,
             onConfirm:()=>{
-                debugger
                 this.setState({
                     selectedType: x,
                     showConfirm: false
@@ -63,18 +62,21 @@ class CommissionType extends React.Component {
     }
 
     onSubmit(){
-        if(this.state.userCode&&this.state.selectedType) {
-            let path = "/dutyLevelCommission/changeCommissionMode";
-            requestByFetch(path, {
+        if(this.state.userCode && this.state.selectedType) {
+            const par = {
                 userCode: this.state.userCode,
                 commissionMode: this.state.selectedType
-            }).then((res) => {
+            };
+            let path = `/api/dutyLevelCommission/changeCommissionMode?${parseParamsGet(par)}`;
+            requestByFetch(path, "GET").then((res) => {
                 this.setState({
-                    table: {
-                        ...this.table,
-                        listData: res
-                    }
+                    showConfirm: true,
+                    message: "修改成功"
                 });
+                setTimeout(()=>{
+                    this.props.onJump('/commission');
+                },700);
+
             });
         }else{
             this.props.onJump('/commission');
@@ -116,7 +118,7 @@ class CommissionType extends React.Component {
                     <Dropdown onSelect={this.onSelectType} options={options}
                               placeholder="请选择" value={selectedType} propsLabel="desc"/>
                 </div>
-                <div className="form">
+                <div className="form commission-form">
                     <Button  onClick={this.onSubmit} styleName="btn-middle"  className="btn-back" value="提交"/>
                     <Button  onClick={()=>{
                         this.props.onJump('/commission');

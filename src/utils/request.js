@@ -10,21 +10,26 @@ export function parseParamsGet(params) {
     Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]));
     return paramsArray.join('&')  ;
 }
+
 export function requestByFetch(path, methodOrJsonBody = {}) {
   return new Promise((resolve, reject) => {
     let hearderBody = { method: 'POST' };
     if (typeof methodOrJsonBody === 'string' && methodOrJsonBody.toUpperCase() === 'GET') {
       hearderBody = { method: 'GET' };
     } else {
+        let param = {
+            ...methodOrJsonBody,
+            userCode: "123"
+        };
       hearderBody = {
         method: 'POST',
-        body: parseParamsByJson(methodOrJsonBody),
+        body: JSON.stringify(param),
       };
     }
     const headerOptions = {
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
       ...hearderBody,
     };
@@ -68,19 +73,5 @@ export function requestByFetch(path, methodOrJsonBody = {}) {
         (locationHref) => {
             console.log(locationHref);
       });
-  });
-}
-
-
-// 退出登录
-export function logOut() {
-  return new Promise((resolve, reject) => {
-    const reqPath = '/v2/login/logout';
-    requestByFetch(reqPath, "GET").then((response) => {
-      if (response.code == 2000) {
-        return resolve(response);
-      }
-      return reject(response);
-    });
   });
 }

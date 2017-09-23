@@ -1,8 +1,10 @@
 import React from 'react';
 import Table from '../component/Table/Table';
 import Crumbs from '../component/Crumbs/Crumbs';
-import {requestByFetch} from "../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../utils/request";
+import {formateTime} from "../../utils/help";
 import {hashHistory} from "react-router";
+
 import Button from "../component/Button/Button";
 
 class History extends React.Component {
@@ -21,7 +23,7 @@ class History extends React.Component {
                     {name: "操作人姓名", key: "userName", textAlign: "center", width: "20%"},
                     {name: "操作类型", key: "operateType", textAlign: "center", width: "20%"},
                     {name: "操作简要描述", key: "operateDesc", textAlign: "center", width: "20%"},
-                    {name: "操作时间", key: "operateDate", textAlign: "center", width: "20%"},
+                    {name: "操作时间", key: "operateDateAlia", textAlign: "center", width: "20%"},
                 ]
             },
             pager: {
@@ -46,9 +48,11 @@ class History extends React.Component {
             ...p,
             queryType: this.state.queryType
         };
-        const path = this.state.queryUrl;
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        const path = `${this.state.queryUrl}?${parseParamsGet(param)}`;
         requestByFetch(path, "GET").then((res) => {
+            res.operateRecordList.map((item, index)=>{
+                item["operateDateAlia"] = formateTime(item.operateDate);
+            });
             this.setState({
                 listData: res.operateRecordList,
                 pager: {

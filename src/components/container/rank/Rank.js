@@ -105,10 +105,6 @@ class Rank extends React.Component {
         this.jumpToHistory.bind(this);
     }
 
-    componentWillMount() {
-        this.state.pager.clickPager(0);
-    }
-
     jumpToHistory(index) {
         this.props.onJump();
     }
@@ -135,28 +131,25 @@ class Rank extends React.Component {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                const path = "../data/rankUpdate.json";
                 let data = {};
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-
-                const param = {
-                    corpCode: this.state.corpCode,
-                    currentPage: this.state.currentPage,
-                    pageSize: this.state.pageSize
-                };
-                this.onQuery(param);
-
-                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
-                // requestByFetch(path, data).then((res) => {
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
+                // const path = "../data/rankUpdate.json";
+                const path = `/api/dutyLevelConfig/updateInfoById`; // 真正接口
+                requestByFetch(path, data).then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    const param = {
+                        corpCode: this.state.corpCode,
+                        currentPage: this.state.currentPage,
+                        pageSize: this.state.pageSize
+                    };
+                    this.onQuery(param);
                 });
-                // });
-                // });
             }
         };
         return <Modal {...modal} />
@@ -195,16 +188,16 @@ class Rank extends React.Component {
             ...p,
             pageSize: this.state.pageSize
         }
-
-        const path = "../data/rankList.json?";
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        //    const path = "../data/rankList.json?";
+        const path = `/api/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
             this.setState({
                 listData: res.dutyLevelInfoList,
                 pager: {
                     ...this.state.pager,
                     currentPage: p.currentPage,
-                    totalCount: res.totalCount
+                    totalCount: res.totalCount,
+                    pageSize: this.state.pageSize
                 }
             });
         });

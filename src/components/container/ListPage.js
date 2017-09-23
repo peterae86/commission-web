@@ -92,8 +92,7 @@ class ListPage extends React.Component {
                 currentCity: this.props.cities.find(x => x.cityCode === value)
             },
             queryParams:{
-                ...this.state.queryParams,
-                cityCode:value
+                ...this.state.queryParams
             }
         });
         hashHistory.push({

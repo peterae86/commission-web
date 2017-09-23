@@ -2,7 +2,7 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
 import Modal from "../../component/Modal/Modal";
@@ -39,13 +39,15 @@ class RankRadioList extends ListPage {
                                     value: obj.dutyLevel,
                                     readOnly: true
                                 }, {
-                                    label: "提佣系数（底薪）",
+                                    label: "提佣系数（底薪）%",
                                     key: "baseSalaryModelRatio",
-                                    value: obj.baseSalaryModelRatio,
+                                    value: obj.baseSalaryModelRatio*100,
+                                    inputType: "float"
                                 }, {
-                                    label: "提佣系数（双薪提成）",
+                                    label: "提佣系数（双薪提成）%",
                                     key: "doubleSalaryModelRatio",
-                                    value: obj.doubleSalaryModelRatio,
+                                    value: obj.doubleSalaryModelRatio*100,
+                                    inputType: "float"
                                 }]
                             });
                         }
@@ -55,20 +57,15 @@ class RankRadioList extends ListPage {
             ]
         }
     }
-
-    componentWillMount() {
-        this.onQuery(this.state.queryParams)
-    }
-
     onQuery(p) {
-        const path = '/data/commission.json';
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        // const path = '/data/commission.json';
+        const path = `/api/dutyLevelCommission/queryCommissionRatioConfigsByCorpCode?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });
-        hashHistory.push({
-            ...this.props.location,
-            query: p});
+        // hashHistory.push({
+        //     ...this.props.location,
+        //     query: p});
         requestByFetch(path, "GET").then((res) => {
             this.setState({
                 table: {
@@ -93,33 +90,38 @@ class RankRadioList extends ListPage {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                const path = "../data/rankUpdate.json";
                 let data = {};
                 queryData.map((item) => {
-                    data[item.key] = item.value;
+                    if (item.key === "id" || item.key === "dutyLevel") {
+                        data[item.key] = item.value;
+                    } else {
+                        data[item.key] = (item.value/100).toFixed(2);
+                    }
                 });
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
-                });
-                this.onQuery(this.state.queryParams);
+                data["userCode"]="123";
 
-                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
-                // requestByFetch(path, data).then((res) => {
-                // this.setState({
-                //     modifyModal: false
-                //     showConfirm: true,
-                //     message: "修改成功!"
-                // });
-                // });
+                // const path = "../data/rankUpdate.json";
+                const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;
+                requestByFetch(path, "GET").then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    this.onQuery(this.state.queryParams);
+                });
             }
         };
         return <Modal {...modal} />
     }
 
     render() {
-        return super.render();
+        return (
+            <div>
+                {this.renderModify()}
+                {super.render()}
+            </div>
+        )
     }
 }
 

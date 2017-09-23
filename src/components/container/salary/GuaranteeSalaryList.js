@@ -2,7 +2,7 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
 import Modal from "../../component/Modal/Modal";
@@ -70,21 +70,16 @@ class GuaranteeSalaryList extends ListPage {
         };
     }
 
-    componentWillMount() {
-        this.onQuery({})
-    }
-
     onQuery(p) {
-        const path = '/data/GuaranteeSalaryList.json';
-        //    const paths = `/dutyLevelRelatedInfo/queryDutyLevelGuaranteeSalaryInfoByCorpCode?${parseParamsGet(param)}`; // 真正接口
+        //const path = '/data/GuaranteeSalaryList.json';
+        const path = `/api/dutyLevelRelatedInfo/queryDutyLevelGuaranteeSalaryInfoByCorpCode?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });
-        hashHistory.push({
-            ...this.props.location,
-            query: p});
+        // hashHistory.push({
+        //     ...this.props.location,
+        //     query: p});
         requestByFetch(path, "GET").then((res) => {
-            debugger
             this.setState({
                 table: {
                     ...this.table,
@@ -108,26 +103,22 @@ class GuaranteeSalaryList extends ListPage {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                const path = "../data/rankUpdate.json";
+
                 let data = {};
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
+                data["userCode"] = "123";
+                //const path = "../data/rankUpdate.json";
+                const path = `/api/dutyLevelRelatedInfo/updateDutyLevelGuaranteeSalaryInfoById`; // 真正接口
+                requestByFetch(path, data).then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    this.onQuery(this.state.queryParams);
                 });
-                this.onQuery(this.state.queryParams);
-
-                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
-                // requestByFetch(path, data).then((res) => {
-                // this.setState({
-                //     modifyModal: false
-                //     showConfirm: true,
-                //     message: "修改成功!"
-                // });
-                // });
             }
         };
         return <Modal {...modal} />
@@ -135,7 +126,12 @@ class GuaranteeSalaryList extends ListPage {
 
 
     render() {
-        return super.render();
+        return (
+            <div>
+            {this.renderModify()}
+            {super.render()}
+            </div>
+        )
     }
 }
 

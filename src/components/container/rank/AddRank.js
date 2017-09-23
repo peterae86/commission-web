@@ -71,8 +71,6 @@ class AddRank extends React.Component {
     }
 
     comfirmFunc () {
-        const path = "../data/newRank.json";
-        //const path = "/dutyLevelConfig/addNew"; 真实路径
         const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
         if (!currentCity.cityCode || !corpCode) {
             this.setState({
@@ -89,7 +87,6 @@ class AddRank extends React.Component {
             return false;
         }
         const param = {
-            cityCode:currentCity.cityCode,
             corpCode: corpCode,
             dutyScope: dutyScope,
             dutyLevel: dutyLevel,
@@ -99,17 +96,22 @@ class AddRank extends React.Component {
             masterScoreRatio: masterScoreRatio,
             masterCommissionRatio: masterCommissionRatio
         };
-        this.setState({
-            showConfirm: true,
-            message: "新增成功"
-        });
-        setTimeout(()=> {
+        //    const path = "../data/newRank.json";
+        const path = "/api/dutyLevelConfig/addNew";
+        requestByFetch(path, param).then((res) => {
             this.setState({
-                showConfirm: false,
-                message: ""
+                showConfirm: true,
+                message: "新增成功"
             });
-            this.props.onJump('/rank');
-        }, 700);
+            setTimeout(()=> {
+                this.setState({
+                    showConfirm: false,
+                    message: ""
+                });
+                this.props.onJump('/rank');
+            }, 700);
+        });
+
     }
     cancelFunc () {
         this.props.onJump('/rank');
@@ -122,12 +124,12 @@ class AddRank extends React.Component {
                 label: "所属序列",
                 key: "dutyScope",
                 inputType: "numeric",
-                errorMessage: "请输入所属序列"
+                errorMessage: "请输入所属序列. 例如 A"
             },{
                 label: "职级",
                 key: "dutyLevel",
                 inputType: "numeric",
-                errorMessage: "请输入职级"
+                errorMessage: "请输入职级.例如 A1"
             },
             {
                 label: "职级积分下线",

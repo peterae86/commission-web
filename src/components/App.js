@@ -316,8 +316,8 @@ class App extends React.Component {
     }
 
     getCityAndCorp() {
-        const path = "../data/cityAndCorp.json?";
-        //const path = " /cityconfig/queryCityCorpsByStatus?status=0"; // 真正接口
+        // const path = "../data/cityAndCorp.json?";
+        const path = "/api/cityconfig/queryCityCorpsByStatus?status=0"; // 真正接口
         requestByFetch(path, "GET").then((res) => {
             for (let i = 0; i < res.cities.length; i++) {
                 res.cities[i].corps = res.corps[res.cities[i].cityCode] || [];
