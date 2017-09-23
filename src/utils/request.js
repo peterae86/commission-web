@@ -59,6 +59,9 @@ export function requestByFetch(path, methodOrJsonBody = {}) {
         if (response.status === 200) {
             if (json.code === 0) {
                 return resolve(json.data);
+            } else if (json.code === 1){
+                window.errorMessage = json.message;
+                window.errorAlert();
             }
 
         } else if (/^5/.test(response.status)){
