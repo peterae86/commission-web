@@ -2,7 +2,7 @@ import React from "react";
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import ListPage from "../ListPage";
 import Modal from '../../component/Modal/Modal';
 import {hashHistory} from "react-router";
@@ -36,7 +36,8 @@ class ParamList extends ListPage {
                                 }, {
                                     label: "参数名称",
                                     key: "scoreItemName",
-                                    value: obj.scoreItemName
+                                    value: obj.scoreItemName,
+                                    inputType: "normal"
                                 }, {
                                     label: "是否可计算",
                                     key: "compute",
@@ -62,9 +63,6 @@ class ParamList extends ListPage {
         this.state.table.pager = {}
     }
 
-    componentWillMount() {
-        this.onQuery()
-    }
     renderModify() {
         const modal = {
             show: this.state.modifyModal,
@@ -74,40 +72,34 @@ class ParamList extends ListPage {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                const path = "../data/rankUpdate.json";
                 let data = {};
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-                data["computable"] = !(+data.compute) ? "NON_COMPUTABLE" : "COMPUTABLE";
-                data["corpCode"] =  this.state.corpCode;
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
-                });
-                const param = {
-                    corpCode: this.state.corpCode,
-                    currentPage: this.state.currentPage
-                };
-                this.onQuery(param);
+                data["computeType"] = !(+data.compute) ? "NON_COMPUTABLE" : "COMPUTABLE";
+                data["corpCode"] =  this.state.queryParams.corpCode;
 
-                //    const paths = `/dutyLevelConfig/updateInfoById`; // 真正接口
-                // requestByFetch(path, data).then((res) => {
-                // this.setState({
-                //     modifyModal: false
-                //     showConfirm: true,
-                //     message: "修改成功!"
-                // });
-                // });
+                const path = `/api/scoreRules/updateScoreItemById`; // 真正接口
+                requestByFetch(path, data).then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+
+                    this.onQuery(this.state.queryParams);
+                });
             }
         };
         return <Modal {...modal} />
     }
 
-    onQuery(p={}) {
-        const path = '/data/paramList.json';
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(p)}`; // 真正接口
+    onQuery(param={}) {
+        const p = {
+            ...param,
+            computable: null,
+        }
+        const path = `/api/scoreRules/queryScoreItemsByCorpCode?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });
@@ -116,7 +108,7 @@ class ParamList extends ListPage {
             query: p
         });
         requestByFetch(path, "GET").then((res) => {
-            res.map((item)=> {
+            res.scoreItemVos.map((item)=> {
                 item["compute"] = {
                     "COMPUTABLE": 1,
                     "NON_COMPUTABLE": 0
@@ -129,7 +121,12 @@ class ParamList extends ListPage {
             this.setState({
                 table: {
                     ...this.table,
-                    listData: res,
+                    listData: res.scoreItemVos,
+                    pager: {
+                        ...this.state.table.pager,
+                        currentPage: res.currentPage,
+                        totalCount: res.totalCount
+                    }
                 }
             });
         });

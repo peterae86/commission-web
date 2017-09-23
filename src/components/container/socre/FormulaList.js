@@ -99,13 +99,9 @@ class FormulaList extends ListPage {
         this.state.userforStatus = 0;
     }
 
-    componentWillMount() {
-        this.onQuery();
-    }
-
-    onQuery(p={...this.state.queryParams}) {
-        const path = '/data/formulaList.json';
-        //    const paths = `/scoreRules/queryScoreRulesByCorpCode`; // 真正接口
+    onQuery(p={}) {
+        // const path = '/data/formulaList.json';
+        const path = `/api/scoreRules/queryScoreRulesByCorpCode?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });

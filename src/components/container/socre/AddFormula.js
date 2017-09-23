@@ -3,7 +3,7 @@ import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Input from "../../component/Input/Input";
 import Button from '../../component/Button/Button';
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import ModalAlert from '../../component/ModalAlert/ModalAlert';
 import {hashHistory} from "react-router";
 
@@ -26,7 +26,7 @@ class AddFormula extends React.Component {
             showConfirm: false,
             message: "", // alert message
             ruleName: "", // 公式名称
-            ruleDesc: "",
+            ruleDesc: "公式描述",
             symbolTag: "ADD",
             paramScoreKey:"", // 参数
             paramScoreDesc: "", //公式0的参数1的描述
@@ -36,6 +36,7 @@ class AddFormula extends React.Component {
             currentParameters: defaultObj,
             current: 0, // 当前编辑的是那个公式 默认第一个
             finalParam:[],
+            finalTempParam:[],
             showFinalCheck: false,
             messageFinal: "",
         }
@@ -108,7 +109,7 @@ class AddFormula extends React.Component {
             });
             return false;
         }
-        this.getParam({corpCode:value}) //获取可计算的参数
+        this.getParam({corpCode:value,currentPage: 0}) //获取可计算的参数
     }
     //选择操作符的
     onSelectIcon (value) {
@@ -305,7 +306,7 @@ class AddFormula extends React.Component {
     }
 
     comfirmFunc() {
-        const {finalParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
+        const {finalParam,finalTempParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
         let newArray = [...finalParam];
         if (parameters.length === 0 && finalParam.length === 0) {
             this.setState({
@@ -325,7 +326,7 @@ class AddFormula extends React.Component {
            });
        }
        this.setState({
-           finalParam: newArray
+           finalTempParam: newArray
        });
        this.doRenderAlert(newArray);
     }
@@ -359,22 +360,28 @@ class AddFormula extends React.Component {
             type: 'confirm',
             confirm: "提交",
             onCancel: () => {
-                this.setState({showFinalCheck: false});
+                this.setState({showFinalCheck: false,finalTempParam: []});
             },
             onConfirm: () => {
-                //    const paths = `/scoreRules/addNewScoreRule`; // 真正接口
-                //requestByFetch(path, JSON.stringify(this.state.finalParam)).then((res) => {
+                const path = `/api/scoreRules/addNewScoreRule`; // 真正接口
+                const param = {
+                    "userCode": "123",
+                    "ruleList": this.state.finalTempParam
+                };
+                requestByFetch(path, param).then((res) => {
                     this.setState({
                         showConfirm:true,
+                        showFinalCheck: false,
                         message: "添加公式成功"
                     });
                     setTimeout(()=> {
                         this.setState({
-                            showConfirm: false
+                            showConfirm: false,
+                            showFinalCheck: false,
                         });
                         this.props.onJump('/score/formulaList');
                     }, 700);
-                //});
+                });
             },
         };
         return <ModalAlert {...modalProps} />
@@ -382,18 +389,18 @@ class AddFormula extends React.Component {
     //根据城市获取参数列表
     getParam (p={}) {
         //获取所有的 参数列表
-        const path = '/data/paramList.json';
-        //    const paths = `/scoreRules/queryScoreItemsByCorpCode?${parseParamsGet(p)}`; // 真正接口
+        // const path = '/data/paramList.json';
+        const path = `/api/scoreRules/queryScoreItemsByCorpCode?${parseParamsGet(p)}`; // 真正接口
 
         requestByFetch(path, "GET").then((res) => {
             let computableArray = [];
-            res.map((item)=> {
+            res.scoreItemVos.map((item)=> {
                 if (item.computable === "COMPUTABLE") {
                     computableArray.push(item);
                 }
             });
             this.setState({
-                allParamList:res,
+                allParamList:res.scoreItemVos,
                 paramList: computableArray
             });
         });

@@ -66,15 +66,14 @@ class AddParam extends React.Component {
     }
 
     changeRadio(e) {
-        console.log(e.target.value);
         this.setState({
             compute: e.target.value
         });
     }
 
     comfirmFunc () {
-        const path = "../data/newRank.json";
-        //const path = "/scoreRules/addNewScoreItem"; 真实路径
+        // const path = "../data/newRank.json";
+        const path = "/api/scoreRules/addNewScoreItem";
         const {currentCity, corpCode, scoreItemName, compute} = this.state;
         if (!currentCity.cityCode || !corpCode) {
             this.setState({
@@ -96,17 +95,20 @@ class AddParam extends React.Component {
             scoreItemName: scoreItemName,
             computeType: ["NON_COMPUTABLE","COMPUTABLE"][compute]
         };
-        this.setState({
-            showConfirm: true,
-            message: "新增成功"
-        });
-        setTimeout(()=> {
+        requestByFetch(path, param).then((res) => {
             this.setState({
-                showConfirm: false,
-                message: ""
+                showConfirm: true,
+                message: "新增成功"
             });
-            this.props.onJump('/score/paramList');
-        }, 700);
+            setTimeout(()=> {
+                this.setState({
+                    showConfirm: false,
+                    message: ""
+                });
+                this.props.onJump('/score/paramList');
+            }, 700);
+        });
+
     }
     cancelFunc () {
         this.props.onJump('/score/paramList');
