@@ -366,7 +366,9 @@ class App extends React.Component {
 
 class Blank extends React.Component {
     render() {
-        return <div/>
+        return (<div style={{color: "#666",padding:"30px 0 0 22px"}}>
+            欢迎使用积分提佣系统
+            </div>)
     }
 }
 
