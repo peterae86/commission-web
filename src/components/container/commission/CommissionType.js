@@ -27,7 +27,7 @@ class CommissionType extends React.Component {
             message: "请确认：是否对提用方式进行修改！", // alert message
             formData: [],
             selectedType:'',
-            userCode:'123', // todo 使用lcoalstory
+            userCode:window.localStorage.getItem("userCode"), // todo 使用lcoalstory
             onConfirm: () => {
             }
         };

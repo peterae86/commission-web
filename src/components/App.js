@@ -55,6 +55,7 @@ class App extends React.Component {
                         id: "rank",
                         name: "职级管理",
                         path: "/rank",
+                        roleName: "ADMIN",
                         children: [
                             {
                                 id: "rank",
@@ -80,6 +81,7 @@ class App extends React.Component {
                         id: "paramList",
                         name: "积分管理",
                         path: "/score/paramList",
+                        roleName: "ADMIN",
                         children: [
                             {
                                 id: "paramList",
@@ -124,6 +126,7 @@ class App extends React.Component {
                         id: "commission",
                         name: "提佣管理",
                         path: "/commission",
+                        roleName: "ADMIN",
                         children: [
                             {
                                 id: "rankRadioList",
@@ -150,6 +153,7 @@ class App extends React.Component {
                     }, {
                         id: "salary",
                         name: "薪资管理",
+                        roleName: "ADMIN",
                         children: [
                             {
                                 id: "guaranteeSalaryList",
@@ -180,6 +184,7 @@ class App extends React.Component {
                         id: "import",
                         name: "导入管理",
                         path: "/import",
+                        roleName: "ADMIN",
                         children: [
                             {
                                 id: "importHistory",
@@ -244,6 +249,7 @@ class App extends React.Component {
                     },{
                         id: "export",
                         name: "导出管理",
+                        roleName: "JING_JI_REN",
                         path: "/export",
                         children: [
                             {

@@ -19,7 +19,7 @@ export function requestByFetch(path, methodOrJsonBody = {}) {
     } else {
         let param = {
             ...methodOrJsonBody,
-            userCode: "123"
+            userCode: window.localStorage.getItem("userCode")
         };
       hearderBody = {
         method: 'POST',
@@ -50,7 +50,6 @@ export function requestByFetch(path, methodOrJsonBody = {}) {
       }) => {
         //当请求不靠谱的时候, 包装一个伪返回
         if(error != null) {
-          notify.show({mess:"网络请求出错"});
           return resolve({
             code: "000",
             message: "网络请求出错"

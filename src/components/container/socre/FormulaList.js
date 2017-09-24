@@ -13,7 +13,7 @@ class FormulaList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "公式编码", key: "id", textAlign: "center", width: "10%"},
+                {name: "公式编码", key: "ruleAutoCode", textAlign: "center", width: "10%"},
                 {name: "公式名称", key: "ruleName", textAlign: "center", width: "15%"},
                 {name: "公式详情", key: "ruleDesc", textAlign: "center", width: "15%"},
                 {name: "状态", key: "statusAlias", textAlign: "center", width: "10%"},
@@ -38,8 +38,8 @@ class FormulaList extends ListPage {
                                     key: "id",
                                 }, {
                                     label: "公式编码",
-                                    key: "id",
-                                    value: obj.id,
+                                    key: "ruleAutoCode",
+                                    value: obj.ruleAutoCode,
                                     readOnly: true
                                 }, {
                                     label: "公式名称",
@@ -73,7 +73,7 @@ class FormulaList extends ListPage {
                             const message = status? "启用": "停用";
                             this.setState({
                                 statusAlert: true,
-                                useforId: id,
+                                id: id,
                                 userforStatus: +!status,
                                 message: `确定${message}这个公式么?`
                             });
@@ -84,7 +84,7 @@ class FormulaList extends ListPage {
                         func: (index) => {
                             this.setState({
                                 deleteAlert: true,
-                                useforId: this.state.table.listData[index].id,
+                                id: this.state.table.listData[index].id,
                                 message: "确定删除这个公式么?"
                             });
                         }
@@ -94,9 +94,10 @@ class FormulaList extends ListPage {
             ]
         };
         this.state.deleteAlert = false;
-        this.state.useforId = "";
+        this.state.id = "";
         this.state.statusAlert = false;
         this.state.userforStatus = 0;
+        this.state.userCode = window.localStorage.getItem("userCode");
     }
 
     onQuery(p={}) {
@@ -109,13 +110,13 @@ class FormulaList extends ListPage {
             ...this.props.location,
             query: p});
         requestByFetch(path, "GET").then((res) => {
-            res.list.map((item)=>{
+            res.scoreRuleVos.map((item)=>{
                 item["statusAlias"] = ["有效","无效"][item.status]
             })
             this.setState({
                 table: {
                     ...this.table,
-                    listData: res.list,
+                    listData: res.scoreRuleVos,
                     pager: {
                         ...this.state.table.pager,
                         currentPage: +p.currentPage || 0,
@@ -135,22 +136,15 @@ class FormulaList extends ListPage {
                 this.setState({deleteAlert: false});
             },
             onConfirm: () =>{
-
-                //    const paths = `/scoreRules/deleteRuleById?id=${this.state.useforId}`; // 真正接口
-                // requestByFetch(path, 'GET').then((res) => {
-                this.setState({
-                    deleteAlert: false,
-                    showConfirm: true,
-                    message: "删除成功"
-                });
-                setTimeout(()=> {
+                const path = `/api/scoreRules/deleteRuleById?id=${this.state.id}&userCode=${this.state.userCode}`; // 真正接口
+                requestByFetch(path, 'GET').then((res) => {
                     this.setState({
-                        showConfirm: false,
-                        message: ""
+                        deleteAlert: false,
+                        showConfirm: true,
+                        message: "删除成功"
                     });
-                    this.onQuery();
-                }, 700);
-                // });
+                    this.onQuery(this.state.queryParams);
+                });
             },
         };
         return <ModalAlert {...modalProps} />
@@ -164,21 +158,15 @@ class FormulaList extends ListPage {
                 this.setState({statusAlert: false});
             },
             onConfirm: () =>{
-                //    const paths = `/scoreRules/updateStatusById?id=${this.state.deleteId}&=${this.state.userforStatus}`; // 真正接口
-                // requestByFetch(path, 'GET').then((res) => {
+                const path = `/api/scoreRules/updateStatusById?id=${this.state.id}&status=${this.state.userforStatus}&userCode=${this.state.userCode}`; // 真正接口
+                requestByFetch(path, 'GET').then((res) => {
                 this.setState({
                     statusAlert: false,
                     showConfirm: true,
                     message: "操作成功"
                 });
-                setTimeout(()=> {
-                    this.setState({
-                        showConfirm: false,
-                        message: ""
-                    });
-                    this.onQuery();
-                }, 700);
-                // });
+                this.onQuery(this.state.queryParams);
+                });
             },
         };
         return <ModalAlert {...modalProps} />
@@ -192,8 +180,7 @@ class FormulaList extends ListPage {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                console.log(this.state.queryParams);
-                const path = "../data/rankUpdate.json";
+                const path = "/api/scoreRules/updateScoreItemById"
                 let data = {};
                 queryData.map((item) => {
                     data[item.key] = item.value;
@@ -201,16 +188,16 @@ class FormulaList extends ListPage {
                 data["corpCode"] = this.state.queryParams.corpCode;
                 data["scoreRuleName"] = data.ruleName;
                 data["scoreRuleDesc"] = data.ruleDesc;
+                data["userCode"] = this.state.userCode;
 
-                //const paths = `/scoreRules/updateScoreRuleById?${parseParamsGet(data)`; // 真正接口
-                // requestByFetch(path, data).then((res) => {
-                this.setState({
-                    modifyModal: false,
-                    showConfirm: true,
-                    message: "修改成功!"
+                requestByFetch(path, data).then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    this.onQuery(this.state.queryParams);
                 });
-                this.onQuery();
-                // });
             }
         };
         return <Modal {...modal} />

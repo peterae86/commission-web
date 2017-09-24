@@ -98,7 +98,7 @@ class RankRadioList extends ListPage {
                         data[item.key] = (item.value/100).toFixed(2);
                     }
                 });
-                data["userCode"]="123";
+                data["userCode"]=window.localStorage.getItem("userCode");
 
                 // const path = "../data/rankUpdate.json";
                 const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;

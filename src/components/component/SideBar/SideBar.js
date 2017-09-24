@@ -1,8 +1,7 @@
 import React from 'react';
 import './SideBar.scss'
 import {hashHistory} from 'react-router';
-
-
+window.roleAuthMap = JSON.parse(window.localStorage.getItem("roleAuthMap"));
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
@@ -25,6 +24,7 @@ class SideBar extends React.Component {
             pathNames: [...pathNames, x.name],
             children: [],
             id: x.id,
+            roleName: x.roleName,
             name: x.name,
             path: x.path,
             hide: x.hide
@@ -89,7 +89,16 @@ class SideBar extends React.Component {
         if(item.hide){
             return null;
         }
-        return <li key={index}>
+        let flag = true;
+        if(item.depth === 1){
+            const roleNameArray = [];
+            for ( var key in window.roleAuthMap ){
+                roleNameArray.push(key);
+            }
+            flag = roleNameArray.indexOf(item.roleName) !== -1;
+        }
+
+        const str = flag ? (<li key={index} >
             <div
                 className={(item.selected ? "sidebar-item-selected " : "") + "sidebar-item-" + item.depth}
                 onClick={this.onButtonClick.bind(this, item)}>
@@ -101,7 +110,8 @@ class SideBar extends React.Component {
                         item.children.map(this.renderButton.bind(this))
                     }</ul>
                 </div> : null}
-        </li>
+        </li>) : null;
+        return str;
     }
 
     render() {

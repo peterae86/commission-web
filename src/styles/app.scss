@@ -31,6 +31,8 @@ textarea{resize:none;    border: 1px solid #e6e6e6; padding: 10px;font-size: 12p
     background-color: rgba(47, 53, 73, 0.1);
     .error-panel {
         min-width: 300px;
+        max-width: 800px;
+        overflow: hidden;
         background: #fff;
         padding:30px;
         border-radius: 6px;
@@ -51,6 +53,7 @@ textarea{resize:none;    border: 1px solid #e6e6e6; padding: 10px;font-size: 12p
             width: 100%;
             text-align: right;
             .alert-button {
+                cursor: pointer;
                 background: #2085F8;
                 color: #fff;
                 text-align: right;

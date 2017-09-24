@@ -108,7 +108,7 @@ class GuaranteeSalaryList extends ListPage {
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-                data["userCode"] = "123";
+                data["userCode"] = window.localStorage.getItem("userCode");
                 //const path = "../data/rankUpdate.json";
                 const path = `/api/dutyLevelRelatedInfo/updateDutyLevelGuaranteeSalaryInfoById`; // 真正接口
                 requestByFetch(path, data).then((res) => {

@@ -26,7 +26,7 @@ class AddFormula extends React.Component {
             showConfirm: false,
             message: "", // alert message
             ruleName: "", // 公式名称
-            ruleDesc: "公式描述",
+            ruleDesc: "",
             symbolTag: "ADD",
             paramScoreKey:"", // 参数
             paramScoreDesc: "", //公式0的参数1的描述
@@ -331,6 +331,20 @@ class AddFormula extends React.Component {
        this.doRenderAlert(newArray);
     }
     doRenderAlert (list) {
+
+        const listLength = list.length;
+        let arrs = {};
+        list.map((item, index)=> {
+            arrs[item.ruleLeftScoreKey] = item;
+        });
+
+        if (Object.getOwnPropertyNames(arrs).length < listLength) {
+            this.setState({
+                showConfirm: true,
+                message: "不同公式中不能添加重复的计算参数,请修改后提交."
+            });
+            return false
+        }
         let message = "";
         let tempMessage = [];
         list.map((item, index)=> {
@@ -365,7 +379,7 @@ class AddFormula extends React.Component {
             onConfirm: () => {
                 const path = `/api/scoreRules/addNewScoreRule`; // 真正接口
                 const param = {
-                    "userCode": "123",
+                    "userCode": window.localStorage.getItem("userCode"),
                     "ruleList": this.state.finalTempParam
                 };
                 requestByFetch(path, param).then((res) => {
