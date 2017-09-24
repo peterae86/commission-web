@@ -9,28 +9,29 @@
 
 <body>
     <div id="app"></div>
-    <div id="error-alert" className="error-alert">
-        <div class="error-panel">
-            <div id="alert-title" class="alert-title">错误</div>
-            <div id="alert-message" class="alert-message">222</div>
-            <div class="alert-btn">
-                <button class="alert-button" onclick="errorFunc()"/>确定</button>
-            </div>
-
-        </div>
+    <div id="container-alert">
     </div>
 
     <script src="http://localhost:8888/bundle.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script>
-    $("#error-alert").hide();
     window.errorAlert = function () {
-        $("#alert-message").html(window.errorMessage);
-        $("#error-alert").show();
+        const str = [
+            '<div id="error-alert" className="error-alert">',
+            '<div class="error-panel">',
+            '<div id="alert-title" class="alert-title">错误</div>',
+            '<div id="alert-message" class="alert-message">'+(window.errorMessage || "发生未知错误,请联系管理员.")+'</div>',
+            '<div class="alert-btn">',
+            '<button class="alert-button" id="error-alert-btn" type="button">确定</button>',
+            '</div></div></div>'
+        ];
+        $("#container-alert").html(str.join(""));
+        $("#container-alert").show();
+        $("#error-alert-btn").click(function () {
+            $("#container-alert").empty();
+        });
     }
-    function errorFunc () {
-        $("#error-alert").hide();
-    }
+
     </script>
 </body>
 
