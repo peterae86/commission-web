@@ -21,8 +21,12 @@
 		color: #666;
 		margin-right:-1px;
 		.list-item {
+			overflow: hidden;
+			display: block;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
 			line-height: 12px;
-			padding: 14px 5px;
+			padding: 14px 0px;
 			border-right: 1px solid #E4EAEF;
 			.opt-list {
 				display: inline-block;
