@@ -180,7 +180,7 @@ class FormulaList extends ListPage {
                 this.setState({modifyModal: false});
             },
             onConfirm: (queryData) => {
-                const path = "/api/scoreRules/updateScoreItemById"
+                const path = "/api/scoreRules/updateScoreRuleById"
                 let data = {};
                 queryData.map((item) => {
                     data[item.key] = item.value;

@@ -1,18 +1,37 @@
 import ListPage from "../ListPage";
 import {hashHistory} from "react-router";
-import {requestByFetch} from "../../../utils/request";
+import {requestByFetch, parseParamsGet} from "../../../utils/request";
+import {formateTimeSimple, formateTimeMonth} from "../../../utils/help";
+
 
 class ImportListPage extends ListPage{
     constructor(props){
         super(props);
+        this.state.queryParams = {
+            cityCode: "",
+            corpCode: "",
+            pageSize: 10, // 默认分页
+            currentPage: 0, // 当前页码
+            ...props.location.query
+        },
         this.state.table.config={
 
+            pager: {
+                pageSize: 10,
+                clickPager: function (index) {
+                    let p = {
+                        ...self.queryParams,
+                        currentPage: index
+                    };
+
+                    self.onQuery(p);
+                }
+            }
         }
     }
 
-    onQuery(){
-        const path = this.state.queryUrl + "?" + parseParamsGet(p);//"../data/rankList.json?";
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
+    onQuery(p){
+        const path = `/api/config/import/infoQuery/listByType?${parseParamsGet(p)}`; // 真正接口
         this.setState({
             queryParams: p
         });
@@ -21,6 +40,17 @@ class ImportListPage extends ListPage{
             query: p
         });
         requestByFetch(path, "GET").then((res) => {
+            res.importList.map((item, index)=>{
+                if (item.onDutyTime) {
+                    item["onDutyTimeAlia"] = formateTimeSimple(item.onDutyTime);
+                }
+                if (item.createTs) {
+                    item["createTsAlia"] = formateTimeSimple(item.createTs);
+                }
+                if (item.yeJiPeriod) {
+                    item["yeJiPeriodAlia"] = formateTimeMonth(item.yeJiPeriod);
+                }
+            });
             this.setState({
                 table: {
                     ...this.table,

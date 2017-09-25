@@ -16,13 +16,13 @@
         left: 0;
         height: 100%;
         width: 100%;
-        background-color: rgba(47, 53, 73, 0.1);
+        background-color: rgba(47, 53, 73, 0.2);
         display: flex;
         justify-content: center;
         align-items: center;
         .upload {
             width: 500px;
-            height: 156px;
+            height: 170px;
             background: #fff;
             padding: 30px;
             position: relative;
@@ -43,10 +43,11 @@
             }
             .upload-body {
                 display: flex;
-                padding-top: 40px;
+                padding: 30px 0;
                 align-items: center;
+                justify-content: center;
                 p {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-right: 20px;
                     justify-content: center;
                 }

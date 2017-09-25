@@ -12,12 +12,12 @@ class  ImportComponent extends React.Component{
         this.state = {
             pathNames: props.pathNames,
             listData: [],
-            importType: "",
             showImportant: false,
             showConfirm: false,
             message: "", // alert message
             uploadTips: "请选择需要导入的文件",
             onUploading: false,
+            userCode: window.localStorage.getItem("userCode"),
             config: {
                 column: [
                     {name: "导入信息项", key: "name", textAlign: "center", width: "50%"},
@@ -51,8 +51,8 @@ class  ImportComponent extends React.Component{
                                     this.setState({
                                         showImportant: true,
                                         alertTitle: this.state.listData[index].name,
-                                        importType: this.state.listData[index].importType
                                     });
+                                    this.uploaderProps.data.importType = this.state.listData[index].importType;
                                 }
                             }
                     ]}
@@ -60,14 +60,12 @@ class  ImportComponent extends React.Component{
             }
         }
         const that = this;
+        //   'Content-Type': 'application/x-www-form-urlencoded',
         this.uploaderProps = {
              self: that,
              name: "productFile",
-             action: '/config/import/informationImport', // 请求地址
-             data: { importType: this.state.importType},
-            //  headers: {
-            //    Authorization: 'xxxxxxx',
-            //  },
+             action: '/api/config/import/informationImport', // 请求地址
+             data: { importType: "",userCode: this.state.userCode},
             style: {
                 background: "#2085F8",
                 color: "#fff",
@@ -89,11 +87,27 @@ class  ImportComponent extends React.Component{
                      uploadTips: "开始上传，请勿离开当前页面"
                  });
              },
-             onSuccess(file) {
-                 that.setState({
-                     uploadTips: "导入成功",
-                     onUploading: false,
-                 });
+             onSuccess(res) {
+                 if (res.code === 0) {
+                     that.setState({
+                         showConfirm: true,
+                         message: res.message,
+                         showImportant: false
+                     });
+                 } else if (res.code === 1) {
+                     that.setState({
+                         showConfirm: true,
+                         message: res.message,
+                         showImportant: false
+                     });
+                 } else {
+                     that.setState({
+                         showImportant: false,
+                         showConfirm: true,
+                         message: res.message,
+                     });
+                 }
+
              },
              onProgress(step, file) {
                console.log('onProgress', Math.round(step.percent), file.name);
