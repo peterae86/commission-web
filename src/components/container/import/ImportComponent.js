@@ -109,9 +109,6 @@ class  ImportComponent extends React.Component{
                  }
 
              },
-             onProgress(step, file) {
-               console.log('onProgress', Math.round(step.percent), file.name);
-             },
              onError(err) {
                this.self.checkError("发生未知错误,请稍后再试");
              }
