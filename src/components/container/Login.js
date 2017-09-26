@@ -34,13 +34,12 @@ class Login extends React.Component {
         };
         const path = `/api/loginIn/submit`;
         requestByFetch(path, param).then((res) => {
-            // hashHistory.push("/");
             window.localStorage.setItem("userCode",this.state.userCode);
-            console.log("种userCode");
             const paths = `/api/userAuth/queryAllAuths?userCode=${this.state.userCode}`;
             requestByFetch(paths, 'GET').then((response) => {
-                console.log(response.roleAuthMap); // 获取当前人所有角色
+                window.localStorage.setItem("userName", response.userName);
                 window.localStorage.setItem("roleAuthMap",JSON.stringify(response.roleAuthMap));
+                hashHistory.push("/");
             });
 
         });

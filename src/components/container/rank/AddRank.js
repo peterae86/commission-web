@@ -33,9 +33,16 @@ class AddRank extends React.Component {
 
     //修改input 值
     onChangeFunc(value, key) {
-        this.setState({
-            [key]: value
-        });
+        if (key === "dutyScope" || key === "dutyLevel") {
+            this.setState({
+                [key]: value.toUpperCase()
+            });
+        } else {
+            this.setState({
+                [key]: value
+            });
+        }
+
     }
     // 渲染碳层
     renderAlert() {

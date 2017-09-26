@@ -1,7 +1,7 @@
 import React from 'react';
 import './SideBar.scss'
 import {hashHistory} from 'react-router';
-window.roleAuthMap = JSON.parse(window.localStorage.getItem("roleAuthMap"));
+window.roleAuthMap = JSON.parse(window.localStorage.getItem("roleAuthMap")) || {"ADMIN":""};
 class SideBar extends React.Component {
     constructor(props) {
         super(props);

@@ -46,6 +46,7 @@ class App extends React.Component {
         this.state = {
             pathNames: [],
             location: this.props.location,
+            userName: window.localStorage.getItem("userName") || "admin",
             buttons: {
                 id: "root",
                 name: "当前位置",
@@ -342,7 +343,7 @@ class App extends React.Component {
         const CurrentPage = this.state.currentPage;
         const pathNames = this.state.pathNames;
         const onJump = App.onJump;
-        const {location, cities} = this.state;
+        const {location, cities, userName} = this.state;
 
         return <div className="app-body">
             <div className="app-header">
@@ -351,7 +352,7 @@ class App extends React.Component {
                 </div>
                 <div className="app-header-right">
                     <div className="app-title">积分提佣系统</div>
-                    <div className="welcome">您好，<span>xxx</span></div>
+                    <div className="welcome">您好，<span>{userName}</span></div>
                 </div>
             </div>
             <div className="app-container">

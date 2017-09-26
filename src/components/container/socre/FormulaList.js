@@ -15,7 +15,7 @@ class FormulaList extends ListPage {
             column: [
                 {name: "公式编码", key: "ruleAutoCode", textAlign: "center", width: "10%"},
                 {name: "公式名称", key: "ruleName", textAlign: "center", width: "15%"},
-                {name: "公式详情", key: "ruleDesc", textAlign: "center", width: "15%"},
+                {name: "公式详情", key: "ruleDetail", textAlign: "center", width: "15%"},
                 {name: "状态", key: "statusAlias", textAlign: "center", width: "10%"},
                 {name: "备注（公式描述）", key: "ruleDesc", textAlign: "center", width: "20%"},
                 {
@@ -48,8 +48,8 @@ class FormulaList extends ListPage {
                                     inputType: "normal"
                                 }, {
                                     label: "公式详情",
-                                    key: "ruleDescs",
-                                    value: obj.ruleDescs,
+                                    key: "ruleDetail",
+                                    value: obj.ruleDetail,
                                     readOnly: true
                                 }, {
                                     label: "状态",
@@ -100,6 +100,24 @@ class FormulaList extends ListPage {
         this.state.userCode = window.localStorage.getItem("userCode");
     }
 
+    dealList (list) {
+        let message = "";
+        let tempMessage = [];
+        list.map((item, index)=> {
+            let str = `${item.ruleLeftScoreDesc}=`;
+            let strArra = [];
+            item.parameters.map((it, idx)=>{
+                const symbol = {
+                    "ADD": "+",
+                    "MINUS": "-"
+                }[it.symbolTag];
+                strArra.push(`${symbol}${it.paramScoreDesc}*${(it.ratio*100).toFixed(2)}%`);
+            });
+            tempMessage.push(`${str}${strArra.join("").replace(/^\+/g,"")}`);
+        });
+        return  tempMessage.join("\n");
+    }
+
     onQuery(p={}) {
         // const path = '/data/formulaList.json';
         const path = `/api/scoreRules/queryScoreRulesByCorpCode?${parseParamsGet(p)}`; // 真正接口
@@ -112,6 +130,7 @@ class FormulaList extends ListPage {
         requestByFetch(path, "GET").then((res) => {
             res.scoreRuleVos.map((item)=>{
                 item["statusAlias"] = ["有效","无效"][item.status]
+                item["ruleDetail"] = this.dealList();
             })
             this.setState({
                 table: {
