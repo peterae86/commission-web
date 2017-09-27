@@ -1,18 +1,6 @@
-/*
-  组件用法
-  <Input placeholder="请输入交易密码" value="" type="password"/>
-  maxLength:最大支持长度
-  onClick,onBlur,onChange 与原生使用方法一致
-  type:支持'text', 'number', 'email','password', 'tel',有问题及时联系我 =>lingjuan.guan
-*/
 import React from 'react';
 require('./Input.scss');
-/**
- * @module Input
- * @desc 输入框 import { Input } from 'component';
- * @version 1.0.0
- * @author Lingjuan.guan
- */
+
 class Input extends React.Component {
   constructor(props) {
     super(props);
