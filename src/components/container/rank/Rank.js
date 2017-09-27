@@ -37,8 +37,8 @@ class Rank extends React.Component {
                         {
                             key: "操作历史",
                             func: (index) => {
-                                //window.open('/#/rank/history?id=' + this.state.listData[index].id);
-                                this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
+                                window.open(`/#/rank/history?id=${this.state.listData[index].id}&historyLog=rank`);
+                                // this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
                             }
                         },
                         {
@@ -105,6 +105,16 @@ class Rank extends React.Component {
         this.onQuery = this.onQuery.bind(this);
         this.jumpToHistory.bind(this);
     }
+
+
+
+    // componentWillMount() {
+    //     const param = {
+    //         corpCode: "",
+    //         currentPage: 0
+    //     };
+    //  this.onQuery(param);
+    // }
 
     jumpToHistory(index) {
         this.props.onJump();

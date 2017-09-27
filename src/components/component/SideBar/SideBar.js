@@ -5,7 +5,9 @@ window.roleAuthMap = JSON.parse(window.localStorage.getItem("roleAuthMap")) || {
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            isHistory: location.hash.split("historyLog")[1],
+        };
         this.state.buttonTreeNode = this.createButtons(props.buttons, 0, []);
         this.state.selectedPath = '';
         this.renderButton.bind(this);
@@ -15,7 +17,7 @@ class SideBar extends React.Component {
     componentWillMount() {
         this.selectByPath(this.state.buttonTreeNode, this.props.path || this.props.location.pathname);
     }
-
+    
     createButtons(x, depth, pathNames) {
         let res = {
             hasChild: false,
@@ -115,8 +117,8 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const {buttonTreeNode} = this.state;
-        return <div className="sidebar">
+        const {buttonTreeNode, isHistory} = this.state;
+        return <div className="sidebar" style={{display: (isHistory ? "none": "")}}>
             <ul>
                 {
                     buttonTreeNode.children.map(this.renderButton.bind(this))
