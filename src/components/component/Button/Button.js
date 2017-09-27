@@ -1,19 +1,6 @@
-/*
-  组件用法
-  <Button onClick={this.onSubmit} value="确认" styleName="btn-small"/>
-  styleName 分为三部分 默认为 有背景色的大按钮 btn-large-full
-  如果需要其他样式的按钮可以改变后两个参数 第二个参数为large middle small
-  第三个参数为full有背景色 transparent透明 如果想设置第三个  第二个不能省略哈
-  disabled为true 则按钮不可用
-*/
 import React from 'react';
 require('./Button.scss');
-/**
- * @module Button
- * @desc 按钮 import { Button } from 'component';
- * @version 1.0.0
- * @author Guanlingjuan
- */
+
 class Button extends React.Component {
   constructor(props) {
     super(props);

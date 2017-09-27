@@ -1,31 +1,6 @@
-
-/*
-  组件用法
-  <Dropdown
-  onSelect={this.onSelectFunc}      //选择之后的回调  还有onClick onChange onBulr
-  placeholder="请选择:"              // 默认展示的汉字
-  defaultOption={defaultOption}     //defaultOption默认展示那个数据,必须与option中一致,作死我可不管哈
-  optionStyle={optionStyle}         //option的样式,万一你不喜欢宽度,pandding,自己加
-  options={option}                  // 格式必须数组,支持[1,2,3] [{},{}]两种形式
-                                    //  propsValue:'value', 默认使用对象中的那个key作为value 可指定
-                                    //propsLabel:'label',默认使用对象中的那个key作为label 可指定
-                                    // style 对于整个dropdown的样式自定义
-                                    //<Dropdown options={data} placeholder="请选择城市" value={this.state.value} onSelect={this.selectOption}/>
-
-
-
-
-注意,目前缺少支持option中value为数字0的情况,所以为了避免各位小主遇到挫折,请所有数字都使用string
-
-*/
 import React from 'react';
 import './Dropdown.scss';
-/**
- * @module Dropdown
- * @desc 下拉框 import { Dropdown } from 'component';
- * @version 1.0.0
- * @author Lingjuan.guan
- */
+
 class Dropdown extends React.Component {
     constructor(props) {
         super(props);

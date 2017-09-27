@@ -1,4 +1,3 @@
-// 下周再优化
 import React, { PropTypes } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
