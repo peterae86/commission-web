@@ -20,7 +20,7 @@ class BaseSalaryList extends ListPage {
                         key: "操作历史",
 
                         func: (index) => {
-                            this.props.onJump('/salary/baseSalaryHistory?id=' + this.state.table.listData[index].id);
+                            window.open(`/#/salary/baseSalaryHistory?id=${this.state.listData[index].id}&historyLog=salary`);
                         }
                     },
                     {

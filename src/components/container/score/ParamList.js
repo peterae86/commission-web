@@ -21,7 +21,7 @@ class ParamList extends ListPage {
                         key: "操作历史",
 
                         func: (index) => {
-                            this.props.onJump('/score/paramHistory?id=' + this.state.table.listData[index].id);
+                            window.open(`/#/score/paramHistory?id=${this.state.listData[index].id}&historyLog=score`);
                         }
                     },
                     {

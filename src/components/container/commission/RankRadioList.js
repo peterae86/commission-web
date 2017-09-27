@@ -21,7 +21,7 @@ class RankRadioList extends ListPage {
                         key: "操作历史",
 
                         func: (index) => {
-                            this.props.onJump('/commission/history?id=' + this.state.table.listData[index].id);
+                            window.open(`/#/commission/history?id=${this.state.listData[index].id}&historyLog=commission`);
                         }
                     },
                     {

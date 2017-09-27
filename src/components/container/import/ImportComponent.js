@@ -26,7 +26,7 @@ class  ImportComponent extends React.Component{
                             {
                                 key: "操作历史",
                                 func: (index) => {
-                                    this.props.onJump('/import/history');
+                                    window.open(`/#/import/history?id=${this.state.listData[index].id}&historyLog=import`);
                                 }
                             },
                             {
