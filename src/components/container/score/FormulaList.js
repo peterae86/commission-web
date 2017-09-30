@@ -124,9 +124,6 @@ class FormulaList extends ListPage {
         this.setState({
             queryParams: p
         });
-        hashHistory.push({
-            ...this.props.location,
-            query: p});
         requestByFetch(path, "GET").then((res) => {
             res.scoreRuleVos.map((item)=>{
                 item["statusAlias"] = ["有效","无效"][item.status]

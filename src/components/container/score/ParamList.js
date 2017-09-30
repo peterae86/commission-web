@@ -103,10 +103,6 @@ class ParamList extends ListPage {
         this.setState({
             queryParams: p
         });
-        hashHistory.push({
-            ...this.props.location,
-            query: p
-        });
         requestByFetch(path, "GET").then((res) => {
             res.scoreItemVos.map((item)=> {
                 item["compute"] = {

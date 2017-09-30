@@ -95,14 +95,6 @@ class ListPage extends React.Component {
                 ...this.state.queryParams
             }
         });
-        hashHistory.push({
-            ...this.props.location,
-            query:{
-                ...this.state.queryParams,
-                cityCode:value,
-                corpCode:''
-            }
-        });
     }
 
     // 选择公司回调
@@ -132,10 +124,6 @@ class ListPage extends React.Component {
         //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         this.setState({
             queryParams: p
-        });
-        hashHistory.push({
-            ...this.props.location,
-            query: p
         });
         requestByFetch(path, "GET").then((res) => {
             this.setState({

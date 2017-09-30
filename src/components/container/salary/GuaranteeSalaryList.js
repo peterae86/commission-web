@@ -77,9 +77,6 @@ class GuaranteeSalaryList extends ListPage {
         this.setState({
             queryParams: p
         });
-        // hashHistory.push({
-        //     ...this.props.location,
-        //     query: p});
         requestByFetch(path, "GET").then((res) => {
             this.setState({
                 table: {

@@ -35,10 +35,6 @@ class ImportListPage extends ListPage{
         this.setState({
             queryParams: p
         });
-        hashHistory.push({
-            ...this.props.location,
-            query: p
-        });
         requestByFetch(path, "GET").then((res) => {
             res.importList.map((item, index)=>{
                 if (item.onDutyTime) {
