@@ -4,27 +4,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");  //css单独打包
 
 module.exports = {
-    devtool: 'eval-source-map',
 
     entry: __dirname + '/src/entry.js', //唯一入口文件
     output: {
         path: __dirname + '/build', //打包后的文件存放的地方
         filename: 'bundle.js' //打包后输出文件的文件名
     },
-
-    plugins: [
-        //允许错误不打断程序
-    new webpack.optimize.UglifyJsPlugin({
-        output: {
-            comments: false,
-        },
-        compress: {
-            sourceMap: true,
-            warnings: false
-        }
-    }),
-    new webpack.NoErrorsPlugin(),
-],
 
     module: {
         loaders: [
@@ -49,6 +34,15 @@ module.exports = {
 
     plugins: [
         new ExtractTextPlugin('main.css'),
+        new webpack.optimize.UglifyJsPlugin({
+            output: {
+                comments: false,
+            },
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.NoErrorsPlugin()
     ]
 
 }
