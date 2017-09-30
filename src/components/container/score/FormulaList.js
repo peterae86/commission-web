@@ -50,6 +50,7 @@ class FormulaList extends ListPage {
                                     label: "公式详情",
                                     key: "ruleDetail",
                                     value: obj.ruleDetail,
+                                    rows: true,
                                     readOnly: true
                                 }, {
                                     label: "状态",
@@ -101,21 +102,16 @@ class FormulaList extends ListPage {
     }
 
     dealList (list) {
-        let message = "";
-        let tempMessage = [];
-        list.map((item, index)=> {
-            let str = `${item.ruleLeftScoreDesc}=`;
-            let strArra = [];
-            item.parameters.map((it, idx)=>{
-                const symbol = {
-                    "ADD": "+",
-                    "MINUS": "-"
-                }[it.symbolTag];
-                strArra.push(`${symbol}${it.paramScoreDesc}*${(it.ratio*100).toFixed(2)}%`);
-            });
-            tempMessage.push(`${str}${strArra.join("").replace(/^\+/g,"")}`);
+        let str = `${list.ruleLeftScoreDesc}=`;
+        let strArra = [];
+        list.paramItems.map((it, idx)=>{
+            const symbol = {
+                "ADD": "+",
+                "MINUS": "-"
+            }[it.symbolTag];
+            strArra.push(`${symbol}${it.paramScoreDesc}*${(it.ratio*100).toFixed(2)}%`);
         });
-        return  tempMessage.join("\n");
+        return  `${str}${strArra.join("").replace(/^\+/g,"")}`;
     }
 
     onQuery(p={}) {
@@ -127,7 +123,7 @@ class FormulaList extends ListPage {
         requestByFetch(path, "GET").then((res) => {
             res.scoreRuleVos.map((item)=>{
                 item["statusAlias"] = ["有效","无效"][item.status]
-                item["ruleDetail"] = this.dealList();
+                item["ruleDetail"] = this.dealList(item);
             })
             this.setState({
                 table: {

@@ -90,8 +90,15 @@ class Modal extends React.Component {
                                                              })
                                                          }
                                                       </div>
-                                                      ) :
-                                                  (<Input onChange={this.changeValue} changeRef={item.key} inputType={item.inputType || "digital"} style={{width: "75%"}} inputStyle={{width: "75%",height: "30px",background:item.readOnly? "#e6e6e6": "#fff"}} readOnly={item.readOnly} value={item.value} />)
+                                                  ) : !item.rows ? (
+                                                      <Input onChange={this.changeValue} changeRef={item.key} inputType={item.inputType || "digital"} style={{width: "75%"}} inputStyle={{width: "75%",height: "30px",background:item.readOnly? "#e6e6e6": "#fff"}} readOnly={item.readOnly} value={item.value} />): (
+                                                          <textarea
+                                                              style={{width: "70%"}}
+                                                              rows="4"
+                                                              cols="30"
+                                                              readOnly
+                                                              value={item.value} />
+                                                      )
                                              }
                                       </li>)
                                   }
