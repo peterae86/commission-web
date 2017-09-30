@@ -21,8 +21,9 @@ class AddFormula extends React.Component {
             pathNames: props.pathNames,
             corpCode: "", // 城市公司下编码
             currentCity:{},
-            paramList: [],   //
-            allParamList: [],
+            paramList: [],   // 可编辑的
+            allParamList: [], // 所有的参数
+            tempParamList:[], // 去重之后的参数
             showConfirm: false,
             message: "", // alert message
             ruleName: "", // 公式名称
@@ -124,9 +125,16 @@ class AddFormula extends React.Component {
     }
     //选择左边公式参数
     onSelectLeft (value, label){
+        let tempArray = [...this.state.allParamList];
+        this.state.allParamList.map((item, index)=> { //tempParamList
+            if (item.scoreItemKey === value) {
+                tempArray.splice(index, 1);
+            }
+        });
         this.setState({
             ruleLeftScoreKey: value,
-            ruleLeftScoreDesc: label
+            ruleLeftScoreDesc: label,
+            tempParamList: tempArray
         });
     }
 
@@ -275,6 +283,7 @@ class AddFormula extends React.Component {
     }
 
     modifyFormula(index) {
+        let count = 0;
          const {finalParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
         let newArray = [...finalParam];
         if (parameters.length > 0){
@@ -286,6 +295,7 @@ class AddFormula extends React.Component {
                 "ruleLeftScoreDesc": ruleLeftScoreDesc,
                 "parameters":parameters
             });
+            count++;
         }
         const obj = newArray[index]; // 取到要修改的对象
         newArray.splice(index, 1);
@@ -297,7 +307,7 @@ class AddFormula extends React.Component {
             ruleLeftScoreKey:obj.ruleLeftScoreKey,
             ruleLeftScoreDesc: obj.ruleLeftScoreDesc,
             finalParam: newArray,
-            current: --this.state.current
+            current: --this.state.current+count
         });
     }
 
@@ -438,7 +448,8 @@ class AddFormula extends React.Component {
             ruleLeftScoreKey,
             currentParameters,
             parameters,
-            finalParam
+            finalParam,
+            tempParamList
         } = this.state;
         const style = {height: "30px",lineHeight: "24px"};
         const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}];
@@ -506,15 +517,7 @@ class AddFormula extends React.Component {
                             <div className="form-body formula">
                             <div className="form-row">
                                 <span className="form-label">计算参数</span>
-                                <Dropdown
-                                    className="form-value"
-                                    style={{height: "30px",lineHeight: "24px"}}
-                                    options={this.state.paramList}
-                                    onSelect={this.onSelectLeft}
-                                    onClick = {this.onCheckCity}
-                                    propsValue="scoreItemKey"
-                                    value={final.ruleLeftScoreKey}
-                                    propsLabel="scoreItemName"/>
+                                <Input value={final.ruleLeftScoreDesc} inputStyle={{height: "30px", width: "90px",fontSize: "12px"}}/>
                             </div>
                             <p className="form-icon">=</p>
                             <div className="caculate-block">
@@ -547,7 +550,7 @@ class AddFormula extends React.Component {
                                             style={style}
                                             onSelect={this.onSelectRight}
                                             onClick = {this.onCheckCity}
-                                            options={allParamList}
+                                            options={tempParamList}
                                             propsValue="scoreItemKey"
                                             propsLabel="scoreItemName"
                                             value=""/>
@@ -555,7 +558,7 @@ class AddFormula extends React.Component {
                                     <div className="form-row form-show">
                                         <span className="form-label">公式预览：</span>
                                         <div className="form-value form-show-div">
-                                        {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
+                                        {final.ruleLeftScoreDesc+" = "}
                                         {final.parameters.map((item, index)=>{
                                             return (<div key={index} className="form-card">
                                                 <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
@@ -643,7 +646,7 @@ class AddFormula extends React.Component {
                                     style={style}
                                     onSelect={this.onSelectRight}
                                     onClick = {this.onCheckCity}
-                                    options={allParamList}
+                                    options={tempParamList}
                                     propsValue="scoreItemKey"
                                     propsLabel="scoreItemName"
                                     value={paramScoreKey}/>
@@ -653,7 +656,7 @@ class AddFormula extends React.Component {
                                 <Button value="重置" onClick={this.resetParam} styleName="btn-small-gray"/>
                             </div>
                             <div className="form-row form-show">
-                                <span className="form-label">公式预览：</span>
+                                <span className="form-label">公式预览?：</span>
                                 <div className="form-value form-show-div">
                                 {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
                                 {parameters.map((item, index)=>{
