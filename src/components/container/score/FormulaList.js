@@ -24,7 +24,7 @@ class FormulaList extends ListPage {
                         key: "操作历史",
 
                         func: (index) => {
-                            window.open(`/#/score/formulaHistory?id=${this.state.listData[index].id}&historyLog=score`);
+                            window.open(`/#/score/formulaHistory?id=${this.state.table.listData[index].id}&historyLog=score`);
                         }
                     },
                     {

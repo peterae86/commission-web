@@ -37,7 +37,7 @@ class Rank extends React.Component {
                         {
                             key: "操作历史",
                             func: (index) => {
-                                window.open(`/#/rank/history?id=${this.state.listData[index].id}&historyLog=rank`);
+                                window.open(`/#/rank/history?id=${this.state.table.listData[index].id}&historyLog=rank`);
                                 // this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
                             }
                         },

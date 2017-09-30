@@ -21,7 +21,8 @@ class RankRadioList extends ListPage {
                         key: "操作历史",
 
                         func: (index) => {
-                            window.open(`/#/commission/history?id=${this.state.listData[index].id}&historyLog=commission`);
+                            //debugger
+                            window.open(`/#/commission/history?id=${this.state.table.listData[index].id}&historyLog=commission`);
                         }
                     },
                     {
@@ -96,7 +97,13 @@ class RankRadioList extends ListPage {
                     }
                 });
                 data["userCode"]=window.localStorage.getItem("userCode");
-
+                if (data.baseSalaryModelRatio < 0 || data.doubleSalaryModelRatio < 0) {
+                    this.setState({
+                        showConfirm: true,
+                        message: "系数不能为负数",
+                    });
+                    return;
+                }
                 // const path = "../data/rankUpdate.json";
                 const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;
                 requestByFetch(path, "GET").then((res) => {

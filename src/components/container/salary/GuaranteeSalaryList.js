@@ -24,7 +24,7 @@ class GuaranteeSalaryList extends ListPage {
 
                         func: (index) => {
                             this.props.onJump('?id=' + this.state.table.listData[index].id);
-                            window.open(`/#/salary/guaranteeSalaryHistory?id=${this.state.listData[index].id}&historyLog=salary`);
+                            window.open(`/#/salary/guaranteeSalaryHistory?id=${this.state.table.listData[index].id}&historyLog=salary`);
                         }
                     },
                     {
