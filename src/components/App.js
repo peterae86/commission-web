@@ -254,6 +254,7 @@ class App extends React.Component {
                     },{
                         id: "export",
                         name: "导出管理",
+                        roleName: "ADMIN",
                         //roleName: "JING_JI_REN",
                         path: "/export",
                         children: [

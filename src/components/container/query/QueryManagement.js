@@ -8,7 +8,7 @@ import Button from "../../component/Button/Button";
 import {parseParamsGet, requestByFetch} from "../../../utils/request";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
 
-class ExportListPage extends React.Component {
+class QueryManagement extends React.Component {
     constructor(props) {
         super();
         let self = this;
@@ -40,8 +40,8 @@ class ExportListPage extends React.Component {
             },
             formData: {
                 regionList: [],
-                storeList: []
-
+                storeList: [],
+                rankList: []
             },
             showConfirm: false
         }
@@ -49,9 +49,12 @@ class ExportListPage extends React.Component {
     }
 
     componentWillMount() {
-        const path = "/api/regionStore/queryRegionStoreList?type=REGION";
-        requestByFetch(path, "GET").then((res) => {
+        requestByFetch("/api/regionStore/queryRegionStoreList?type=REGION", "GET").then((res) => {
             this.state.formData.regionList = res;
+            this.setState(this.state);
+        });
+        requestByFetch("/api/dutyLevelConfig/queryAllCityDutyLevels", "GET").then((res) => {
+            this.state.formData.rankList = res;
             this.setState(this.state);
         });
     }
@@ -74,13 +77,15 @@ class ExportListPage extends React.Component {
         return <div className="title-right">
             <div className="right-company">
                 <span>大区：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion} options={[]}
-                          placeholder="请选择城市" value="" propsLabel="cityName" propsValue="cityCode"/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
+                          options={this.state.formData.regionList}
+                          placeholder="请选择城市" value="" propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
                 <span>店面：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[]}
-                          placeholder="请选择公司" propsLabel="corpName" propsValue="corpCode" value=""/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
+                          options={this.state.formData.storeList}
+                          placeholder="请选择公司" propsLabel="storeName" propsValue="storeCode" value=""/>
             </div>
             <div className="right-company">
                 <span>姓名：</span>
@@ -93,6 +98,25 @@ class ExportListPage extends React.Component {
                 <span>系统号：</span>
                 <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
                     this.state.queryParams.userCode = x;
+                    this.setState({queryParams: this.state.queryParams});
+                }}/>
+            </div>
+            <div className="right-company">
+                <span>当前级别：</span>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
+                          options={this.state.rankList} placeholder="请选择公司" propsLabel="dutyLevelDesc"
+                          propsValue="dutyLevelCode" value=""/>
+            </div>
+            <div className="right-company">
+                <span>状态列表：</span>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[]}
+
+                          placeholder="请选择公司" propsLabel="corpName" propsValue="corpCode" value=""/>
+            </div>
+            <div className="right-company">
+                <span>入职时间：</span>
+                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
+                    this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
@@ -147,7 +171,7 @@ class ExportListPage extends React.Component {
     }
 
     render() {
-        const {table, modifyModal} = this.state;
+        const {table} = this.state;
         return (
             <div className="rank-container">
                 {this.renderAlert()}
@@ -157,7 +181,6 @@ class ExportListPage extends React.Component {
                 </div>
                 <div className="container-button">
                     <Button styleName="btn-middle" value="查询" onClick={this.onSearch}/>
-                    <Button styleName="btn-middle" value="导出" onClick={this.onExport}/>
                 </div>
                 <Table data={table.listData} config={table.config} pager={table.pager}/>
             </div>
@@ -165,4 +188,4 @@ class ExportListPage extends React.Component {
     }
 }
 
-export default ExportListPage
+export default QueryManagement
