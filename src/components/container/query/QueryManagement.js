@@ -17,7 +17,36 @@ class QueryManagement extends React.Component {
             table: {
                 listData: [], //数据列表
                 config: {
-                    column: []
+                    column: [
+                        {name: "公司", key: "corpName", textAlign: "center", width: "10%"},
+                        {name: "大区编号", key: "regionCode", textAlign: "center", width: "10%"},
+                        {name: "大区", key: "regionName", textAlign: "center", width: "10%"},
+                        {name: "店面编号", key: "storeCode", textAlign: "center", width: "10%"},
+                        {name: "店面", key: "storeName", textAlign: "center", width: "10%"},
+                        {name: "姓名", key: "userName", textAlign: "center", width: "10%"},
+                        {name: "入职时间", key: "onDutyTime", textAlign: "center", width: "10%"},
+                        {name: "系统号", key: "userCode", textAlign: "center", width: "10%"},
+                        {name: "当期级别", key: "currentDutyLevel", textAlign: "center", width: "10%"},
+                        {name: "当期积分", key: "currentFinalScore", textAlign: "center", width: "10%"},
+                        {name: "上期提佣", key: "lastPeriodCommission", textAlign: "center", width: "10%"},
+                        {name: "状态", key: "dutyStatus", textAlign: "center", width: "10%"},
+                        {
+                            name: "操作", key: "opt", textAlign: "center", width: "40%", content: [
+                            {
+                                key: "状态调整",
+                                func: (index) => {
+
+                                }
+                            },
+                            {
+                                key: "查看详情",
+                                func: (index) => {
+
+                                }
+                            }
+                        ]
+                        },
+                    ]
                 },
                 pager: {
                     pageSize: 10,
@@ -49,7 +78,7 @@ class QueryManagement extends React.Component {
                 rankList: []
             },
             showConfirm: false
-        }
+        };
         this.onSearch = this.onSearch.bind(this);
     }
 
@@ -71,10 +100,6 @@ class QueryManagement extends React.Component {
             this.state.queryParams.regionCode = x;
             this.setState(this.state);
         });
-    }
-
-    onSelectStore(x) {
-
     }
 
     renderSearchInputs() {
@@ -159,9 +184,44 @@ class QueryManagement extends React.Component {
             });
             return;
         }
-        const path = "/api/config/export/infoQuery/listByType?" + parseParamsGet(p);
+        if (!this.state.queryParams.onDutyTimeStart) {
+            this.setState({
+                showConfirm: true,
+                message: "请输入开始时间"
+            });
+            return;
+        }
+        if (!this.state.queryParams.onDutyTimeEnd) {
+            this.setState({
+                showConfirm: true,
+                message: "请输入结束时间"
+            });
+            return;
+        }
+        if (!this.state.queryParams.dutyLevel) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择职级"
+            });
+            return;
+        }
+        if (!this.state.queryParams.dutyStatus) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择状态"
+            });
+            return;
+        }
+        const path = "/api/queryManage/showUserBaseInfo?" + parseParamsGet(p);
         requestByFetch(path, "GET").then((res) => {
-            this.state.table.listData = res.exportList;
+            this.state.table.listData = res.list;
+            this.state.table.listData.map((x)=>{
+                if (x.dutyStatus === "OFF_DUTY") {
+                    x.dutyStatus = "离职";
+                } else {
+                    x.dutyStatus = "在职";
+                }
+            });
             this.state.pager = {
                 ...this.state.pager,
                 currentPage: p.currentPage,
