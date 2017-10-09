@@ -45,6 +45,7 @@ class ExportListPage extends React.Component {
             },
             showConfirm: false
         }
+        this.onSearch = this.onSearch.bind(this);
     }
 
     componentWillMount() {
@@ -100,14 +101,14 @@ class ExportListPage extends React.Component {
 
 
     onSearch(p) {
-        if(!this.state.queryParams.regionCode){
+        if (!this.state.queryParams.regionCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择大区"
             });
             return;
         }
-        if(!this.state.queryParams.storeCode){
+        if (!this.state.queryParams.storeCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择店面"
@@ -127,9 +128,9 @@ class ExportListPage extends React.Component {
     }
 
     onExport() {
-        const path = "/api/config/export2Excel/byType?"+parseParamsGet({
+        const path = "/api/config/export2Excel/byType?" + parseParamsGet({
             ...this.state.queryParams,
-            operateUserCode:"a"
+            operateUserCode: "a"
         });
     }
 
