@@ -9,10 +9,10 @@ class ExportManagement extends React.Component{
             //表格配置
             table: {
                 listData: [
-                    {name:'积分明细',path:'/'},
-                    {name:'提佣明细',path:'/'},
-                    {name:'底薪',path:'/'},
-                    {name:'保障薪资',path:'/'},
+                    {name:'积分明细',path:'/export/score'},
+                    {name:'提佣明细',path:'/export/commission'},
+                    {name:'底薪',path:'/export/base'},
+                    {name:'保障薪资',path:'/export/guarantee'},
                 ], //数据列表
                 config: {
                     column: [
@@ -22,13 +22,13 @@ class ExportManagement extends React.Component{
                             {
                                 key: "查看",
                                 func: (index) => {
-                                    this.props.onJump('/commission/type');
+                                    this.props.onJump(this.state.table.listData[index].path);
                                 }
                             },
                             {
                                 key: "操作历史",
                                 func: (index) => {
-                                    this.props.onJump('/commission/rankRadioList');
+                                    this.props.onJump('/export/history');
                                 }
                             }
                         ]

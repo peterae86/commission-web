@@ -39,6 +39,10 @@ import Yeji from "./container/import/Yeji";
 import ScoreCorrect from "./container/import/ScoreCorrect";
 import UserRelation from "./container/import/UserRelation";
 import BaseModal from "./container/import/BaseModal";
+import CommissionExport from "./container/export/CommissionExport";
+import BaseSalaryExport from "./container/export/BaseSalaryExport";
+import GuaranteeSalaryExport from "./container/export/GuaranteeSalaryExport";
+import ExportHistory from "./container/export/ExportHistory";
 
 class App extends React.Component {
     constructor(props) {
@@ -250,7 +254,7 @@ class App extends React.Component {
                     },{
                         id: "export",
                         name: "导出管理",
-                        roleName: "JING_JI_REN",
+                        //roleName: "JING_JI_REN",
                         path: "/export",
                         children: [
                             {
@@ -258,6 +262,33 @@ class App extends React.Component {
                                 name: "积分明细列表",
                                 path: "/export/score",
                                 children: []
+                            },
+                            {
+                                id: "exportCommission",
+                                name: "提佣明细列表",
+                                path: "/export/commission",
+                                children: []
+                            },
+                            {
+                                id: "exportBase",
+                                name: "底薪列表",
+                                path: "/export/base",
+                                children: []
+                            },
+                            {
+                                id: "exportGuarantee",
+                                name: "保障薪资列表",
+                                path: "/export/guarantee",
+                                children: []
+                            },
+                            {
+                                id: "exportHistory",
+                                name: "导出操作历史",
+                                path: "/export/history",
+                                hide: true,
+                                children: [
+
+                                ]
                             }
                         ]
                     }
@@ -285,6 +316,10 @@ class App extends React.Component {
             'commissionType':CommissionType,
             'export':ExportManagement,
             'exportScore':ScoreExport,
+            'exportCommission':CommissionExport,
+            'exportBase':BaseSalaryExport,
+            'exportGuarantee':GuaranteeSalaryExport,
+            'exportHistory':ExportHistory,
             'import': ImportComponent,
             'importHistory': ImportHistory,
             'initLevel':InitDutyLevel,

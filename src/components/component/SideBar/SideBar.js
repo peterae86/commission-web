@@ -99,8 +99,8 @@ class SideBar extends React.Component {
             }
             flag = roleNameArray.indexOf(item.roleName) !== -1;
         }
-
-        const str = flag ? (<li key={index} >
+        debugger
+        return flag ? (<li key={index}>
             <div
                 className={(item.selected ? "sidebar-item-selected " : "") + "sidebar-item-" + item.depth}
                 onClick={this.onButtonClick.bind(this, item)}>
@@ -113,7 +113,6 @@ class SideBar extends React.Component {
                     }</ul>
                 </div> : null}
         </li>) : null;
-        return str;
     }
 
     render() {
