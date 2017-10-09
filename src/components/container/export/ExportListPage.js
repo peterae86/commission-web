@@ -74,13 +74,15 @@ class ExportListPage extends React.Component {
         return <div className="title-right">
             <div className="right-company">
                 <span>大区：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion} options={[]}
-                          placeholder="请选择城市" value="" propsLabel="cityName" propsValue="cityCode"/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
+                          options={this.state.formData.regionList}
+                          placeholder="请选择大区" value="" propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
                 <span>店面：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[]}
-                          placeholder="请选择公司" propsLabel="corpName" propsValue="corpCode" value=""/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
+                          options={this.state.formData.storeList}
+                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value=""/>
             </div>
             <div className="right-company">
                 <span>姓名：</span>

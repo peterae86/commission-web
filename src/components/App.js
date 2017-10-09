@@ -43,6 +43,7 @@ import CommissionExport from "./container/export/CommissionExport";
 import BaseSalaryExport from "./container/export/BaseSalaryExport";
 import GuaranteeSalaryExport from "./container/export/GuaranteeSalaryExport";
 import ExportHistory from "./container/export/ExportHistory";
+import QueryManagement from "./container/query/QueryManagement";
 
 class App extends React.Component {
     constructor(props) {
@@ -185,7 +186,7 @@ class App extends React.Component {
                                 }]
                             }
                         ]
-                    },  {
+                    }, {
                         id: "import",
                         name: "导入管理",
                         path: "/import",
@@ -196,25 +197,19 @@ class App extends React.Component {
                                 name: "导入操作历史",
                                 path: "/import/history",
                                 hide: true,
-                                children: [
-
-                                ]
+                                children: []
                             },
                             {
                                 id: "initLevel",
                                 name: "初始职级列表",
                                 path: "/import/initLevel",
-                                children: [
-
-                                ]
+                                children: []
                             },
                             {
                                 id: "initScore",
                                 name: "初始积分列表",
                                 path: "/import/initScore",
-                                children: [
-
-                                ]
+                                children: []
                             },
                             {
                                 id: "yeji",
@@ -232,26 +227,20 @@ class App extends React.Component {
                                 id: "status",
                                 name: "状态调整列表",
                                 path: "/import/status",
-                                children: [
-
-                                ]
-                            },{
+                                children: []
+                            }, {
                                 id: "baseModal",
                                 name: "双薪模式底薪",
                                 path: "/import/baseModal",
-                                children: [
-
-                                ]
-                            },{
+                                children: []
+                            }, {
                                 id: "userRelation",
                                 name: "员工关系列表",
                                 path: "/import/userRelation",
-                                children: [
-
-                                ]
+                                children: []
                             }
                         ]
-                    },{
+                    }, {
                         id: "export",
                         name: "导出管理",
                         roleName: "ADMIN",
@@ -287,13 +276,18 @@ class App extends React.Component {
                                 name: "导出操作历史",
                                 path: "/export/history",
                                 hide: true,
-                                children: [
-
-                                ]
+                                children: []
                             }
                         ]
+                    }, {
+                        id: "query",
+                        name: "查询管理",
+                        roleName: "ADMIN",
+                        //roleName: "JING_JI_REN",
+                        path: "/query",
+                        children: []
                     }
-                    ]
+                ]
             },
             currentPage: Blank
         };
@@ -312,24 +306,25 @@ class App extends React.Component {
             'guaranteeSalaryHistory': GuaranteeSalaryHistory,
             'baseSalaryList': BaseSalaryList,
             'baseSalaryHistory': BaseSalaryHistory,
-            'commission':CommissionManagement,
-            'comHistory':ComHistory,
-            'commissionType':CommissionType,
-            'export':ExportManagement,
-            'exportScore':ScoreExport,
-            'exportCommission':CommissionExport,
-            'exportBase':BaseSalaryExport,
-            'exportGuarantee':GuaranteeSalaryExport,
-            'exportHistory':ExportHistory,
+            'commission': CommissionManagement,
+            'comHistory': ComHistory,
+            'commissionType': CommissionType,
+            'export': ExportManagement,
+            'exportScore': ScoreExport,
+            'exportCommission': CommissionExport,
+            'exportBase': BaseSalaryExport,
+            'exportGuarantee': GuaranteeSalaryExport,
+            'exportHistory': ExportHistory,
             'import': ImportComponent,
             'importHistory': ImportHistory,
-            'initLevel':InitDutyLevel,
-            'initScore':InitScore,
-            'status':Status,
-            'yeji':Yeji,
+            'initLevel': InitDutyLevel,
+            'initScore': InitScore,
+            'status': Status,
+            'yeji': Yeji,
             "scoreCorrect": ScoreCorrect,
             "baseModal": BaseModal,
-            "userRelation": UserRelation
+            "userRelation": UserRelation,
+            "query": QueryManagement
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
@@ -409,9 +404,9 @@ class App extends React.Component {
 
 class Blank extends React.Component {
     render() {
-        return (<div style={{color: "#666",padding:"30px 0 0 22px"}}>
+        return (<div style={{color: "#666", padding: "30px 0 0 22px"}}>
             欢迎使用积分提佣系统
-            </div>)
+        </div>)
     }
 }
 

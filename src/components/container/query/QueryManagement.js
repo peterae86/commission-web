@@ -7,6 +7,7 @@ import '../../../styles/export.scss'
 import Button from "../../component/Button/Button";
 import {parseParamsGet, requestByFetch} from "../../../utils/request";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
+import Modal from "../../component/Modal/Modal";
 
 class QueryManagement extends React.Component {
     constructor(props) {
@@ -35,6 +36,10 @@ class QueryManagement extends React.Component {
                 storeCode: '',
                 userName: '',
                 userCode: '',
+                dutyLevel: "",
+                dutyStatus: "",
+                onDutyTimeStart: "",
+                onDutyTimeEnd: '',
                 currentPage: 1,
                 pageSize: 10
             },
@@ -69,8 +74,7 @@ class QueryManagement extends React.Component {
     }
 
     onSelectStore(x) {
-        this.state.queryParams.storeCode = x;
-        this.setState(this.state);
+
     }
 
     renderSearchInputs() {
@@ -79,13 +83,15 @@ class QueryManagement extends React.Component {
                 <span>大区：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
                           options={this.state.formData.regionList}
-                          placeholder="请选择城市" value="" propsLabel="regionName" propsValue="regionCode"/>
+                          placeholder="请选择大区" value="" propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
                 <span>店面：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
-                          options={this.state.formData.storeList}
-                          placeholder="请选择公司" propsLabel="storeName" propsValue="storeCode" value=""/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} options={this.state.formData.storeList}
+                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value="" onSelect={(x) => {
+                    this.state.queryParams.storeCode = x;
+                    this.setState(this.state);
+                }}/>
             </div>
             <div className="right-company">
                 <span>姓名：</span>
@@ -103,15 +109,29 @@ class QueryManagement extends React.Component {
             </div>
             <div className="right-company">
                 <span>当前级别：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
-                          options={this.state.rankList} placeholder="请选择公司" propsLabel="dutyLevelDesc"
-                          propsValue="dutyLevelCode" value=""/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}}
+                          options={this.state.rankList} placeholder="请选择级别" propsLabel="dutyLevelDesc"
+                          propsValue="dutyLevelCode" value="" onSelect={(x) => {
+                    this.state.queryParams.dutyLevel = x;
+                    this.setState({queryParams: this.state.queryParams});
+                }}/>
             </div>
             <div className="right-company">
                 <span>状态列表：</span>
-                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[]}
-
-                          placeholder="请选择公司" propsLabel="corpName" propsValue="corpCode" value=""/>
+                <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[
+                    {
+                        desc: "BOTH_DUTY",
+                        value: "全部"
+                    },
+                    {
+                        desc: "ON_DUTY",
+                        value: "在职"
+                    },
+                    {
+                        desc: "OFF_DUTY",
+                        value: "离职"
+                    },
+                ]} placeholder="请选择列表" propsLabel="desc" propsValue="value" value=""/>
             </div>
             <div className="right-company">
                 <span>入职时间：</span>
@@ -151,12 +171,6 @@ class QueryManagement extends React.Component {
         });
     }
 
-    onExport() {
-        const path = "/api/config/export2Excel/byType?" + parseParamsGet({
-            ...this.state.queryParams,
-            operateUserCode: "a"
-        });
-    }
 
     renderAlert() {
         const modalProps = {
@@ -168,6 +182,46 @@ class QueryManagement extends React.Component {
             },
         };
         return <ModalAlert {...modalProps} />
+    }
+
+    renderModify() {
+        const modal = {
+            show: this.state.modifyModal,
+            formData: this.state.formData,
+            title: "修改底薪",
+            onCancel: () => {
+                this.setState({modifyModal: false});
+            },
+            onConfirm: (queryData) => {
+                let data = {};
+                queryData.map((item) => {
+                    if (item.key === "id" || item.key === "dutyLevel") {
+                        data[item.key] = item.value;
+                    } else {
+                        data[item.key] = (item.value / 100).toFixed(2);
+                    }
+                });
+                data["userCode"] = window.localStorage.getItem("userCode");
+                if (data.baseSalaryModelRatio < 0 || data.doubleSalaryModelRatio < 0) {
+                    this.setState({
+                        showConfirm: true,
+                        message: "系数不能为负数",
+                    });
+                    return;
+                }
+                // const path = "../data/rankUpdate.json";
+                const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;
+                requestByFetch(path, "GET").then((res) => {
+                    this.setState({
+                        modifyModal: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    this.onQuery(this.state.queryParams);
+                });
+            }
+        };
+        return <Modal {...modal} />
     }
 
     render() {
