@@ -1,4 +1,6 @@
 import * as React from "react";
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import Crumbs from "../../component/Crumbs/Crumbs";
 import Table from "../../component/Table/Table";
 import Dropdown from "../../component/Dropdown/Dropdown";
@@ -39,7 +41,7 @@ class QueryManagement extends React.Component {
                 dutyLevel: "",
                 dutyStatus: "",
                 onDutyTimeStart: "",
-                onDutyTimeEnd: '',
+                onDutyTimeEnd: moment(),
                 currentPage: 1,
                 pageSize: 10
             },
@@ -51,6 +53,8 @@ class QueryManagement extends React.Component {
             showConfirm: false
         }
         this.onSearch = this.onSearch.bind(this);
+        this.handleEndChange = this.handleEndChange.bind(this);
+        this.handleStartChange = this.handleStartChange.bind(this);
     }
 
     componentWillMount() {
@@ -75,6 +79,16 @@ class QueryManagement extends React.Component {
 
     onSelectStore(x) {
 
+    }
+
+    handleStartChange(value) {
+        this.state.queryParams.onDutyTimeStart = value;
+        this.setState(this.state);
+    }
+
+    handleEndChange (value) {
+        this.state.queryParams.onDutyTimeEnd = value;
+        this.setState(this.state);
     }
 
     renderSearchInputs() {
@@ -134,11 +148,18 @@ class QueryManagement extends React.Component {
                 ]} placeholder="请选择列表" propsLabel="desc" propsValue="value" value=""/>
             </div>
             <div className="right-company">
-                <span>入职时间：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
-                    this.state.queryParams.userName = x;
-                    this.setState({queryParams: this.state.queryParams});
-                }}/>
+                <span>入职时间从：</span>
+                <DatePicker
+                   selected={this.state.queryParams.onDutyTimeStart}
+                   onChange={this.handleStartChange}
+                   dateFormat="YYYY-MM-DD"
+               />
+               <span>至：</span>
+               <DatePicker
+                  selected={this.state.queryParams.onDutyTimeEnd }
+                  onChange={this.handleEndChange}
+                  dateFormat="YYYY-MM-DD"
+              />
             </div>
         </div>
     }

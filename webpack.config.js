@@ -33,16 +33,16 @@ module.exports = {
     },
 
     plugins: [
-        new ExtractTextPlugin('main.css'),
-        new webpack.optimize.UglifyJsPlugin({
-            output: {
-                comments: false,
-            },
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.NoErrorsPlugin()
+        new ExtractTextPlugin('main.css')
+        // new webpack.optimize.UglifyJsPlugin({
+        //     output: {
+        //         comments: false,
+        //     },
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
+        // new webpack.NoErrorsPlugin()
     ]
 
 }

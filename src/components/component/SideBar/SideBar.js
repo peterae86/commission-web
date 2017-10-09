@@ -17,7 +17,7 @@ class SideBar extends React.Component {
     componentWillMount() {
         this.selectByPath(this.state.buttonTreeNode, this.props.path || this.props.location.pathname);
     }
-    
+
     createButtons(x, depth, pathNames) {
         let res = {
             hasChild: false,
@@ -99,7 +99,6 @@ class SideBar extends React.Component {
             }
             flag = roleNameArray.indexOf(item.roleName) !== -1;
         }
-        debugger
         return flag ? (<li key={index}>
             <div
                 className={(item.selected ? "sidebar-item-selected " : "") + "sidebar-item-" + item.depth}

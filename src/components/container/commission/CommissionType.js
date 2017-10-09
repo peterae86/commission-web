@@ -89,7 +89,6 @@ class CommissionType extends React.Component {
             message: this.state.message,
             type: 'confirm',
             onCancel: () => {
-                debugger
                 this.setState({showConfirm: false});
             },
             onConfirm: this.state.onConfirm
