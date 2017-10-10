@@ -5,7 +5,7 @@ import Table from "../../component/Table/Table";
 
 class QueryDetail extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             table: {
                 listData: [], //数据列表
@@ -23,8 +23,8 @@ class QueryDetail extends React.Component {
                 }
             },
             queryParams: {
-                userCode: this.props.location.query.userCode,
-                queryType: this.props.location.query.queryType,
+                userCode: props.location.query.userCode,
+                queryType: props.location.query.queryType,
             },
         };
         this.onSearch = this.onSearch.bind(this);
@@ -57,7 +57,7 @@ class QueryDetail extends React.Component {
         return (
             <div className="rank-container">
                 <div className="container-title">
-                    <Crumbs names={this.props.pathNames} style={{width:"200px"}}/>
+                    <Crumbs names={this.props.pathNames}/>
                 </div>
                 <Table data={table.listData} config={table.config} pager={table.pager}/>
             </div>

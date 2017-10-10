@@ -59,7 +59,8 @@ class QueryManagement extends React.Component {
                                 key: "查看详情",
                                 func: (index) => {
                                     this.setState({
-                                        showDetail: true
+                                        showDetail: true,
+                                        userCode:this.state.table.listData[index].userCode,
                                     });
                                 }
                             }
@@ -291,11 +292,11 @@ class QueryManagement extends React.Component {
         return <ModalAlert {...modalProps} />
     }
 
-    onJumpTo (route) {
+    onJumpTo (path) {
         this.setState({
             showDetail: false
         });
-        console.log("跳转");
+        this.props.onJump(path);
     }
     renderModify() {
         const modal = {
@@ -356,12 +357,12 @@ class QueryManagement extends React.Component {
                             <div className="alert">
                                 <div className="alert-title">请选择查看详情</div>
                                 <div className="alert-content">
-                                    <p onClick={this.onJumpTo.bind(this, "")}>基础积分详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "")}>历史业绩详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "")}>历史奖励详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "")}>历史惩罚详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "")}>历史提佣详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "")}>职级调整历史详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/baseScore?queryType=BASE_SCORE&userCode="+this.state.userCode)}>基础积分详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/yeji?queryType=HISTORY_YE_JI&userCode="+this.state.userCode)}>历史业绩详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/reward?queryType=HISTORY_REWARD_SCORE&userCode="+this.state.userCode)}>历史奖励详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/punish?queryType=HISTORY_PUNISH_SCORE&userCode="+this.state.userCode)}>历史惩罚详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/com?queryType=HISTORY_COMMISSION&userCode="+this.state.userCode)}>历史提佣详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/level?queryType=HISTORY_COMMISSION&userCode="+this.state.userCode)}>职级调整历史详情</p>
                                 </div>
                                 <div className="alert-button">
                                     <div className="button-content">
