@@ -11,9 +11,12 @@
 			display: flex;
 			justify-content: flex-end;
 			font-size: 14px;
+			flex-wrap:wrap;
 			.right-company {
 				display: flex;
 				margin-right: 20px;
+				align-items: center;
+				height:40px;
 			}
 		}
 	}

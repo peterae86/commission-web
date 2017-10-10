@@ -15,7 +15,7 @@ class Crumbs extends React.Component {
 
     render() {
         const {separator} = this.props;
-        return <span className="crumbs">
+        return <span className="crumbs" style={this.props.style}>
             {
                 this.state.names.map((item, index) => {
                     return <span

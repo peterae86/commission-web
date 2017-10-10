@@ -44,6 +44,12 @@ import BaseSalaryExport from "./container/export/BaseSalaryExport";
 import GuaranteeSalaryExport from "./container/export/GuaranteeSalaryExport";
 import ExportHistory from "./container/export/ExportHistory";
 import QueryManagement from "./container/query/QueryManagement";
+import BaseScoreDetail from "./container/query/BaseScoreDetail";
+import CommissionAmountDetail from "./container/query/CommissionAmountDetail";
+import LevelChangeDetail from "./container/query/LevelChangeDetail";
+import PunishScoreDetail from "./container/query/PunishScoreDetail";
+import RewardScoreDetail from "./container/query/RewardScoreDetail";
+import YejiDetail from "./container/query/YejiDetail";
 
 class App extends React.Component {
     constructor(props) {
@@ -285,7 +291,46 @@ class App extends React.Component {
                         roleName: "ADMIN",
                         //roleName: "JING_JI_REN",
                         path: "/query",
-                        children: []
+                        children: [
+                            {
+                                id: "BaseScoreDetail",
+                                name: "基础积分详情",
+                                path: "/query/baseScore",
+                                hide: true,
+                                children: []
+                            },
+                            {
+                                id: "CommissionAmountDetail",
+                                name: "历史提佣详情",
+                                path: "/query/com",
+                                hide: true,
+                                children: []
+                            }, {
+                                id: "LevelChangeDetail",
+                                name: "职级调整历史详情",
+                                path: "/query/level",
+                                hide: true,
+                                children: []
+                            }, {
+                                id: "PunishScoreDetail",
+                                name: "历史惩罚详情",
+                                path: "/query/punish",
+                                hide: true,
+                                children: []
+                            }, {
+                                id: "RewardScoreDetail",
+                                name: "历史奖励详情",
+                                path: "/query/reward",
+                                hide: true,
+                                children: []
+                            }, {
+                                id: "YejiDetail",
+                                name: "历史业绩详情",
+                                path: "/query/yeji",
+                                hide: true,
+                                children: []
+                            }
+                        ]
                     }
                 ]
             },
@@ -324,7 +369,13 @@ class App extends React.Component {
             "scoreCorrect": ScoreCorrect,
             "baseModal": BaseModal,
             "userRelation": UserRelation,
-            "query": QueryManagement
+            "query": QueryManagement,
+            "BaseScoreDetail":BaseScoreDetail,
+            "CommissionAmountDetail":CommissionAmountDetail,
+            "LevelChangeDetail":LevelChangeDetail,
+            "PunishScoreDetail":PunishScoreDetail,
+            "RewardScoreDetail":RewardScoreDetail,
+            "YejiDetail":YejiDetail
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
