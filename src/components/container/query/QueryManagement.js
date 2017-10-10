@@ -16,24 +16,39 @@ class QueryManagement extends React.Component {
         super();
         let self = this;
         this.state = {
+            showDetail: false,
             table: {
-                listData: [], //数据列表
+                listData: [{
+                "corpCode": "yi_wu_corp_code",
+                "corpName": "义乌分公司",
+                "regionCode": "regionCode1",
+                "regionName": "浙江大区1",
+                "storeCode": "storeCode1",
+                "storeName": "店面名字1",
+                "userCode": "20182480",
+                "userName": "关关",
+                "onDutyTime": "2017-10-05 20:42:03",
+                "currentDutyLevel": "A3",
+                "currentFinalScore": 23123,
+                "lastPeriodCommission": 8888.5,
+                "dutyStatus": "OFF_DUTY"
+            }], //数据列表
                 config: {
                     column: [
-                        {name: "公司", key: "corpName", textAlign: "center", width: "10%"},
-                        {name: "大区编号", key: "regionCode", textAlign: "center", width: "10%"},
-                        {name: "大区", key: "regionName", textAlign: "center", width: "10%"},
-                        {name: "店面编号", key: "storeCode", textAlign: "center", width: "10%"},
-                        {name: "店面", key: "storeName", textAlign: "center", width: "10%"},
-                        {name: "姓名", key: "userName", textAlign: "center", width: "10%"},
+                        {name: "公司", key: "corpName", textAlign: "center", width: "8%"},
+                        {name: "大区编号", key: "regionCode", textAlign: "center", width: "8%"},
+                        {name: "大区", key: "regionName", textAlign: "center", width: "8%"},
+                        {name: "店面编号", key: "storeCode", textAlign: "center", width: "8%"},
+                        {name: "店面", key: "storeName", textAlign: "center", width: "8%"},
+                        {name: "姓名", key: "userName", textAlign: "center", width: "8%"},
                         {name: "入职时间", key: "onDutyTime", textAlign: "center", width: "10%"},
-                        {name: "系统号", key: "userCode", textAlign: "center", width: "10%"},
-                        {name: "当期级别", key: "currentDutyLevel", textAlign: "center", width: "10%"},
-                        {name: "当期积分", key: "currentFinalScore", textAlign: "center", width: "10%"},
-                        {name: "上期提佣", key: "lastPeriodCommission", textAlign: "center", width: "10%"},
+                        {name: "系统号", key: "userCode", textAlign: "center", width: "8%"},
+                        {name: "当期级别", key: "currentDutyLevel", textAlign: "center", width: "8%"},
+                        {name: "当期积分", key: "currentFinalScore", textAlign: "center", width: "8%"},
+                        {name: "上期提佣", key: "lastPeriodCommission", textAlign: "center", width: "8%"},
                         {name: "状态", key: "dutyStatus", textAlign: "center", width: "10%"},
                         {
-                            name: "操作", key: "opt", textAlign: "center", width: "40%", content: [
+                            name: "操作", key: "opt", textAlign: "center", width: "10%", content: [
                             {
                                 key: "状态调整",
                                 func: (index) => {
@@ -43,7 +58,9 @@ class QueryManagement extends React.Component {
                             {
                                 key: "查看详情",
                                 func: (index) => {
-
+                                    this.setState({
+                                        showDetail: true
+                                    });
                                 }
                             }
                         ]
@@ -69,7 +86,7 @@ class QueryManagement extends React.Component {
                 userCode: '',
                 dutyLevel: "",
                 dutyStatus: "",
-                onDutyTimeStart: "",
+                onDutyTimeStart: moment(),
                 onDutyTimeEnd: moment(),
                 currentPage: 1,
                 pageSize: 10
@@ -191,58 +208,67 @@ class QueryManagement extends React.Component {
 
 
     onSearch(p) {
-        if (!this.state.queryParams.regionCode) {
+        const obj = {
+            ...this.state.queryParams,
+            ...p,
+        };
+        obj.onDutyTimeStart = obj.onDutyTimeStart.format("YYYY-MM-DD");
+        obj.onDutyTimeEnd = obj.onDutyTimeEnd.format("YYYY-MM-DD");
+
+        if (!obj.regionCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择大区"
             });
             return;
         }
-        if (!this.state.queryParams.storeCode) {
+        if (!obj.storeCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择店面"
             });
             return;
         }
-        if (!this.state.queryParams.onDutyTimeStart) {
+        if (!obj.onDutyTimeStart) {
             this.setState({
                 showConfirm: true,
                 message: "请输入开始时间"
             });
             return;
         }
-        if (!this.state.queryParams.onDutyTimeEnd) {
+        if (!obj.onDutyTimeEnd) {
             this.setState({
                 showConfirm: true,
                 message: "请输入结束时间"
             });
             return;
         }
-        if (!this.state.queryParams.dutyLevel) {
+        if (!obj.dutyLevel) {
             this.setState({
                 showConfirm: true,
                 message: "请选择职级"
             });
             return;
         }
-        if (!this.state.queryParams.dutyStatus) {
+        if (!obj.dutyStatus) {
             this.setState({
                 showConfirm: true,
                 message: "请选择状态"
             });
             return;
         }
+
         const path = "/api/queryManage/showUserBaseInfo?" + parseParamsGet(p);
         requestByFetch(path, "GET").then((res) => {
-            this.state.table.listData = res.list;
-            this.state.table.listData.map((x)=>{
+
+            res.list.map((x)=>{
                 if (x.dutyStatus === "OFF_DUTY") {
                     x.dutyStatus = "离职";
                 } else {
                     x.dutyStatus = "在职";
                 }
             });
+            this.state.table.listData = res.list;
             this.state.pager = {
                 ...this.state.pager,
                 currentPage: p.currentPage,
@@ -265,6 +291,12 @@ class QueryManagement extends React.Component {
         return <ModalAlert {...modalProps} />
     }
 
+    onJumpTo (route) {
+        this.setState({
+            showDetail: false
+        });
+        console.log("跳转");
+    }
     renderModify() {
         const modal = {
             show: this.state.modifyModal,
@@ -318,6 +350,27 @@ class QueryManagement extends React.Component {
                     <Button styleName="btn-middle" value="查询" onClick={this.onSearch}/>
                 </div>
                 <Table data={table.listData} config={table.config} pager={table.pager}/>
+                {
+                    this.state.showDetail ? (
+                        <div className="alert-container">
+                            <div className="alert">
+                                <div className="alert-title">请选择查看详情</div>
+                                <div className="alert-content">
+                                    <p onClick={this.onJumpTo.bind(this, "")}>基础积分详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "")}>历史业绩详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "")}>历史奖励详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "")}>历史惩罚详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "")}>历史提佣详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "")}>职级调整历史详情</p>
+                                </div>
+                                <div className="alert-button">
+                                    <div className="button-content">
+                                        <button type="button" className="btn middle full ">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>): null
+                }
             </div>
         );
     }
