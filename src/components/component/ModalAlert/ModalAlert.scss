@@ -28,8 +28,22 @@
             color: $alert-font-color;
             padding: 25px 28px;
             text-align: left;
+
             p {
                 margin-bottom: 15px;
+            }
+        }
+        .alert-content {
+            text-align: center;
+            border: 1px solid $alert-border-color;
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 30px;
+            p{
+                border-bottom: 1px solid $alert-border-color;
+                color: $m-link-color;
+                padding: 5px;
+                cursor: pointer;
             }
         }
         .messageWrap{
