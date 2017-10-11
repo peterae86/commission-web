@@ -10,6 +10,7 @@ import Button from "../../component/Button/Button";
 import {parseParamsGet, requestByFetch} from "../../../utils/request";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
 import Modal from "../../component/Modal/Modal";
+import {formateTimeSimple} from "../../../utils/help";
 
 class QueryManagement extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class QueryManagement extends React.Component {
                         {name: "当期级别", key: "currentDutyLevel", textAlign: "center", width: "8%"},
                         {name: "当期积分", key: "currentFinalScore", textAlign: "center", width: "8%"},
                         {name: "上期提佣", key: "lastPeriodCommission", textAlign: "center", width: "8%"},
-                        {name: "状态", key: "dutyStatus", textAlign: "center", width: "10%"},
+                        {name: "状态", key: "dutyStatusAlia", textAlign: "center", width: "10%"},
                         {
                             name: "操作", key: "opt", textAlign: "center", width: "10%", content: [
                             {
@@ -295,12 +296,16 @@ class QueryManagement extends React.Component {
         requestByFetch(path, obj, true).then((res) => {
 
             res.list.map((x)=>{
-                if (x.dutyStatus === "OFF_DUTY") {
-                    x.dutyStatus = "离职";
-                } else {
-                    x.dutyStatus = "在职";
-                }
+
+                x["dutyStatusAlia"] = {
+                     "ON_DUTY": "在职",
+                     "OFF_DUTY":"离职",
+                     "SHI_YONG":"试用期",
+                     "DAN_BAO":"担保期",
+                 }[x.dutyStatus];
+                x.onDutyTime = formateTimeSimple(x.onDutyTime);
             });
+
             this.state.table.listData = res.list;
             this.state.pager = {
                 ...this.state.pager,

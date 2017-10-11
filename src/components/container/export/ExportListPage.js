@@ -47,6 +47,7 @@ class ExportListPage extends React.Component {
         }
         this.onSearch = this.onSearch.bind(this);
         this.onSelectRegion = this.onSelectRegion.bind(this);
+        this.onSelectStore = this.onSelectStore.bind(this);
     }
 
     componentWillMount() {
@@ -87,14 +88,14 @@ class ExportListPage extends React.Component {
             </div>
             <div className="right-company">
                 <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userName} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '90px'}} value={this.state.queryParams.userName} onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userCode} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '90px'}} value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
@@ -104,26 +105,30 @@ class ExportListPage extends React.Component {
 
 
     onSearch(p) {
-        if (!this.state.queryParams.regionCode) {
+        const obj = {
+            ...this.state.queryParams,
+            ...p,
+        };
+        if (!obj.regionCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择大区"
             });
             return;
         }
-        if (!this.state.queryParams.storeCode) {
+        if (!obj.storeCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择店面"
             });
             return;
         }
-        const path = "/api/config/export/infoQuery/listByType?" + parseParamsGet(p);
-        requestByFetch(path, "GET").then((res) => {
+        const path = "/api/config/export/infoQuery/listByType?" + parseParamsGet(obj);
+        requestByFetch(path, p, true).then((res) => {
             this.state.table.listData = res.exportList;
             this.state.pager = {
                 ...this.state.pager,
-                currentPage: p.currentPage,
+                currentPage: obj.currentPage,
                 totalCount: res.totalCount
             };
             this.setState(this.state);
