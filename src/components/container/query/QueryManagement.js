@@ -399,7 +399,7 @@ class QueryManagement extends React.Component {
                                     <p onClick={this.onJumpTo.bind(this, "/query/reward?queryType=HISTORY_REWARD_SCORE&userCode="+this.state.userCode)}>历史奖励详情</p>
                                     <p onClick={this.onJumpTo.bind(this, "/query/punish?queryType=HISTORY_PUNISH_SCORE&userCode="+this.state.userCode)}>历史惩罚详情</p>
                                     <p onClick={this.onJumpTo.bind(this, "/query/com?queryType=HISTORY_COMMISSION&userCode="+this.state.userCode)}>历史提佣详情</p>
-                                    <p onClick={this.onJumpTo.bind(this, "/query/level?queryType=HISTORY_COMMISSION&userCode="+this.state.userCode)}>职级调整历史详情</p>
+                                    <p onClick={this.onJumpTo.bind(this, "/query/level?queryType=HISTORY_DUTY_LEVEL_CHANGE&userCode="+this.state.userCode)}>职级调整历史详情</p>
                                 </div>
                                 <div className="alert-button">
                                     <div className="button-content">

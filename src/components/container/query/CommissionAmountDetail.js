@@ -7,7 +7,7 @@ class CommissionAmountDetail extends QueryDetail {
             column: [
                 {name: "发薪年月", key: "period", textAlign: "center", width: "33%"},
                 {name: "职级", key: "dutyLevel", textAlign: "center", width: "33%"},
-                {name: "提佣", key: "commissionAmout", textAlign: "center", width: "34%"},
+                {name: "提佣", key: "commissionAmount", textAlign: "center", width: "34%"},
             ]
         }
     }

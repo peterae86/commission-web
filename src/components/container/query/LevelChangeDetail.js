@@ -6,8 +6,8 @@ class LevelChangeDetail extends QueryDetail {
         this.state.table.config={
             column: [
                 {name: "发薪年月", key: "period", textAlign: "center", width: "33%"},
-                {name: "职级", key: "dutyLevel", textAlign: "center", width: "33%"},
-                {name: "提佣", key: "commissionAmout", textAlign: "center", width: "34%"},
+                {name: "调整前职级", key: "dutyLevelBefore", textAlign: "center", width: "33%"},
+                {name: "调整后职级", key: "dutyLevelAfter", textAlign: "center", width: "34%"},
             ]
         }
     }

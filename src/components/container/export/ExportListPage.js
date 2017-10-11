@@ -35,7 +35,7 @@ class ExportListPage extends React.Component {
                 storeCode: '',
                 userName: '',
                 userCode: '',
-                currentPage: 1,
+                currentPage: 0,
                 pageSize: 10
             },
             formData: {
@@ -123,8 +123,8 @@ class ExportListPage extends React.Component {
             });
             return;
         }
-        const path = "/api/config/export/infoQuery/listByType?" + parseParamsGet(obj);
-        requestByFetch(path, p, true).then((res) => {
+        const path = "/api/config/export/infoQuery/listByType";
+        requestByFetch(path, obj, true).then((res) => {
             this.state.table.listData = res.exportList;
             this.state.pager = {
                 ...this.state.pager,
