@@ -46,6 +46,7 @@ class ExportListPage extends React.Component {
             showConfirm: false
         }
         this.onSearch = this.onSearch.bind(this);
+        this.onSelectRegion = this.onSelectRegion.bind(this);
     }
 
     componentWillMount() {
@@ -76,24 +77,24 @@ class ExportListPage extends React.Component {
                 <span>大区：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
                           options={this.state.formData.regionList}
-                          placeholder="请选择大区" value="" propsLabel="regionName" propsValue="regionCode"/>
+                          placeholder="请选择大区" value={this.state.queryParams.regionCode} propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
                 <span>店面：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore}
                           options={this.state.formData.storeList}
-                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value=""/>
+                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value={this.state.queryParams.storeCode}/>
             </div>
             <div className="right-company">
                 <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userName} onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
@@ -158,8 +159,8 @@ class ExportListPage extends React.Component {
                     {this.renderSearchInputs()}
                 </div>
                 <div className="container-button">
-                    <Button styleName="btn-middle" value="查询" onClick={this.onSearch}/>
-                    <Button styleName="btn-middle" value="导出" onClick={this.onExport}/>
+                    <Button styleName="btn-small" value="查询" onClick={this.onSearch}/>
+                    <Button styleName="btn-small" value="导出" onClick={this.onExport}/>
                 </div>
                 <Table data={table.listData} config={table.config} pager={table.pager}/>
             </div>

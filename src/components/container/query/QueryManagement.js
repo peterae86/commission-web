@@ -18,21 +18,7 @@ class QueryManagement extends React.Component {
         this.state = {
             showDetail: false,
             table: {
-                listData: [{
-                "corpCode": "yi_wu_corp_code",
-                "corpName": "义乌分公司",
-                "regionCode": "regionCode1",
-                "regionName": "浙江大区1",
-                "storeCode": "storeCode1",
-                "storeName": "店面名字1",
-                "userCode": "20182480",
-                "userName": "关关",
-                "onDutyTime": "2017-10-05 20:42:03",
-                "currentDutyLevel": "A3",
-                "currentFinalScore": 23123,
-                "lastPeriodCommission": 8888.5,
-                "dutyStatus": "OFF_DUTY"
-            }], //数据列表
+                listData: [], //数据列表
                 config: {
                     column: [
                         {name: "公司", key: "corpName", textAlign: "center", width: "8%"},
@@ -89,7 +75,7 @@ class QueryManagement extends React.Component {
                 dutyStatus: "",
                 onDutyTimeStart: moment(),
                 onDutyTimeEnd: moment(),
-                currentPage: 1,
+                currentPage: 0,
                 pageSize: 10
             },
             formData: {
@@ -102,6 +88,8 @@ class QueryManagement extends React.Component {
         this.onSearch = this.onSearch.bind(this);
         this.handleEndChange = this.handleEndChange.bind(this);
         this.handleStartChange = this.handleStartChange.bind(this);
+        this.onSelectRegion = this.onSelectRegion.bind(this);
+        this.onSelectStore = this.onSelectStore.bind(this);
     }
 
     componentWillMount() {
@@ -124,6 +112,11 @@ class QueryManagement extends React.Component {
         });
     }
 
+    onSelectStore(x) {
+        this.state.queryParams.dutyStatus = x;
+        this.setState(this.state);
+    }
+
     handleStartChange(value) {
         this.state.queryParams.onDutyTimeStart = value;
         this.setState(this.state);
@@ -140,26 +133,27 @@ class QueryManagement extends React.Component {
                 <span>大区：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
                           options={this.state.formData.regionList}
-                          placeholder="请选择大区" value="" propsLabel="regionName" propsValue="regionCode"/>
+                          value={this.state.queryParams.regionCode}
+                          placeholder="请选择大区" propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
                 <span>店面：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} options={this.state.formData.storeList}
-                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value="" onSelect={(x) => {
+                          placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value={this.state.queryParams.storeCode} onSelect={(x) => {
                     this.state.queryParams.storeCode = x;
                     this.setState(this.state);
                 }}/>
             </div>
             <div className="right-company">
                 <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userName} onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
@@ -167,8 +161,8 @@ class QueryManagement extends React.Component {
             <div className="right-company">
                 <span>当前级别：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}}
-                          options={this.state.rankList} placeholder="请选择级别" propsLabel="dutyLevelDesc"
-                          propsValue="dutyLevelCode" value="" onSelect={(x) => {
+                          options={this.state.formData.rankList} placeholder="请选择级别" propsLabel="dutyLevelDesc"
+                          propsValue="dutyLevelCode" value={this.state.queryParams.dutyLevel} onSelect={(x) => {
                     this.state.queryParams.dutyLevel = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
@@ -177,18 +171,26 @@ class QueryManagement extends React.Component {
                 <span>状态列表：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[
                     {
-                        desc: "BOTH_DUTY",
-                        value: "全部"
+                        value: "ALL_DUTY",
+                        desc: "全部"
                     },
                     {
-                        desc: "ON_DUTY",
-                        value: "在职"
+                        value: "ON_DUTY",
+                        desc: "在职"
                     },
                     {
-                        desc: "OFF_DUTY",
-                        value: "离职"
+                        value: "OFF_DUTY",
+                        desc: "离职"
                     },
-                ]} placeholder="请选择列表" propsLabel="desc" propsValue="value" value=""/>
+                    {
+                        value: "SHI_YONG",
+                        desc: "试用期"
+                    },
+                    {
+                        value: "DAN_BAO",
+                        desc: "担保期"
+                    }
+                ]} placeholder="请选择列表" propsLabel="desc" propsValue="value" value={this.state.queryParams.dutyStatus}/>
             </div>
             <div className="right-company">
                 <span>入职时间从：</span>
@@ -259,8 +261,8 @@ class QueryManagement extends React.Component {
             return;
         }
 
-        const path = "/api/queryManage/showUserBaseInfo?" + parseParamsGet(p);
-        requestByFetch(path, "GET").then((res) => {
+        const path = "/api/queryManage/showUserBaseInfo?";
+        requestByFetch(path, obj, true).then((res) => {
 
             res.list.map((x)=>{
                 if (x.dutyStatus === "OFF_DUTY") {
@@ -272,7 +274,7 @@ class QueryManagement extends React.Component {
             this.state.table.listData = res.list;
             this.state.pager = {
                 ...this.state.pager,
-                currentPage: p.currentPage,
+                currentPage: obj.currentPage,
                 totalCount: res.totalCount
             };
             this.setState(this.state);
@@ -344,7 +346,7 @@ class QueryManagement extends React.Component {
             <div className="rank-container">
                 {this.renderAlert()}
                 <div className="container-title">
-                    <Crumbs names={this.props.pathNames} style={{width:"200px"}}/>
+                    <Crumbs names={this.props.pathNames} style={{width:"250px"}}/>
                     {this.renderSearchInputs()}
                 </div>
                 <div className="container-button">

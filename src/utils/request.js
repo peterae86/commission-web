@@ -11,15 +11,16 @@ export function parseParamsGet(params) {
     return paramsArray.join('&')  ;
 }
 
-export function requestByFetch(path, methodOrJsonBody = {}) {
+export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false) {
   return new Promise((resolve, reject) => {
     let hearderBody = { method: 'POST' };
     if (typeof methodOrJsonBody === 'string' && methodOrJsonBody.toUpperCase() === 'GET') {
       hearderBody = { method: 'GET' };
     } else {
+
         let param = {
             ...methodOrJsonBody,
-            userCode: window.localStorage.getItem("userCode")
+            userCode: userfulCode ? methodOrJsonBody.userCode : window.localStorage.getItem("userCode"),
         };
       hearderBody = {
         method: 'POST',
