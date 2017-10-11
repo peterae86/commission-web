@@ -7,7 +7,7 @@ import '../../../styles/export.scss'
 import Button from "../../component/Button/Button";
 import {parseParamsGet, requestByFetch} from "../../../utils/request";
 import ModalAlert from "../../component/ModalAlert/ModalAlert";
-
+import {formateTimeSimple} from "../../../utils/help";
 class ExportListPage extends React.Component {
     constructor(props) {
         super();
@@ -48,6 +48,7 @@ class ExportListPage extends React.Component {
         this.onSearch = this.onSearch.bind(this);
         this.onSelectRegion = this.onSelectRegion.bind(this);
         this.onSelectStore = this.onSelectStore.bind(this);
+        this.onExport = this.onExport.bind(this);
     }
 
     componentWillMount() {
@@ -125,11 +126,18 @@ class ExportListPage extends React.Component {
         }
         const path = "/api/config/export/infoQuery/listByType";
         requestByFetch(path, obj, true).then((res) => {
+            res.exportList.map((item, index)=> {
+                if (item.onDutyTime) {
+                    item["onDutyTimeAlia"] = formateTimeSimple(item.onDutyTime);
+                }
+            });
+
             this.state.table.listData = res.exportList;
             this.state.pager = {
                 ...this.state.pager,
                 currentPage: obj.currentPage,
-                totalCount: res.totalCount
+                totalCount: res.totalCount,
+                pageSize: 10
             };
             this.setState(this.state);
         });
@@ -138,8 +146,9 @@ class ExportListPage extends React.Component {
     onExport() {
         const path = "/api/config/export2Excel/byType?" + parseParamsGet({
             ...this.state.queryParams,
-            operateUserCode: "a"
+            operateUserCode: window.localStorage.getItem("userCode")
         });
+        window.open(path)
     }
 
     renderAlert() {
