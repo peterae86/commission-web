@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");  //css单独打包
 
 module.exports = {
-    devtool: 'eval-source-map',
+    // devtool: 'eval-source-map',
     entry: __dirname + '/src/entry.js', //唯一入口文件
     output: {
         path: __dirname + '/build', //打包后的文件存放的地方
@@ -33,16 +33,21 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("production")
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            output: {
+                comments: false,
+            },
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin('main.css')
-        // new webpack.optimize.UglifyJsPlugin({
-        //     output: {
-        //         comments: false,
-        //     },
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
-        // new webpack.NoErrorsPlugin()
     ]
 
 }
