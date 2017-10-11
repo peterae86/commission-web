@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>积分提佣</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="container-alert">
+    </div>
+
+    <script src="/bundle.js?20171011"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+    window.errorAlert = function () {
+        const str = [
+            '<div id="error-alert" className="error-alert">',
+            '<div class="error-panel">',
+            '<div id="alert-title" class="alert-title">错误</div>',
+            '<div id="alert-message" class="alert-message">'+(window.errorMessage || "发生未知错误,请联系管理员.")+'</div>',
+            '<div class="alert-btn">',
+            '<button class="alert-button" id="error-alert-btn" type="button">确定</button>',
+            '</div></div></div>'
+        ];
+        $("#container-alert").html(str.join(""));
+        $("#container-alert").show();
+        $("#error-alert-btn").click(function () {
+            $("#container-alert").empty();
+        });
+    }
+
+    </script>
+</body>
+
+</html>
