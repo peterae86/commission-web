@@ -33,19 +33,23 @@ class QueryDetail extends React.Component {
     componentWillMount() {
         let p = {
             ...self.queryParams,
-            currentPage: 1,
+            currentPage: 0,
             pageSize: 10,
         };
         this.onSearch(p);
     }
 
     onSearch(p) {
-        const path = "/api/queryManage/showUserDetailInfoByTyp?" + parseParamsGet(p);
-        requestByFetch(path, "GET").then((res) => {
+        const obj = {
+            ...p,
+            ...this.state.queryParams
+        }
+        const path = "/api/queryManage/showUserDetailInfoByType";
+        requestByFetch(path, obj ,true).then((res) => {
             this.state.table.listData = res.list;
             this.state.pager = {
                 ...this.state.pager,
-                currentPage: p.currentPage,
+                currentPage: obj.currentPage,
                 totalCount: res.totalCount
             };
             this.setState(this.state);
