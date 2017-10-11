@@ -19,7 +19,7 @@ class QueryManagement extends React.Component {
             showDetail: false,
             showModify: false,
             table: {
-                listData: [], //数据列表
+                listData: [{}], //数据列表
                 config: {
                     column: [
                         {name: "公司", key: "corpName", textAlign: "center", width: "8%"},
@@ -410,19 +410,22 @@ class QueryManagement extends React.Component {
                 }
                 {
                     this.state.showModify ? (
-                        <div className="alert-container">
-                            <div className="alert">
-                                <div className="alert-content">
-                                    <Dropdown style={{height: "30px", lineHeight: "24px"}}
-                                              options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
-                                              propsValue="value" value={this.state.formData.changeStatusList[0].value} onSelect={(x) => {
-                                        this.state.changeStatusParams.newStatus = x;
-                                        this.setState({queryParams: this.state.queryParams});
-                                    }}/>
-                                </div>
-                                <div className="alert-button">
-                                    <div className="button-content">
-                                        <Button className="btn-middle-full" value="确认" onClick={()=>{
+                        <div  className="m-modal">
+                            <div className="m-mask">
+                                <div className="modal-container">
+                                    <ul className="modal-body">
+                                        <li key="0" className="body-list">
+                                            <span className="list-label">请选择状态：</span>
+                                            <Dropdown style={{height: "30px", lineHeight: "24px"}}
+                                                      options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
+                                                      propsValue="value" value={this.state.changeStatusParams.newStatus?this.state.changeStatusParams.newStatus:this.state.formData.changeStatusList[0].value} onSelect={(x) => {
+                                                this.state.changeStatusParams.newStatus = x;
+                                                this.setState({queryParams: this.state.queryParams});
+                                            }}/>
+                                        </li>
+                                    </ul>
+                                    <div className="modal-button">
+                                        <Button styleName="btn-middle"  value="确认" onClick={()=>{
                                             let path="/api/userInfo/changeOnDutyStatusByUserCode?"+parseParamsGet({
                                                 userCode:this.state.changeStatusParams.userCode,
                                                 onDutyStatus:this.state.changeStatusParams.newStatus,
@@ -437,7 +440,7 @@ class QueryManagement extends React.Component {
                                                 this.onQuery(this.state.queryParams);
                                             });
                                         }}/>
-                                        <Button className="btn-middle-full" value="取消" onClick={()=>{
+                                        <Button styleName="btn-middle-gray"  value="取消" onClick={()=>{
                                             this.setState({
                                                 showDetail:false
                                             })
@@ -445,7 +448,8 @@ class QueryManagement extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>): null
+                        </div>
+                    ):null
                 }
             </div>
         );
