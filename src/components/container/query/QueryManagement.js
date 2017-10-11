@@ -18,6 +18,7 @@ class QueryManagement extends React.Component {
         let self = this;
         this.state = {
             showDetail: false,
+            showModify: false,
             table: {
                 listData: [], //数据列表
                 config: {
@@ -39,7 +40,31 @@ class QueryManagement extends React.Component {
                             {
                                 key: "状态调整",
                                 func: (index) => {
-
+                                    this.state.formData.changeStatusList=[];
+                                    this.state.showModify=true;
+                                    let statusList = [{
+                                        value: "ON_DUTY",
+                                            desc: "在职"
+                                    },
+                                    {
+                                        value: "OFF_DUTY",
+                                            desc: "离职"
+                                    },
+                                    {
+                                        value: "SHI_YONG",
+                                            desc: "试用期"
+                                    },
+                                    {
+                                        value: "DAN_BAO",
+                                            desc: "担保期"
+                                    }];
+                                    statusList.forEach((x)=>{
+                                        if(x.value!==this.state.table.listData[index].dutyStatus){
+                                            this.state.formData.changeStatusList.push(x);
+                                        }
+                                    });
+                                    this.state.changeStatusParams.userCode=this.state.table.listData[index].userCode;
+                                    this.setState(this.state);
                                 }
                             },
                             {
@@ -67,6 +92,10 @@ class QueryManagement extends React.Component {
                     }
                 }
             },
+            changeStatusParams:{
+                userCode: '',
+                newStatus:''
+            },
             queryParams: {
                 regionCode: '',
                 storeCode: '',
@@ -82,7 +111,8 @@ class QueryManagement extends React.Component {
             formData: {
                 regionList: [],
                 storeList: [],
-                rankList: []
+                rankList: [],
+                changeStatusList:[]
             },
             showConfirm: false
         };
@@ -262,7 +292,7 @@ class QueryManagement extends React.Component {
             return;
         }
 
-        const path = "/api/queryManage/showUserBaseInfo?";
+        const path = "/api/queryManage/showUserBaseInfo";
         requestByFetch(path, obj, true).then((res) => {
 
             res.list.map((x)=>{
@@ -373,7 +403,50 @@ class QueryManagement extends React.Component {
                                 </div>
                                 <div className="alert-button">
                                     <div className="button-content">
-                                        <button type="button" className="btn middle full ">取消</button>
+                                        <Button className="btn-middle-full" value="取消" onClick={()=>{
+                                            this.setState({
+                                                showDetail:false
+                                            })
+                                        }}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>): null
+                }
+                {
+                    this.state.showModify ? (
+                        <div className="alert-container">
+                            <div className="alert">
+                                <div className="alert-content">
+                                    <Dropdown style={{height: "30px", lineHeight: "24px"}}
+                                              options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
+                                              propsValue="value" value={this.state.formData.changeStatusList[0].value} onSelect={(x) => {
+                                        this.state.changeStatusParams.newStatus = x;
+                                        this.setState({queryParams: this.state.queryParams});
+                                    }}/>
+                                </div>
+                                <div className="alert-button">
+                                    <div className="button-content">
+                                        <Button className="btn-middle-full" value="确认" onClick={()=>{
+                                            let path="/api/userInfo/changeOnDutyStatusByUserCode?"+parseParamsGet({
+                                                userCode:this.state.changeStatusParams.userCode,
+                                                onDutyStatus:this.state.changeStatusParams.newStatus,
+                                                operUserCode:window.localStorage.getItem("userCode")
+                                            });
+                                            requestByFetch(path, "GET").then((res) => {
+                                                this.setState({
+                                                    showModify: false,
+                                                    showConfirm: true,
+                                                    message: "修改成功!"
+                                                });
+                                                this.onQuery(this.state.queryParams);
+                                            });
+                                        }}/>
+                                        <Button className="btn-middle-full" value="取消" onClick={()=>{
+                                            this.setState({
+                                                showDetail:false
+                                            })
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
