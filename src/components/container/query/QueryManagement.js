@@ -162,14 +162,14 @@ class QueryManagement extends React.Component {
     renderSearchInputs() {
         return <div className="title-right">
             <div className="right-company">
-                <span>大区：</span>
+                <span className="right-company-label">大区：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
                           options={this.state.formData.regionList}
                           value={this.state.queryParams.regionCode}
                           placeholder="请选择大区" propsLabel="regionName" propsValue="regionCode"/>
             </div>
             <div className="right-company">
-                <span>店面：</span>
+                <span className="right-company-label">店面：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} options={this.state.formData.storeList}
                           placeholder="请选择店面" propsLabel="storeName" propsValue="storeCode" value={this.state.queryParams.storeCode} onSelect={(x) => {
                     this.state.queryParams.storeCode = x;
@@ -177,21 +177,21 @@ class QueryManagement extends React.Component {
                 }}/>
             </div>
             <div className="right-company">
-                <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userName} onChange={(x) => {
+                <span className="right-company-label">姓名：</span>
+                <Input inputStyle={{height: '30px', width: '135px'}} value={this.state.queryParams.userName} onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
-                <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '150px'}} value={this.state.queryParams.userCode} onChange={(x) => {
+                <span className="right-company-label">系统号：</span>
+                <Input inputStyle={{height: '30px', width: '135px'}} value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
-                <span>当前级别：</span>
+                <span className="right-company-label">当前级别：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}}
                           options={this.state.formData.rankList} placeholder="请选择级别" propsLabel="dutyLevelDesc"
                           propsValue="dutyLevelCode" value={this.state.queryParams.dutyLevel} onSelect={(x) => {
@@ -200,7 +200,7 @@ class QueryManagement extends React.Component {
                 }}/>
             </div>
             <div className="right-company">
-                <span>状态列表：</span>
+                <span className="right-company-label">状态列表：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectStore} options={[
                     {
                         value: "ALL_DUTY",
@@ -224,18 +224,20 @@ class QueryManagement extends React.Component {
                     }
                 ]} placeholder="请选择列表" propsLabel="desc" propsValue="value" value={this.state.queryParams.dutyStatus}/>
             </div>
-            <div className="right-company">
-                <span>入职时间从：</span>
+            <div className="right-company" style={{width:"450px"}}>
+                <span className="right-company-label">入职时间：</span>
                 <DatePicker
                    selected={this.state.queryParams.onDutyTimeStart}
                    onChange={this.handleStartChange}
                    dateFormat="YYYY-MM-DD"
+                   styleName={{width:"135px"}}
                />
-               <span>至：</span>
+               <span>&nbsp;--&nbsp;</span>
                <DatePicker
                   selected={this.state.queryParams.onDutyTimeEnd }
                   onChange={this.handleEndChange}
                   dateFormat="YYYY-MM-DD"
+                  styleName={{width:"135px"}}
               />
             </div>
         </div>

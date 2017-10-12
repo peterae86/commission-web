@@ -30,8 +30,8 @@ class Rank extends React.Component {
                     {name: "职级积分下限", key: "minScore", textAlign: "center", width: "10%"},
                     {name: "职级积分上限", key: "maxScore", textAlign: "center", width: "10%"},
                     {name: "职级基础分", key: "baseScore", textAlign: "center", width: "10%"},
-                    {name: "师徒制积分贡献比例", key: "masterScoreRatio", textAlign: "center", width: "15%"},
-                    {name: "师徒制提佣积分贡献系数", key: "masterCommissionRatio", textAlign: "center", width: "15%"},
+                    {name: "师徒制积分贡献比例", key: "masterScoreRatioDesc", textAlign: "center", width: "15%"},
+                    {name: "师徒制提佣积分贡献系数", key: "masterCommissionRatioDesc", textAlign: "center", width: "15%"},
                     {
                         name: "操作", key: "opt", textAlign: "center", width: "20%", content: [
                         {
@@ -202,6 +202,11 @@ class Rank extends React.Component {
         //    const path = "../data/rankList.json?";
         const path = `/api/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
+            res.dutyLevelInfoList.map((x)=>{
+                x.masterScoreRatioDesc=x.masterScoreRatio*100+"%";
+                x.masterCommissionRatioDesc=x.masterCommissionRatio*100+"%";
+            })
+
             this.setState({
                 listData: res.dutyLevelInfoList,
                 pager: {
