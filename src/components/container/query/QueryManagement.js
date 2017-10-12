@@ -64,6 +64,7 @@ class QueryManagement extends React.Component {
                                         }
                                     });
                                     this.state.changeStatusParams.userCode=this.state.table.listData[index].userCode;
+                                    this.state.changeStatusParams.newStatus=this.state.formData.changeStatusList[0].value;
                                     this.setState(this.state);
                                 }
                             },
@@ -376,14 +377,13 @@ class QueryManagement extends React.Component {
                 }
                 {
                     this.state.showModify ? (
-
                         <div className="alert-container">
                             <div className="alert">
                                 <div className="alert-title">请选择状态</div>
                                 <div className="alert-content">
                                     <Dropdown style={{height: "30px", lineHeight: "24px"}}
                                               options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
-                                              propsValue="value" value={this.state.changeStatusParams.newStatus?this.state.changeStatusParams.newStatus:this.state.formData.changeStatusList[0].value} onSelect={(x) => {
+                                                  propsValue="value" value={this.state.changeStatusParams.newStatus} onSelect={(x) => {
                                         this.state.changeStatusParams.newStatus = x;
                                         this.setState({queryParams: this.state.queryParams});
                                     }}/>
