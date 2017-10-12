@@ -29,6 +29,7 @@ class AddFormula extends React.Component {
             ruleName: "", // 公式名称
             ruleDesc: "",
             symbolTag: "ADD",
+            defaultSymbolTag: "ADD",
             paramScoreKey:"", // 参数
             paramScoreDesc: "", //公式0的参数1的描述
             ruleLeftScoreKey: "", //"等式左边的积分参数
@@ -303,11 +304,15 @@ class AddFormula extends React.Component {
             parameters: obj.parameters,
             ruleName: obj.ruleName,
             ruleDesc: obj.ruleDesc,
-            symbolTag: obj.symbolTag,
+            symbolTag: "ADD",
             ruleLeftScoreKey:obj.ruleLeftScoreKey,
             ruleLeftScoreDesc: obj.ruleLeftScoreDesc,
             finalParam: newArray,
-            current: --this.state.current+count
+            current: --this.state.current+count,
+            currentParameters: defaultObj,
+            paramScoreDesc: "",
+            paramScoreKey: "",
+            ratio: ""
         });
     }
 
@@ -351,9 +356,10 @@ class AddFormula extends React.Component {
         if (Object.getOwnPropertyNames(arrs).length < listLength) {
             this.setState({
                 showConfirm: true,
-                message: "不同公式中不能添加重复的计算参数,请修改后提交."
+                message: "不同公式中不能添加重复的计算参数,请修改后提交.",
+                parameters: []
             });
-            return false
+            return false;
         }
         let message = "";
         let tempMessage = [];
@@ -449,7 +455,8 @@ class AddFormula extends React.Component {
             currentParameters,
             parameters,
             finalParam,
-            tempParamList
+            tempParamList,
+            defaultSymbolTag
         } = this.state;
         const style = {height: "30px",lineHeight: "24px"};
         const options =[{value:"ADD",label:"+"},{value:"MINUS",label:"-"}];
@@ -530,7 +537,7 @@ class AddFormula extends React.Component {
                                         onClick = {this.onCheckCity}
                                         options={options}
                                         defaultOption={options[0]}
-                                        value=""/>
+                                        value={defaultSymbolTag}/>
                                 </div>
                                     <div className="form-row">
                                         <span className="form-label">参数系数(%)</span>
@@ -656,7 +663,7 @@ class AddFormula extends React.Component {
                                 <Button value="重置" onClick={this.resetParam} styleName="btn-small-gray"/>
                             </div>
                             <div className="form-row form-show">
-                                <span className="form-label">公式预览?：</span>
+                                <span className="form-label">公式预览：</span>
                                 <div className="form-value form-show-div">
                                 {ruleLeftScoreDesc ? ruleLeftScoreDesc+" = ": ""}
                                 {parameters.map((item, index)=>{

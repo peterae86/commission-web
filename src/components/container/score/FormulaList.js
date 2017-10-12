@@ -17,9 +17,9 @@ class FormulaList extends ListPage {
                 {name: "公式名称", key: "ruleName", textAlign: "center", width: "15%"},
                 {name: "公式详情", key: "ruleDetail", textAlign: "center", width: "15%"},
                 {name: "状态", key: "statusAlias", textAlign: "center", width: "10%"},
-                {name: "备注（公式描述）", key: "ruleDesc", textAlign: "center", width: "20%"},
+                {name: "备注（公式描述）", key: "ruleDesc", textAlign: "center", width: "15%"},
                 {
-                    name: "操作", key: "opt", textAlign: "center", width: "30%", content: [
+                    name: "操作", key: "opt", textAlign: "center", width: "35%", content: [
                     {
                         key: "操作历史",
 

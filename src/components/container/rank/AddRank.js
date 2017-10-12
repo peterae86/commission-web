@@ -95,6 +95,14 @@ class AddRank extends React.Component {
             });
             return false;
         }
+        if (maxScore <= minScore) {
+            debugger
+            this.setState({
+                showConfirm: true,
+                message: "职级积分上限必须大于职级积分下限!"
+            });
+            return false;
+        }
         const param = {
             corpCode: corpCode,
             dutyScope: dutyScope,
@@ -105,6 +113,7 @@ class AddRank extends React.Component {
             masterScoreRatio: masterScoreRatio/100,
             masterCommissionRatio: masterCommissionRatio/100
         };
+
         //    const path = "../data/newRank.json";
         const path = "/api/dutyLevelConfig/addNew";
         requestByFetch(path, param).then((res) => {

@@ -118,10 +118,10 @@ class CommissionType extends React.Component {
                               placeholder="请选择" value={selectedType} propsLabel="desc"/>
                 </div>
                 <div className="form commission-form">
-                    <Button  onClick={this.onSubmit} styleName="btn-middle"  className="btn-back" value="提交"/>
+                    <Button  onClick={this.onSubmit} styleName="btn-small"  className="btn-back" value="提交"/>
                     <Button  onClick={()=>{
                         this.props.onJump('/commission');
-                    }} styleName="btn-middle-gray"  className="btn-back" value="返回"/>
+                    }} styleName="btn-small-gray"  className="btn-back" value="返回"/>
                 </div>
             </div>
         </div>
