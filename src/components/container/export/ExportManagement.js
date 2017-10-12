@@ -28,7 +28,7 @@ class ExportManagement extends React.Component{
                             {
                                 key: "操作历史",
                                 func: (index) => {
-                                    this.props.onJump('/export/history');
+                                    window.open(`/#/export/history?historyLog=export`);
                                 }
                             }
                         ]

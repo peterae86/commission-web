@@ -50,6 +50,8 @@ import LevelChangeDetail from "./container/query/LevelChangeDetail";
 import PunishScoreDetail from "./container/query/PunishScoreDetail";
 import RewardScoreDetail from "./container/query/RewardScoreDetail";
 import YejiDetail from "./container/query/YejiDetail";
+import History from "./container/History";
+import NotFound from "./NotFound"
 
 class App extends React.Component {
     constructor(props) {
@@ -334,7 +336,7 @@ class App extends React.Component {
                     }
                 ]
             },
-            currentPage: Blank
+            currentPage: props.location.pathname === "/404" ? NotFound : Blank
         };
         this.state.pages = {
             'rank': Rank,
@@ -370,12 +372,12 @@ class App extends React.Component {
             "baseModal": BaseModal,
             "userRelation": UserRelation,
             "query": QueryManagement,
-            "BaseScoreDetail":BaseScoreDetail,
-            "CommissionAmountDetail":CommissionAmountDetail,
-            "LevelChangeDetail":LevelChangeDetail,
-            "PunishScoreDetail":PunishScoreDetail,
-            "RewardScoreDetail":RewardScoreDetail,
-            "YejiDetail":YejiDetail
+            "BaseScoreDetail": BaseScoreDetail,
+            "CommissionAmountDetail": CommissionAmountDetail,
+            "LevelChangeDetail": LevelChangeDetail,
+            "PunishScoreDetail": PunishScoreDetail,
+            "RewardScoreDetail": RewardScoreDetail,
+            "YejiDetail": YejiDetail
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
@@ -426,12 +428,14 @@ class App extends React.Component {
         const pathNames = this.state.pathNames;
         const onJump = App.onJump;
         const {location, cities, userName} = this.state;
-
         return <div className="app-body">
             <div className="app-header">
-                <div className="app-header-left">
-                    <img src={logo}/>
-                </div>
+                {
+                    CurrentPage.prototype instanceof History ? null :
+                        <div className="app-header-left">
+                            <img src={logo}/>
+                        </div>
+                }
                 <div className="app-header-right">
                     <div className="app-title">积分提佣系统</div>
                     <div className="welcome">您好，<span>{userName}</span></div>

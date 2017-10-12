@@ -10,7 +10,7 @@ class Input extends React.Component {
       isFocusing: false,
       autocomplete: props.autocomplete,
       inputType: {
-        "numeric":  /^[0-9a-zA-Z]*$/,
+        "numeric":  /^[0-9a-zA-Z/]*$/,
         "digital": /^[0-9]*$/,
         "float": /^[\d.]*$/,
         "normal": '',

@@ -18,6 +18,21 @@
 				margin-right: 20px;
 				align-items: center;
 				height:40px;
+				.right-company-label{
+					text-align: right;
+					width: 80px;
+				}
+				input{
+					width: 135px;
+					border: 1px solid #E6E6E6;
+					height: 32px;
+					padding: 0 20px;
+					outline: none;
+					font-size: 14px;
+					box-sizing: border-box;
+					border-radius: 2px;
+					background: #fff;
+				}
 			}
 		}
 	}
