@@ -37,7 +37,7 @@ class Rank extends React.Component {
                         {
                             key: "操作历史",
                             func: (index) => {
-                                window.open(`/#/rank/history?id=${this.state.table.listData[index].id}&historyLog=rank`);
+                                window.open(`/#/rank/history?id=${this.state.listData[index].id}&historyLog=rank`);
                                 // this.props.onJump('/rank/history?id=' + this.state.listData[index].id);
                             }
                         },
@@ -146,6 +146,8 @@ class Rank extends React.Component {
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
+                data.masterScoreRatio/=100;
+                data.masterCommissionRatio/=100;
                 // const path = "../data/rankUpdate.json";
                 const path = `/api/dutyLevelConfig/updateInfoById`; // 真正接口
                 requestByFetch(path, data).then((res) => {

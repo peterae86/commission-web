@@ -12,7 +12,7 @@ class Input extends React.Component {
       inputType: {
         "numeric":  /^[0-9a-zA-Z]*$/,
         "digital": /^[0-9]*$/,
-        "float": /^\d+(.\d+)?$/,
+        "float": /^[\d.]*$/,
         "normal": '',
       }[props.inputType] || ""
     };

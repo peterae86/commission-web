@@ -15,7 +15,7 @@ class AddRank extends React.Component {
             corpCode: "", // 城市公司下编码
             showConfirm: false,
             message: "", // alert message
-            currentCity:{},
+            currentCity: {},
             dutyScope: "",
             dutyLevel: "",
             minScore: "",
@@ -44,6 +44,7 @@ class AddRank extends React.Component {
         }
 
     }
+
     // 渲染碳层
     renderAlert() {
         const modalProps = {
@@ -56,6 +57,7 @@ class AddRank extends React.Component {
         };
         return <ModalAlert {...modalProps} />
     }
+
     // 选择城市回调
     onSelectCity(value) {
         this.setState({
@@ -77,7 +79,7 @@ class AddRank extends React.Component {
         }
     }
 
-    comfirmFunc () {
+    comfirmFunc() {
         const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
         if (!currentCity.cityCode || !corpCode) {
             this.setState({
@@ -100,8 +102,8 @@ class AddRank extends React.Component {
             minScore: minScore,
             maxScore: maxScore,
             baseScore: baseScore,
-            masterScoreRatio: masterScoreRatio,
-            masterCommissionRatio: masterCommissionRatio
+            masterScoreRatio: masterScoreRatio/100,
+            masterCommissionRatio: masterCommissionRatio/100
         };
         //    const path = "../data/newRank.json";
         const path = "/api/dutyLevelConfig/addNew";
@@ -110,7 +112,7 @@ class AddRank extends React.Component {
                 showConfirm: true,
                 message: "新增成功"
             });
-            setTimeout(()=> {
+            setTimeout(() => {
                 this.setState({
                     showConfirm: false,
                     message: ""
@@ -120,7 +122,8 @@ class AddRank extends React.Component {
         });
 
     }
-    cancelFunc () {
+
+    cancelFunc() {
         this.props.onJump('/rank');
     }
 
@@ -128,36 +131,38 @@ class AddRank extends React.Component {
     render() {
         const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
         const list = [{
-                label: "所属序列",
-                key: "dutyScope",
-                inputType: "numeric",
-                errorMessage: "请输入所属序列. 例如 A"
-            },{
-                label: "职级",
-                key: "dutyLevel",
-                inputType: "numeric",
-                errorMessage: "请输入职级.例如 A1"
-            },
+            label: "所属序列",
+            key: "dutyScope",
+            inputType: "numeric",
+            errorMessage: "请输入所属序列. 例如 A"
+        }, {
+            label: "职级",
+            key: "dutyLevel",
+            inputType: "numeric",
+            errorMessage: "请输入职级.例如 A1"
+        },
             {
-                label: "职级积分下线",
+                label: "职级积分下限",
                 key: "minScore",
                 inputType: "digital"
-            },{
-                label: "职级积分上线",
+            }, {
+                label: "职级积分上限",
                 key: "maxScore",
                 inputType: "digital"
-            },{
+            }, {
                 label: "职级基础分",
                 key: "baseScore",
                 inputType: "digital"
-            },{
+            }, {
                 label: "师徒制积分贡献比例",
                 key: "masterScoreRatio",
-                inputType: "float"
-            },{
+                inputType: "float",
+                errorMessage:"（%）"
+            }, {
                 label: "师徒制提佣积分贡献系数",
                 key: "masterCommissionRatio",
-                inputType: "float"
+                inputType: "float",
+                errorMessage:"（%）"
             }
         ];
         return (
@@ -172,29 +177,29 @@ class AddRank extends React.Component {
                         <Dropdown
                             className="form-value"
                             onSelect={this.onSelectCity}
-                            style={{height: "30px",lineHeight: "24px",width: "175px"}}
+                            style={{height: "30px", lineHeight: "24px", width: "175px"}}
                             options={this.props.cities}
                             propsValue="cityCode"
                             placeholder="请选择城市"
                             value={currentCity.cityCode}
                             propsLabel="cityName"/>
-                            <span className="form-message">* 请选择城市</span>
+                        <span className="form-message">* 请选择城市</span>
                     </div>
                     <div className="form">
                         <span className="form-label">公司：</span>
                         <Dropdown
                             className="form-value"
                             onSelect={this.onSelectCompnay}
-                            style={{height: "30px",lineHeight: "24px", width: "175px"}}
+                            style={{height: "30px", lineHeight: "24px", width: "175px"}}
                             options={currentCity.corps}
                             propsValue="corpCode"
                             placeholder="请选择公司"
                             propsLabel="corpName"
                             value={corpCode}/>
-                            <span className="form-message">* 请选择公司</span>
+                        <span className="form-message">* 请选择公司</span>
                     </div>
                     {
-                        list.map((item, index)=> {
+                        list.map((item, index) => {
                             return <div className="form" key={index}>
                                 <span className="form-label">{item.label}：</span>
                                 <Input
@@ -202,11 +207,11 @@ class AddRank extends React.Component {
                                     inputType={item.inputType}
                                     changeRef={item.key}
                                     onChange={this.onChangeFunc}
-                                    placeholder="0"
+                                    placeholder={["dutyLevel", "dutyScope"].indexOf(item.key) !== -1 ? "" : "0"}
                                     inputStyle={{height: "30px", paddingLeft: "5px"}}
                                     value={this.state[item.key]}/>
 
-                                {item.errorMessage ? <span className="form-message">* {item.errorMessage}</span>  : ""}
+                                {item.errorMessage ? <span className="form-message">* {item.errorMessage}</span> : ""}
                             </div>
                         })
                     }
