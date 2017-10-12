@@ -136,7 +136,7 @@ class Rank extends React.Component {
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
-                if (data.maxScore <= data.minScore) {
+                if (data.maxScore && data.maxScore <= data.minScore) {
                     this.setState({
                         showConfirm: true,
                         message: "职级积分上限必须大于职级积分下限!",
