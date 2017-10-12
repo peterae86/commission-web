@@ -8,8 +8,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userCode: "123",
-            passwd: "Zy168168"
+            userCode: "",
+            passwd: ""
         };
         this.changeValue = this.changeValue.bind(this);
         this.changePasswd = this.changePasswd.bind(this);
@@ -33,7 +33,7 @@ class Login extends React.Component {
                 passwd: this.state.passwd
         };
         const path = `/api/loginIn/submit`;
-        requestByFetch(path, param).then((res) => {
+        requestByFetch(path, param, true).then((res) => {
             window.localStorage.setItem("userCode",this.state.userCode);
             const paths = `/api/userAuth/queryAllAuths?userCode=${this.state.userCode}`;
             requestByFetch(paths, 'GET').then((response) => {

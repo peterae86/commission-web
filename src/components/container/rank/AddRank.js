@@ -96,7 +96,6 @@ class AddRank extends React.Component {
             return false;
         }
         if (maxScore <= minScore) {
-            debugger
             this.setState({
                 showConfirm: true,
                 message: "职级积分上限必须大于职级积分下限!"
