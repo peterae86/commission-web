@@ -27,8 +27,8 @@ class Rank extends React.Component {
                 column: [
                     {name: "所属序列", key: "dutyScope", textAlign: "center", width: "10%"},
                     {name: "职级", key: "dutyLevel", textAlign: "center", width: "10%"},
-                    {name: "职级积分下线", key: "minScore", textAlign: "center", width: "10%"},
-                    {name: "职级积分上线", key: "maxScore", textAlign: "center", width: "10%"},
+                    {name: "职级积分下限", key: "minScore", textAlign: "center", width: "10%"},
+                    {name: "职级积分上限", key: "maxScore", textAlign: "center", width: "10%"},
                     {name: "职级基础分", key: "baseScore", textAlign: "center", width: "10%"},
                     {name: "师徒制积分贡献比例", key: "masterScoreRatio", textAlign: "center", width: "15%"},
                     {name: "师徒制提佣积分贡献系数", key: "masterCommissionRatio", textAlign: "center", width: "15%"},
@@ -61,11 +61,11 @@ class Rank extends React.Component {
                                         value: obj.dutyLevel,
                                         readOnly: true
                                     }, {
-                                        label: "职级积分下线",
+                                        label: "职级积分下限",
                                         key: "minScore",
                                         value: obj.minScore,
                                     }, {
-                                        label: "职级积分上线",
+                                        label: "职级积分上限",
                                         key: "maxScore",
                                         value: obj.maxScore,
                                     }, {
@@ -75,12 +75,12 @@ class Rank extends React.Component {
                                     }, {
                                         label: "师徒制积分贡献比例",
                                         key: "masterScoreRatio",
-                                        value: obj.masterScoreRatio,
+                                        value: obj.masterScoreRatio*100,
                                         inputType: "float"
                                     }, {
                                         label: "师徒制提佣积分贡献系数",
                                         key: "masterCommissionRatio",
-                                        value: obj.masterCommissionRatio,
+                                        value: obj.masterCommissionRatio*100,
                                         inputType: "float"
                                     }]
                                 });
@@ -105,16 +105,6 @@ class Rank extends React.Component {
         this.onQuery = this.onQuery.bind(this);
         this.jumpToHistory.bind(this);
     }
-
-
-
-    // componentWillMount() {
-    //     const param = {
-    //         corpCode: "",
-    //         currentPage: 0
-    //     };
-    //  this.onQuery(param);
-    // }
 
     jumpToHistory(index) {
         this.props.onJump();
@@ -146,6 +136,14 @@ class Rank extends React.Component {
                 queryData.map((item) => {
                     data[item.key] = item.value;
                 });
+                if (data.maxScore <= data.minScore) {
+                    this.setState({
+                        showConfirm: true,
+                        message: "职级积分上限必须大于职级积分下限!",
+                        modifyModal: false,
+                    });
+                    return false;
+                }
                 data.masterScoreRatio/=100;
                 data.masterCommissionRatio/=100;
                 // const path = "../data/rankUpdate.json";
