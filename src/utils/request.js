@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-
+import {hashHistory} from 'react-router';
 // 登录前的用户请求使用，只携带设备信息
 export function parseParamsByJson(jsonBody) {
   return Object.keys(jsonBody).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonBody[key])}`).join('&');
@@ -64,7 +64,9 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
                 window.errorAlert();
             }
 
-        } else if (/^5/.test(response.status)){
+        } else if (response.status === 401){
+            hashHistory.push("/login");
+        }else if (/^5/.test(response.status)){
           return resolve({
             code: "000",
             message: "网络请求出错"
@@ -73,8 +75,8 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
         return reject(json);
       })
       .catch(
-        (locationHref) => {
-            console.log(locationHref);
+        () => {
+            hashHistory.push("/login");
       });
   });
 }
