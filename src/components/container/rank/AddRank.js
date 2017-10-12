@@ -143,12 +143,12 @@ class AddRank extends React.Component {
             label: "所属序列",
             key: "dutyScope",
             inputType: "numeric",
-            errorMessage: "请输入所属序列. 例如 A"
+            errorMessage: "* 请输入所属序列. 例如 A"
         }, {
             label: "职级",
             key: "dutyLevel",
             inputType: "numeric",
-            errorMessage: "请输入职级.例如 A1"
+            errorMessage: "* 请输入职级.例如 A1"
         },
             {
                 label: "职级积分下限",
@@ -220,7 +220,7 @@ class AddRank extends React.Component {
                                     inputStyle={{height: "30px", paddingLeft: "5px"}}
                                     value={this.state[item.key]}/>
 
-                                {item.errorMessage ? <span className="form-message">* {item.errorMessage}</span> : ""}
+                                {item.errorMessage ? <span className="form-message">{item.errorMessage}</span> : ""}
                             </div>
                         })
                     }
