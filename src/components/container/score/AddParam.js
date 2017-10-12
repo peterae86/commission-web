@@ -192,7 +192,7 @@ class AddParam extends React.Component {
                                             inputType={item.inputType}
                                             changeRef={item.key}
                                             onChange={this.onChangeFunc}
-                                            placeholder="0"
+                                            placeholder=""
                                             inputStyle={{height: "30px", paddingLeft: "5px"}}
                                             value={this.state[item.key]}/>
                                     )

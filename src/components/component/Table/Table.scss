@@ -22,17 +22,24 @@
 		margin-right:-1px;
 		.list-item {
 			overflow: hidden;
-			display: block;
+			display: flex;
 		    text-overflow: ellipsis;
 			line-height: 12px;
-			padding: 14px 0px;
+			padding: 10px 5px;
+			justify-content: center;
+			align-items: center;
+			min-height: 40px;
 			border-right: 1px solid #E4EAEF;
+			flex-wrap: wrap;
 			.opt-list {
 				display: inline-block;
-				margin: 0 15px;
+				margin: 2px 15px;
 				color: #1273E1;
 				cursor: pointer;
 			}
+		}
+		.list-opt {
+			justify-content: left !important;
 		}
 	}
 	.table-empty {
