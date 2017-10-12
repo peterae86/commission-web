@@ -20,7 +20,7 @@ class QueryManagement extends React.Component {
             showDetail: false,
             showModify: false,
             table: {
-                listData: [{}], //数据列表
+                listData: [], //数据列表
                 config: {
                     column: [
                         {name: "公司", key: "corpName", textAlign: "center", width: "8%"},
@@ -79,17 +79,17 @@ class QueryManagement extends React.Component {
                         ]
                         },
                     ]
-                },
-                pager: {
-                    pageSize: 10,
-                    clickPager: function (index) {
-                        let p = {
-                            ...self.queryParams,
-                            currentPage: index,
-                            pageSize: 10,
-                        };
-                        self.onSearch(p);
-                    }
+                }
+            },
+            pager: {
+                pageSize: 10,
+                clickPager: function (index) {
+                    let p = {
+                        ...self.queryParams,
+                        currentPage: index,
+                        pageSize: 10,
+                    };
+                    self.onSearch(p);
                 }
             },
             changeStatusParams:{
@@ -335,48 +335,9 @@ class QueryManagement extends React.Component {
         });
         this.props.onJump(path);
     }
-    renderModify() {
-        const modal = {
-            show: this.state.modifyModal,
-            formData: this.state.formData,
-            title: "修改底薪",
-            onCancel: () => {
-                this.setState({modifyModal: false});
-            },
-            onConfirm: (queryData) => {
-                let data = {};
-                queryData.map((item) => {
-                    if (item.key === "id" || item.key === "dutyLevel") {
-                        data[item.key] = item.value;
-                    } else {
-                        data[item.key] = (item.value / 100).toFixed(2);
-                    }
-                });
-                data["userCode"] = window.localStorage.getItem("userCode");
-                if (data.baseSalaryModelRatio < 0 || data.doubleSalaryModelRatio < 0) {
-                    this.setState({
-                        showConfirm: true,
-                        message: "系数不能为负数",
-                    });
-                    return;
-                }
-                // const path = "../data/rankUpdate.json";
-                const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;
-                requestByFetch(path, "GET").then((res) => {
-                    this.setState({
-                        modifyModal: false,
-                        showConfirm: true,
-                        message: "修改成功!"
-                    });
-                    this.onQuery(this.state.queryParams);
-                });
-            }
-        };
-        return <Modal {...modal} />
-    }
 
     render() {
-        const {table} = this.state;
+        const {table, pager} = this.state;
         return (
             <div className="rank-container">
                 {this.renderAlert()}
@@ -385,9 +346,9 @@ class QueryManagement extends React.Component {
                     {this.renderSearchInputs()}
                 </div>
                 <div className="container-button">
-                    <Button styleName="btn-middle" value="查询" onClick={this.onSearch}/>
+                    <Button styleName="btn-small" value="查询" onClick={this.onSearch}/>
                 </div>
-                <Table data={table.listData} config={table.config} pager={table.pager}/>
+                <Table data={table.listData} config={table.config} pager={pager}/>
                 {
                     this.state.showDetail ? (
                         <div className="alert-container">
@@ -415,21 +376,19 @@ class QueryManagement extends React.Component {
                 }
                 {
                     this.state.showModify ? (
-                        <div  className="m-modal">
-                            <div className="m-mask">
-                                <div className="modal-container">
-                                    <ul className="modal-body">
-                                        <li key="0" className="body-list">
-                                            <span className="list-label">请选择状态：</span>
-                                            <Dropdown style={{height: "30px", lineHeight: "24px"}}
-                                                      options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
-                                                      propsValue="value" value={this.state.changeStatusParams.newStatus?this.state.changeStatusParams.newStatus:this.state.formData.changeStatusList[0].value} onSelect={(x) => {
-                                                this.state.changeStatusParams.newStatus = x;
-                                                this.setState({queryParams: this.state.queryParams});
-                                            }}/>
-                                        </li>
-                                    </ul>
-                                    <div className="modal-button">
+
+                        <div className="alert-container">
+                            <div className="alert">
+                                <div className="alert-title">请选择状态</div>
+                                <div className="alert-content">
+                                    <Dropdown style={{height: "30px", lineHeight: "24px"}}
+                                              options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
+                                              propsValue="value" value={this.state.changeStatusParams.newStatus?this.state.changeStatusParams.newStatus:this.state.formData.changeStatusList[0].value} onSelect={(x) => {
+                                        this.state.changeStatusParams.newStatus = x;
+                                        this.setState({queryParams: this.state.queryParams});
+                                    }}/>
+                                </div>
+                                <div className="alert-button">
                                         <Button styleName="btn-middle"  value="确认" onClick={()=>{
                                             let path="/api/userInfo/changeOnDutyStatusByUserCode?"+parseParamsGet({
                                                 userCode:this.state.changeStatusParams.userCode,
@@ -442,19 +401,17 @@ class QueryManagement extends React.Component {
                                                     showConfirm: true,
                                                     message: "修改成功!"
                                                 });
-                                                this.onQuery(this.state.queryParams);
+                                                this.onSearch(this.state.queryParams);
                                             });
                                         }}/>
                                         <Button styleName="btn-middle-gray"  value="取消" onClick={()=>{
                                             this.setState({
-                                                showDetail:false
+                                                showModify:false
                                             })
                                         }}/>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ):null
+                        </div>):null
                 }
             </div>
         );

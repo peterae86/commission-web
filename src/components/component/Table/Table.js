@@ -129,7 +129,7 @@ class Tabel extends React.Component {
                                     renderStr = cof.transform?cof.transform(item[cof.key]):item[cof.key];
                                 }
 
-                                return <div key={indexs} className="list-item" title={renderStr} style={style}>{renderStr}</div>
+                                return <div key={indexs} className="list-item" title={cof.key === "opt" ? "操作" : renderStr} style={style}>{renderStr}</div>
                             });
                             return <li className="container-list " key={index}>{row}</li>
                         }) : (<p className="table-empty">暂无数据</p>)

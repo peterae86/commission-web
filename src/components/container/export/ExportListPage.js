@@ -18,16 +18,16 @@ class ExportListPage extends React.Component {
                 config: {
                     column: []
                 },
-                pager: {
-                    pageSize: 10,
-                    clickPager: function (index) {
-                        let p = {
-                            ...self.queryParams,
-                            currentPage: index,
-                            pageSize: 10,
-                        };
-                        self.onSearch(p);
-                    }
+            },
+            pager: {
+                pageSize: 10,
+                clickPager: function (index) {
+                    let p = {
+                        ...self.queryParams,
+                        currentPage: index,
+                        pageSize: 10,
+                    };
+                    self.onSearch(p);
                 }
             },
             queryParams: {
@@ -43,7 +43,8 @@ class ExportListPage extends React.Component {
                 storeList: []
 
             },
-            showConfirm: false
+            showConfirm: false,
+            canExport: false
         }
         this.onSearch = this.onSearch.bind(this);
         this.onSelectRegion = this.onSelectRegion.bind(this);
@@ -139,6 +140,7 @@ class ExportListPage extends React.Component {
                 totalCount: res.totalCount,
                 pageSize: 10
             };
+            this.state.canExport = res.exportList.length !== 0;
             this.setState(this.state);
         });
     }
@@ -164,7 +166,7 @@ class ExportListPage extends React.Component {
     }
 
     render() {
-        const {table, modifyModal} = this.state;
+        const {table, modifyModal, pager, canExport} = this.state;
         return (
             <div className="rank-container">
                 {this.renderAlert()}
@@ -174,9 +176,9 @@ class ExportListPage extends React.Component {
                 </div>
                 <div className="container-button">
                     <Button styleName="btn-small" value="查询" onClick={this.onSearch}/>
-                    <Button styleName="btn-small" value="导出" onClick={this.onExport}/>
+                    <Button styleName="btn-small" disabled={!canExport} value="导出" onClick={this.onExport}/>
                 </div>
-                <Table data={table.listData} config={table.config} pager={table.pager}/>
+                <Table data={table.listData} config={table.config} pager={pager}/>
             </div>
         );
     }
