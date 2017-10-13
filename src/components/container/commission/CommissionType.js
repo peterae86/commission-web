@@ -27,6 +27,8 @@ class CommissionType extends React.Component {
             message: "请确认：是否对提用方式进行修改！", // alert message
             formData: [],
             selectedType:'',
+            canModify: false,
+            lastUpdateTime: '',
             userCode:window.localStorage.getItem("userCode"), // todo 使用lcoalstory
             onConfirm: () => {
             }
@@ -36,7 +38,6 @@ class CommissionType extends React.Component {
     }
 
     componentWillMount() {
-        // const path = '/data/commissiontype.json';
         const path = `/api/dutyLevelCommission/queryCommissionTypeByUserCode?userCode=${this.state.userCode}`;
         requestByFetch(path, "GET").then((res) => {
             this.setState({
@@ -45,6 +46,13 @@ class CommissionType extends React.Component {
                     ...this.table,
                     listData: res
                 }
+            });
+        });
+        const paths = `/api/dutyLevelCommission/queryCommissionTypeEditableByUserCode?userCode=${this.state.userCode}`;
+        requestByFetch(paths, "GET").then((res) => {
+            this.setState({
+                canModify: res.editable,
+                lastUpdateTime: res.lastUpdateTime
             });
         });
     }
@@ -62,6 +70,13 @@ class CommissionType extends React.Component {
     }
 
     onSubmit(){
+        if (!this.state.canModify) {
+            this.setState({
+                showConfirm: true,
+                message: `公司规定：本人提佣模式(每三个月)只能变更一次，您上次变更时间为${this.state.lastUpdateTime},距今不到三个月。`
+            });
+            return false;
+        }
         if(this.state.userCode && this.state.selectedType) {
             const par = {
                 userCode: this.state.userCode,

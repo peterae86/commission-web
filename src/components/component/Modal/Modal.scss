@@ -21,10 +21,9 @@
         padding: 30px;
         .modal-title {
             text-align: left;
-            padding-bottom: 30px;
-            font-size: $alert-font-size;
+            padding-bottom: 22px;
+            font-size: $alert-font-s-size;
             color: $alert-font-color;
-            font-weight: 600;
             border-bottom: 1px solid $alert-border-color; /*px*/
         }
         .modal-body {
