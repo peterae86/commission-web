@@ -11,7 +11,34 @@ class  ImportComponent extends React.Component{
         super();
         this.state = {
             pathNames: props.pathNames,
-            listData: [],
+            listData: [{
+                "name": "初始职级导入",
+                "importType": "INIT_DUTY_LEVEL_IMPORT"
+            },
+                {
+                    "name": "初始积分导入",
+                    "importType": "INIT_SCORE_IMPORT"
+                },
+                {
+                    "name": "每期业绩导入",
+                    "importType": "YE_JI_IMPORT"
+                },
+                {
+                    "name": "积分修订导入",
+                    "importType": "SCORE_CORRECT_IMPORT"
+                },
+                {
+                    "name": "状态调整导入",
+                    "importType": "STATUS_ADJUST_IMPORT"
+                },
+                {
+                    "name": "双薪模式底薪导入",
+                    "importType": "BASE_SALARY_OF_MODEL2_IMPORT"
+                },
+                {
+                    "name": "员工关系导入",
+                    "importType": "USER_RELATIONSHIP_IMPORT"
+                }],
             showImportant: false,
             showConfirm: false,
             message: "", // alert message
@@ -117,9 +144,6 @@ class  ImportComponent extends React.Component{
         this.comfirmFunc = this.comfirmFunc.bind(this);
     }
 
-    componentWillMount() {
-        this.getList();
-    }
     // 渲染碳层
     renderAlert() {
         const modalProps = {
@@ -131,15 +155,6 @@ class  ImportComponent extends React.Component{
             },
         };
         return <ModalAlert {...modalProps} />
-    }
-    getList() {
-        const path = "../data/ImportantList.json?";
-
-        requestByFetch(path, "GET").then((res) => {
-            this.setState({
-                listData: res
-            });
-        });
     }
 
     checkError (mess) {
