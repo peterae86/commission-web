@@ -12,6 +12,7 @@ class CommissionType extends React.Component {
         this.state = {
             //面包屑
             pathNames: props.pathNames,
+            currentOpen: "",
             //表格配置
             table: {
                 listData: [], //数据列表
@@ -40,8 +41,16 @@ class CommissionType extends React.Component {
     componentWillMount() {
         const path = `/api/dutyLevelCommission/queryCommissionTypeByUserCode?userCode=${this.state.userCode}`;
         requestByFetch(path, "GET").then((res) => {
+            let currentOpen = "";
+            res.map((item)=>{
+                debugger
+                if (item.statusDesc === "关闭") {
+                    currentOpen = item.commissionMode;
+                }
+            });
             this.setState({
                 userCode: res[0].userCode,
+                currentOpen: currentOpen,
                 table: {
                     ...this.table,
                     listData: res
@@ -112,14 +121,11 @@ class CommissionType extends React.Component {
     }
 
     render() {
+        const {table, pathNames, selectedType, currentOpen} = this.state;
         const options = [{
-            value: "BASE_SALARY",
-            desc: "底薪"
-        }, {
-            value: "DOUBLE_SALARY",
-            desc: "双薪"
+            value: (currentOpen === "底薪提成"? "BASE_SALARY": "DOUBLE_SALARY"),
+            desc: currentOpen
         }];
-        const {table, pathNames, selectedType} = this.state;
         return <div className="rank-container">
             {this.renderAlert()}
             <div className="container-title">
