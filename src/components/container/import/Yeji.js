@@ -15,7 +15,7 @@ class Yeji extends ImportListPage{
                 {name: "入职时间", key: "onDutyTimeAlia", textAlign: "center", width: "9%"},
                 {name: "系统号", key: "userCode", textAlign: "center", width: "9%"},
                 {name: "业绩", key: "yeJi", textAlign: "center", width: "10%"},
-                {name: "业绩年月", key: "yeJiPeriodAlia", textAlign: "center", width: "10%"},
+                {name: "业绩年月", key: "yeJiPeriod", textAlign: "center", width: "10%"},
                 {name: "导入时间", key: "createTsAlia", textAlign: "center", width: "9%"},
             ]
         };

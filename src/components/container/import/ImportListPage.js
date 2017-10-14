@@ -43,9 +43,6 @@ class ImportListPage extends ListPage{
                 if (item.createTs) {
                     item["createTsAlia"] = formateTimeSimple(item.createTs);
                 }
-                if (item.yeJiPeriod) {
-                    item["yeJiPeriodAlia"] = formateTimeMonth(item.yeJiPeriod);
-                }
             });
             this.setState({
                 table: {
