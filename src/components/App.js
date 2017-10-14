@@ -423,7 +423,9 @@ class App extends React.Component {
     }
 
     logOut () {
-        hashHistory.push("/login");
+        requestByFetch("/api/loginIn/logOut?userCode="+window.localStorage.getItem("userCode"), "GET").then((res) => {
+            hashHistory.push("/login");
+        });
     }
 
     static onJump(path) {
