@@ -203,8 +203,8 @@ class AddParam extends React.Component {
                         })
                     }
                     <div className="form-button">
-                        <Button value="提交" styleName="btn-middle" className="comfirm-view" onClick={this.comfirmFunc}/>
-                        <Button value="取消" styleName="btn-middle-gray" onClick={this.cancelFunc}/>
+                        <Button value="提交" styleName="btn-small" className="comfirm-view" onClick={this.comfirmFunc}/>
+                        <Button value="取消" styleName="btn-small-gray" onClick={this.cancelFunc}/>
                     </div>
                     <div className="form-tips">
                         <p>注意: 以*开头的选项为必填项.</p>

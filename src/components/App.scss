@@ -25,9 +25,15 @@
 				font-size:18px;
 			}
 			.welcome{
+				display: flex;
 				color:#7F7F7F;
 				margin-right: 43px;
 				font-size:14px;
+				.logout {
+					color: #2085F8;
+					margin-left: 20px;
+					cursor: pointer;
+				}
 				span{
 
 				}

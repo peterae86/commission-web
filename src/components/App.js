@@ -382,6 +382,7 @@ class App extends React.Component {
             "salary":GuaranteeSalaryList
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
     onSelectedChange(key, pathNames, path) {
@@ -421,6 +422,10 @@ class App extends React.Component {
         });
     }
 
+    logOut () {
+        hashHistory.push("/login");
+    }
+
     static onJump(path) {
         hashHistory.push(path);
     }
@@ -440,7 +445,10 @@ class App extends React.Component {
                 }
                 <div className="app-header-right">
                     <div className="app-title">积分提佣系统</div>
-                    <div className="welcome">您好，<span>{userName}</span></div>
+                    <div className="welcome">
+                        <div>您好，<span>{userName}</span></div>
+                        <div className="logout" onClick={this.logOut}>退出</div>
+                    </div>
                 </div>
             </div>
             <div className="app-container">
