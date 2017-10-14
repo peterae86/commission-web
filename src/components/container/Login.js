@@ -38,7 +38,9 @@ class Login extends React.Component {
             const paths = `/api/userAuth/queryAllAuths?userCode=${this.state.userCode}`;
             requestByFetch(paths, 'GET').then((response) => {
                 window.localStorage.setItem("userName", response.userName);
-                window.localStorage.setItem("roleAuthMap",JSON.stringify(response.roleAuthMap));
+                if(JSON.stringify(response.roleAuthMap)) {
+                    window.localStorage.setItem("roleAuthMap", JSON.stringify(response.roleAuthMap));
+                }
                 hashHistory.push("/");
             });
 

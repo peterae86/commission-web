@@ -35,7 +35,23 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
       ...hearderBody,
     };
     const requestPath = path;
-    fetch(requestPath, headerOptions).then(response => response.json().then(json => ({
+    fetch(requestPath, headerOptions)
+        .then((response) =>{
+            debugger
+            if (response.status === 401){
+                hashHistory.push("/login");
+                return reject();
+            }else if (/^5/.test(response.status)){
+                return resolve({
+                    code: "000",
+                    message: "网络请求出错"
+                });
+            }
+            return response;
+        },(error)=>{
+            throw error;
+        })
+        .then(response => response.json().then(json => ({
         json,
         response,
       })), error => {
@@ -49,12 +65,10 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
         response,
         error
       }) => {
+        debugger
         //当请求不靠谱的时候, 包装一个伪返回
         if(error != null) {
-          return resolve({
-            code: "000",
-            message: "网络请求出错"
-          });
+            throw error;
         }
         if (response.status === 200) {
             if (json.code === 0) {
@@ -63,20 +77,17 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
                 window.errorMessage = json.message;
                 window.errorAlert();
             }
-
-        } else if (response.status === 401){
-            hashHistory.push("/login");
-        }else if (/^5/.test(response.status)){
-          return resolve({
-            code: "000",
-            message: "网络请求出错"
-          });
+        }else{
+            window.errorMessage = json.message;
+            window.errorAlert();
         }
         return reject(json);
       })
       .catch(
         () => {
-            hashHistory.push("/login");
-      });
+            window.errorMessage = "网络请求出错";
+            window.errorAlert();
+         }
+      );
   });
 }
