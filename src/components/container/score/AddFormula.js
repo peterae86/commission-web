@@ -161,10 +161,10 @@ class AddFormula extends React.Component {
     }
     //更改参数系数
     changeRatio(value) {
-        if (value< 0 || value > 100) {
+        if (value < 0) {
             this.setState({
                 showConfirm: true,
-                message: "参数系数输入有误,请重新输入",
+                message: "参数系数不得小于零",
                 ratio: ""
             });
             return false;
@@ -569,7 +569,7 @@ class AddFormula extends React.Component {
                                         {final.parameters.map((item, index)=>{
                                             return (<div key={index} className="form-card">
                                                 <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
-                                                <span>{item.ratio}%</span>
+                                                <span>{(item.ratio*100).toFixed(2)}%</span>
                                                 <span>x</span>
                                                 <span>{item.paramScoreDesc}</span>
                                                 <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
@@ -669,14 +669,14 @@ class AddFormula extends React.Component {
                                 {parameters.map((item, index)=>{
                                     return (<div key={index} className="form-card">
                                         <span>{{"ADD":"+","MINUS": "-"}[item.symbolTag]}</span>
-                                        <span>{item.ratio}%</span>
+                                        <span>{(item.ratio*100).toFixed(2)}%</span>
                                         <span>x</span>
                                         <span>{item.paramScoreDesc}</span>
                                         <span className="close" onClick={this.deleteParam.bind(this, index)}>删除</span>
                                         </div>)
                                 })}
                                 {currentParameters.symbolTag && ruleLeftScoreDesc ? {"ADD":"+","MINUS": "-"}[currentParameters.symbolTag]: ""}
-                                {currentParameters.ratio ? currentParameters.ratio+"% x ": ""}
+                                {currentParameters.ratio ? (currentParameters.ratio*100).toFixed(2)+"% x ": ""}
                                 {paramScoreDesc}
                                 </div>
                             </div>
