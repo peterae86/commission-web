@@ -37,7 +37,7 @@ class ListPage extends React.Component {
                     pageSize: 10,
                     clickPager: function (index) {
                         let p = {
-                            ...self.queryParams,
+                            ...self.state.queryParams,
                             currentPage: index
                         };
 
