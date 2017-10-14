@@ -168,6 +168,7 @@ class App extends React.Component {
                         id: "salary",
                         name: "薪资管理",
                         roleName: "ADMIN",
+                        path: "/salary/guaranteeSalaryList",
                         children: [
                             {
                                 id: "guaranteeSalaryList",
@@ -377,7 +378,8 @@ class App extends React.Component {
             "LevelChangeDetail": LevelChangeDetail,
             "PunishScoreDetail": PunishScoreDetail,
             "RewardScoreDetail": RewardScoreDetail,
-            "YejiDetail": YejiDetail
+            "YejiDetail": YejiDetail,
+            "salary":GuaranteeSalaryList
         };
         this.onSelectedChange = this.onSelectedChange.bind(this);
     }
