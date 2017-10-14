@@ -42,12 +42,12 @@ class RankRadioList extends ListPage {
                                 }, {
                                     label: "提佣系数（底薪）%",
                                     key: "baseSalaryModelRatio",
-                                    value: obj.baseSalaryModelRatio*100,
+                                    value: (obj.baseSalaryModelRatio*100).toFixed(2),
                                     inputType: "float"
                                 }, {
                                     label: "提佣系数（双薪提成）%",
                                     key: "doubleSalaryModelRatio",
-                                    value: obj.doubleSalaryModelRatio*100,
+                                    value: (obj.doubleSalaryModelRatio*100).toFixed(2),
                                     inputType: "float"
                                 }]
                             });

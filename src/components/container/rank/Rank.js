@@ -75,12 +75,12 @@ class Rank extends React.Component {
                                     }, {
                                         label: "师徒制积分贡献比例",
                                         key: "masterScoreRatio",
-                                        value: obj.masterScoreRatio*100,
+                                        value: (obj.masterScoreRatio*100).toFixed(2),
                                         inputType: "float"
                                     }, {
                                         label: "师徒制提佣积分贡献系数",
                                         key: "masterCommissionRatio",
-                                        value: obj.masterCommissionRatio*100,
+                                        value: (obj.masterCommissionRatio*100).toFixed(2),
                                         inputType: "float"
                                     }]
                                 });
@@ -203,8 +203,8 @@ class Rank extends React.Component {
         const path = `/api/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         requestByFetch(path, "GET").then((res) => {
             res.dutyLevelInfoList.map((x)=>{
-                x.masterScoreRatioDesc=x.masterScoreRatio*100+"%";
-                x.masterCommissionRatioDesc=x.masterCommissionRatio*100+"%";
+                x.masterScoreRatioDesc=(x.masterScoreRatio*100).toFixed(2)+"%";
+                x.masterCommissionRatioDesc=(x.masterCommissionRatio*100).toFixed(2)+"%";
             })
 
             this.setState({
