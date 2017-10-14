@@ -366,13 +366,11 @@ class QueryManagement extends React.Component {
                                     <p onClick={this.onJumpTo.bind(this, "/query/level?queryType=HISTORY_DUTY_LEVEL_CHANGE&userCode="+this.state.userCode)}>职级调整历史详情</p>
                                 </div>
                                 <div className="alert-button">
-                                    <div className="button-content">
-                                        <Button className="btn-middle-full" value="取消" onClick={()=>{
-                                            this.setState({
-                                                showDetail:false
-                                            })
-                                        }}/>
-                                    </div>
+                                    <Button styleName="btn-middle-full" value="取消" onClick={()=>{
+                                        this.setState({
+                                            showDetail:false
+                                        })
+                                    }}/>
                                 </div>
                             </div>
                         </div>): null
@@ -381,8 +379,9 @@ class QueryManagement extends React.Component {
                     this.state.showModify ? (
                         <div className="alert-container">
                             <div className="alert">
-                                <div className="alert-title">请选择状态</div>
-                                <div className="alert-content">
+                                <div className="alert-title">状态调整</div>
+                                <div className="alert-content-status">
+                                    <span className="">请选择状态</span>
                                     <Dropdown style={{height: "30px", lineHeight: "24px"}}
                                               options={this.state.formData.changeStatusList} placeholder="请选择状态" propsLabel="desc"
                                                   propsValue="value" value={this.state.changeStatusParams.newStatus} onSelect={(x) => {
@@ -390,7 +389,7 @@ class QueryManagement extends React.Component {
                                         this.setState({queryParams: this.state.queryParams});
                                     }}/>
                                 </div>
-                                <div className="alert-button">
+                                <div className="alert-status-button">
                                         <Button styleName="btn-middle"  value="确认" onClick={()=>{
                                             let path="/api/userInfo/changeOnDutyStatusByUserCode?"+parseParamsGet({
                                                 userCode:this.state.changeStatusParams.userCode,

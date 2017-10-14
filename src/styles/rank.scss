@@ -47,6 +47,23 @@
 			width: 25%;
 		}
 	}
+	.alert-content-status {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		font-size: 12px;
+		width: 60%;
+		margin: 20px 0;
+		border: 0;
+	}
+	.alert-status-button {
+		display: flex;
+		justify-content: flex-end;
+		.button-content {
+ 			margin: 0 0 0 20px!important;
+		}
+
+	}
 }
 .add-container{
    background-color: #f6f6f8;

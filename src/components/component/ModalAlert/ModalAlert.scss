@@ -18,10 +18,9 @@
         padding: 30px;
         .alert-title {
             text-align: left;
-            padding-bottom:: 30px;
+            padding-bottom:: 22px;
             font-size: $alert-font-size;
             color: $alert-font-color;
-            font-weight: 600;
             border-bottom: 1px solid $alert-border-color; /*px*/
         }
         .alert-message {
