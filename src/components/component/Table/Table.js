@@ -144,7 +144,8 @@ class Tabel extends React.Component {
                         this.renderPager()
                     }
                     {
-                        pager.currentPage < Math.floor(pager.totalCount / pager.pageSize)-1 ? (
+
+                        pager.currentPage < Math.ceil(pager.totalCount / pager.pageSize)-1 ? (
                             <li className="upstairs" onClick={this.jumpToNext}>下一页</li>) : null
                     }
                 </ul>
