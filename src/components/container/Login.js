@@ -69,7 +69,6 @@ class Login extends React.Component {
                                      <Input placeholder="请输入登录密码" onChange ={this.changePasswd} value={passwd} type="password"/>
                                 </div>
                                 <div className="body-form">
-                                    <p className="tip">忘记密码</p>
                                     <Button value="马上登录" styleName="btn-square" onClick={this.submitLogin}/>
                                 </div>
 
