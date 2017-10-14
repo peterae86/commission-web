@@ -345,7 +345,7 @@ class QueryManagement extends React.Component {
             <div className="rank-container">
                 {this.renderAlert()}
                 <div className="container-title">
-                    <Crumbs names={this.props.pathNames} style={{width:"250px"}}/>
+                    <Crumbs names={this.props.pathNames} style={{width:"280px"}}/>
                     {this.renderSearchInputs()}
                 </div>
                 <div className="container-button">

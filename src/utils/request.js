@@ -37,10 +37,8 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
     const requestPath = path;
     fetch(requestPath, headerOptions)
         .then((response) =>{
-            debugger
             if (response.status === 401){
-                hashHistory.push("/login");
-                return reject();
+                throw "login";
             }else if (/^5/.test(response.status)){
                 return resolve({
                     code: "000",
@@ -65,7 +63,6 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
         response,
         error
       }) => {
-        debugger
         //当请求不靠谱的时候, 包装一个伪返回
         if(error != null) {
             throw error;
@@ -84,9 +81,13 @@ export function requestByFetch(path, methodOrJsonBody = {}, userfulCode = false)
         return reject(json);
       })
       .catch(
-        () => {
-            window.errorMessage = "网络请求出错";
-            window.errorAlert();
+        (local) => {
+            if (local === "login") {
+                hashHistory.push("/login");
+            } else {
+                window.errorMessage = "网络请求出错";
+                window.errorAlert();
+            }
          }
       );
   });
