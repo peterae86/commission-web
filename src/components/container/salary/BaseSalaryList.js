@@ -3,7 +3,7 @@ import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
 import {requestByFetch, parseParamsGet} from "../../../utils/request";
-import ListPage from "../ListPage";
+import ListPage from "../ListPage1";
 import {hashHistory} from "react-router";
 import Modal from "../../component/Modal/Modal";
 
@@ -12,8 +12,9 @@ class BaseSalaryList extends ListPage {
         super(props);
         this.state.table.config = {
             column: [
-                {name: "职级", key: "dutyLevel", textAlign: "center", width: "30%"},
-                {name: "底薪", key: "baseSalaryAmount", textAlign: "center", width: "30%"},
+                {name: "职级", key: "dutyLevel", textAlign: "center", width: "20%"},
+                {name: "底薪", key: "baseSalaryAmount", textAlign: "center", width: "20%"},
+                {name: "业绩考核标准", key: "yeJiAssessStandard", textAlign: "center", width: "20%"},
                 {
                     name: "操作", key: "opt", textAlign: "center", width: "40%", content: [
                     {
@@ -41,6 +42,11 @@ class BaseSalaryList extends ListPage {
                                     label: "底薪",
                                     key: "baseSalaryAmount",
                                     value: obj.baseSalaryAmount,
+                                },
+                                {
+                                    label: "业绩考核标准",
+                                    key: "yeJiAssessStandard",
+                                    value: obj.yeJiAssessStandard,
                                 }]
                             });
                         }

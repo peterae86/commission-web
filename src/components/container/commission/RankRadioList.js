@@ -3,7 +3,7 @@ import Crumbs from "../../component/Crumbs/Crumbs";
 import Dropdown from "../../component/Dropdown/Dropdown";
 import Table from "../../component/Table/Table";
 import {requestByFetch, parseParamsGet} from "../../../utils/request";
-import ListPage from "../ListPage";
+import ListPage from "../ListPage1";
 import {hashHistory} from "react-router";
 import Modal from "../../component/Modal/Modal";
 

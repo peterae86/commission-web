@@ -23,6 +23,7 @@ class Rank extends React.Component {
             message: "", // alert message
             formData: [],
             currentCity: {},
+            dutyScope: "",
             config: {
                 column: [
                     {name: "所属序列", key: "dutyScope", textAlign: "center", width: "10%"},
@@ -95,13 +96,15 @@ class Rank extends React.Component {
                 clickPager: function (index) {
                     self.onQuery({
                         corpCode: self.state.corpCode,
-                        currentPage: index
+                        currentPage: index,
+                        dutyScope: self.state.dutyScope
                     })
                 }
             }
         };
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
+        this.onSelectScope = this.onSelectScope.bind(this);
         this.onQuery = this.onQuery.bind(this);
         this.jumpToHistory.bind(this);
     }
@@ -157,6 +160,7 @@ class Rank extends React.Component {
                     const param = {
                         corpCode: this.state.corpCode,
                         currentPage: this.state.currentPage,
+                        dutyScope: this.state.dutyScope,
                         pageSize: this.state.pageSize
                     };
                     this.onQuery(param);
@@ -174,6 +178,19 @@ class Rank extends React.Component {
         });
     }
 
+    // 选择所属序列回调
+    onSelectScope (value) {
+        this.setState({
+            dutyScope: value
+        });
+        const param = {
+            corpCode: this.state.corpCode,
+            dutyScope: value,
+            currentPage: 0
+        };
+        this.onQuery(param);
+    }
+
     // 选择公司回调
     onSelectCompnay(value) {
         this.setState({
@@ -186,11 +203,6 @@ class Rank extends React.Component {
             });
             return false;
         }
-        const param = {
-            corpCode: value,
-            currentPage: 0
-        };
-        this.onQuery(param);
     }
 
     // 搜索函数
@@ -221,7 +233,7 @@ class Rank extends React.Component {
 
 
     render() {
-        const {listData, config, corpCode, cityCode, currentCity, companyData, pager} = this.state;
+        const {listData, config, corpCode, cityCode, currentCity, companyData, pager, dutyScope} = this.state;
         return (
             <div className="rank-container">
                 {this.renderAlert()}
@@ -238,6 +250,11 @@ class Rank extends React.Component {
                             <span>公司：</span>
                             <Dropdown onSelect={this.onSelectCompnay} options={currentCity.corps} propsValue="corpCode"
                                       placeholder="请选择公司" propsLabel="corpName" value={corpCode}/>
+                        </div>
+                        <div className="right-company">
+                            <span>所属序列：</span>
+                            <Dropdown onSelect={this.onSelectScope} options={[{"label": "S序列","value": "S"},{"label": "P序列","value": "P"}]}
+                                      placeholder="全部" value={dutyScope}/>
                         </div>
                     </div>
                 </div>

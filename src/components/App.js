@@ -156,32 +156,32 @@ class App extends React.Component {
                                     }
                                 ]
                             },
-                            {
-                                id: "commissionType",
-                                name: "提佣方式配置",
-                                path: "/commission/type",
-                                children: []
-
-                            }
+                            // {
+                            //     id: "commissionType",
+                            //     name: "提佣方式配置",
+                            //     path: "/commission/type",
+                            //     children: []
+                            //
+                            // }
                         ]
                     }, {
                         id: "salary",
                         name: "薪资管理",
                         roleName: "ADMIN",
-                        path: "/salary/guaranteeSalaryList",
+                        path: "/salary/baseSalaryList",
                         children: [
-                            {
-                                id: "guaranteeSalaryList",
-                                name: "保障薪资管理",
-                                path: "/salary/guaranteeSalaryList",
-                                children: [{
-                                    id: "guaranteeSalaryHistory",
-                                    name: "保障薪资修改历史",
-                                    path: "/salary/guaranteeSalaryHistory",
-                                    hide: true,
-                                    children: []
-                                }]
-                            },
+                            // {
+                            //     id: "guaranteeSalaryList",
+                            //     name: "保障薪资管理",
+                            //     path: "/salary/guaranteeSalaryList",
+                            //     children: [{
+                            //         id: "guaranteeSalaryHistory",
+                            //         name: "保障薪资修改历史",
+                            //         path: "/salary/guaranteeSalaryHistory",
+                            //         hide: true,
+                            //         children: []
+                            //     }]
+                            // },
                             {
                                 id: "baseSalaryList",
                                 name: "底薪管理",
@@ -274,12 +274,12 @@ class App extends React.Component {
                                 path: "/export/base",
                                 children: []
                             },
-                            {
-                                id: "exportGuarantee",
-                                name: "保障薪资列表",
-                                path: "/export/guarantee",
-                                children: []
-                            },
+                            // {
+                            //     id: "exportGuarantee",
+                            //     name: "保障薪资列表",
+                            //     path: "/export/guarantee",
+                            //     children: []
+                            // },
                             {
                                 id: "exportHistory",
                                 name: "导出操作历史",

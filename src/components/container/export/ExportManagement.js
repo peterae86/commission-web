@@ -12,7 +12,7 @@ class ExportManagement extends React.Component{
                     {name:'积分明细',path:'/export/score'},
                     {name:'提佣明细',path:'/export/commission'},
                     {name:'底薪',path:'/export/base'},
-                    {name:'保障薪资',path:'/export/guarantee'},
+                    // {name:'保障薪资',path:'/export/guarantee'},
                 ], //数据列表
                 config: {
                     column: [

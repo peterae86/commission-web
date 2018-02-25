@@ -14,7 +14,7 @@ class CommissionManagement extends Component{
             table: {
                 listData: [{
                     a:'本人',
-                    b:'本人提佣业绩*本人提佣系数'
+                    b:'本人提佣业绩 * 本人提佣系数'
                 }], //数据列表
                 config: {
                     column: [
@@ -22,12 +22,12 @@ class CommissionManagement extends Component{
                         {name: "计算公式", key: "b", textAlign: "center", width: "35%"},
                         {
                             name: "操作", key: "opt", textAlign: "center", width: "40%", content: [
-                            {
-                                key: "提佣方式配置",
-                                func: (index) => {
-                                    this.props.onJump('/commission/type');
-                                }
-                            },
+                            // {
+                            //     key: "提佣方式配置",
+                            //     func: (index) => {
+                            //         this.props.onJump('/commission/type');
+                            //     }
+                            // },
                             {
                                 key: "提佣系数管理",
                                 func: (index) => {

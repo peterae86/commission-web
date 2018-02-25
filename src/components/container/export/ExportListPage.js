@@ -35,6 +35,7 @@ class ExportListPage extends React.Component {
                 storeCode: '',
                 userName: '',
                 userCode: '',
+                currentPeriod: '', // 账期
                 currentPage: 0,
                 pageSize: 10
             },
@@ -90,15 +91,22 @@ class ExportListPage extends React.Component {
             </div>
             <div className="right-company">
                 <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '90px'}} value={this.state.queryParams.userName} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '110px'}} value={this.state.queryParams.userName} placeholder="请输入姓名" onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '90px'}} value={this.state.queryParams.userCode} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '140px'}}  placeholder="请输入系统号" value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
+                    this.setState({queryParams: this.state.queryParams});
+                }}/>
+            </div>
+            <div className="right-company">
+                <span>账期：</span>
+                <Input inputStyle={{height: '30px', width: '140px'}} placeholder="请输入账期yyyymm" value={this.state.queryParams.currentPeriod } onChange={(x) => {
+                    this.state.queryParams.currentPeriod  = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
@@ -124,6 +132,13 @@ class ExportListPage extends React.Component {
                 message: "请选择店面"
             });
             return;
+        }
+        if (/^\d{6}$/.test(obj.currentPeriod)) {
+            this.setState({
+                showConfirm: true,
+                message: "请正确输入账期"
+            });
+            return false;
         }
         const path = "/api/config/export/infoQuery/listByType";
         requestByFetch(path, obj, true).then((res) => {
@@ -170,14 +185,18 @@ class ExportListPage extends React.Component {
         return (
             <div className="rank-container">
                 {this.renderAlert()}
-                <div className="container-title">
+                <div className="container-title export">
                     <Crumbs names={this.props.pathNames}/>
                     {this.renderSearchInputs()}
                 </div>
-                <div className="container-button">
-                    <Button styleName="btn-small" value="查询" onClick={this.onSearch}/>
-                    <Button styleName="btn-small" disabled={!canExport} value="导出" onClick={this.onExport}/>
+                <div className="export-container-button">
+                    <div  className="export-button-left"></div>
+                    <div className="container-button">
+                        <Button styleName="btn-small" value="查询" onClick={this.onSearch}/>
+                        <Button styleName="btn-small" disabled={!canExport} value="导出" onClick={this.onExport}/>
+                    </div>
                 </div>
+
                 <Table data={table.listData} config={table.config} pager={pager}/>
             </div>
         );

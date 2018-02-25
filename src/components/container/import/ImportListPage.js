@@ -43,6 +43,12 @@ class ImportListPage extends ListPage{
                 if (item.createTs) {
                     item["createTsAlia"] = formateTimeSimple(item.createTs);
                 }
+                if (item.isJjr) {
+                    item["isJjrAlia"] = !item.isJjr ? "否": "是";
+                }
+                if (item.throwBaseScore) {
+                    item["throwBaseScoreAlia"] = !item.throwBaseScore ? "否": "减";
+                }
             });
             this.setState({
                 table: {
