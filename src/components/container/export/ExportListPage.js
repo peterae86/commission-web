@@ -91,21 +91,21 @@ class ExportListPage extends React.Component {
             </div>
             <div className="right-company">
                 <span>姓名：</span>
-                <Input inputStyle={{height: '30px', width: '110px'}} value={this.state.queryParams.userName} placeholder="请输入姓名" onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '110px',padding:"0 10px"}} value={this.state.queryParams.userName} placeholder="请输入姓名" onChange={(x) => {
                     this.state.queryParams.userName = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>系统号：</span>
-                <Input inputStyle={{height: '30px', width: '140px'}}  placeholder="请输入系统号" value={this.state.queryParams.userCode} onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '130px',padding:"0 10px"}}  placeholder="请输入系统号" value={this.state.queryParams.userCode} onChange={(x) => {
                     this.state.queryParams.userCode = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
             <div className="right-company">
                 <span>账期：</span>
-                <Input inputStyle={{height: '30px', width: '140px'}} placeholder="请输入账期yyyymm" value={this.state.queryParams.currentPeriod } onChange={(x) => {
+                <Input inputStyle={{height: '30px', width: '130px',padding:"0 10px"}} placeholder="请输入账期yyyymm" value={this.state.queryParams.currentPeriod } onChange={(x) => {
                     this.state.queryParams.currentPeriod  = x;
                     this.setState({queryParams: this.state.queryParams});
                 }}/>

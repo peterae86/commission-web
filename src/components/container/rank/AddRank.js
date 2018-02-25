@@ -27,6 +27,7 @@ class AddRank extends React.Component {
         this.onChangeFunc = this.onChangeFunc.bind(this);
         this.onSelectCity = this.onSelectCity.bind(this);
         this.onSelectCompnay = this.onSelectCompnay.bind(this);
+        this.onSelectScope = this.onSelectScope.bind(this);
         this.comfirmFunc = this.comfirmFunc.bind(this);
         this.cancelFunc = this.cancelFunc.bind(this);
     }
@@ -65,6 +66,11 @@ class AddRank extends React.Component {
         });
     }
 
+    onSelectScope (value) {
+        this.setState({
+            dutyScope: value
+        });
+    }
     // 选择公司回调
     onSelectCompnay(value) {
         this.setState({
@@ -88,10 +94,17 @@ class AddRank extends React.Component {
             });
             return false;
         }
-        if (!dutyScope || !dutyLevel) {
+        if (!dutyScope) {
             this.setState({
                 showConfirm: true,
-                message: "请填写完整所属序列和职级!"
+                message: "请选择所属序列!"
+            });
+            return false;
+        }
+        if (!dutyLevel) {
+            this.setState({
+                showConfirm: true,
+                message: "请填写完整职级!"
             });
             return false;
         }
@@ -139,15 +152,10 @@ class AddRank extends React.Component {
     render() {
         const {currentCity, corpCode, dutyScope, dutyLevel, minScore, maxScore, baseScore, masterScoreRatio, masterCommissionRatio} = this.state;
         const list = [{
-            label: "所属序列",
-            key: "dutyScope",
-            inputType: "numeric",
-            errorMessage: "* 请输入所属序列. 例如 A"
-        }, {
             label: "职级",
             key: "dutyLevel",
             inputType: "numeric",
-            errorMessage: "* 请输入职级.例如 A1"
+            errorMessage: "* 请输入职级.例如 S0"
         },
             {
                 label: "职级积分下限",
@@ -205,6 +213,17 @@ class AddRank extends React.Component {
                             propsLabel="corpName"
                             value={corpCode}/>
                         <span className="form-message">* 请选择公司</span>
+                    </div>
+                    <div className="form">
+                        <span className="form-label">所属序列：</span>
+                        <Dropdown
+                            className="form-value"
+                            onSelect={this.onSelectScope}
+                            style={{height: "30px", lineHeight: "24px", width: "175px"}}
+                            options={[{"label": "S序列","value": "S"},{"label": "P序列","value": "P"}]}
+                            placeholder="请选择所属序列"
+                            value={dutyScope}/>
+                        <span className="form-message">* 请选择所属序列</span>
                     </div>
                     {
                         list.map((item, index) => {
