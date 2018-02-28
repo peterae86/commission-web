@@ -35,6 +35,7 @@ class ExportListPage extends React.Component {
                 storeCode: '',
                 userName: '',
                 userCode: '',
+                currentPeriod: '', // 账期
                 currentPage: 0,
                 pageSize: 10
             },
@@ -102,6 +103,13 @@ class ExportListPage extends React.Component {
                     this.setState({queryParams: this.state.queryParams});
                 }}/>
             </div>
+            <div className="right-company">
+                <span>账期：</span>
+                <Input inputStyle={{height: '30px', width: '130px',padding:"0 10px"}} placeholder="请输入账期yyyymm" value={this.state.queryParams.currentPeriod } onChange={(x) => {
+                    this.state.queryParams.currentPeriod  = x;
+                    this.setState({queryParams: this.state.queryParams});
+                }}/>
+            </div>
         </div>
     }
 
@@ -124,6 +132,13 @@ class ExportListPage extends React.Component {
                 message: "请选择店面"
             });
             return;
+        }
+        if (/^\d{6}$/.test(obj.currentPeriod)) {
+            this.setState({
+                showConfirm: true,
+                message: "请正确输入账期"
+            });
+            return false;
         }
         const path = "/api/config/export/infoQuery/listByType";
         requestByFetch(path, obj, true).then((res) => {

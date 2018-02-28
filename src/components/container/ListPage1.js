@@ -102,6 +102,7 @@ class ListPage extends React.Component {
                 dutyScope: value
             }
         });
+        console.log(this.state,"请选择公司");
         if (!this.state.corpCode) {
             this.setState({
                 showConfirm: true,
@@ -153,7 +154,6 @@ class ListPage extends React.Component {
                 }
             });
         });
-
 
     }
 

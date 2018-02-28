@@ -41,6 +41,7 @@ import UserRelation from "./container/import/UserRelation";
 import BaseModal from "./container/import/BaseModal";
 import CommissionExport from "./container/export/CommissionExport";
 import BaseSalaryExport from "./container/export/BaseSalaryExport";
+import SalaryExport from "./container/export/salary";
 import GuaranteeSalaryExport from "./container/export/GuaranteeSalaryExport";
 import ExportHistory from "./container/export/ExportHistory";
 import QueryManagement from "./container/query/QueryManagement";
@@ -274,6 +275,12 @@ class App extends React.Component {
                                 path: "/export/base",
                                 children: []
                             },
+                            {
+                                id: "salarys",
+                                name: "薪酬",
+                                path: "/export/salary",
+                                children: []
+                            },
                             // {
                             //     id: "exportGuarantee",
                             //     name: "保障薪资列表",
@@ -361,6 +368,7 @@ class App extends React.Component {
             'exportScore': ScoreExport,
             'exportCommission': CommissionExport,
             'exportBase': BaseSalaryExport,
+            'salarys': SalaryExport,
             'exportGuarantee': GuaranteeSalaryExport,
             'exportHistory': ExportHistory,
             'import': ImportComponent,
