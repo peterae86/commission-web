@@ -19,7 +19,7 @@ import AddFormula from "./container/score/AddFormula";
 import FormulaList from "./container/score/FormulaList";
 import ParamHistory from "./container/score/ParamHistory";
 import FormulaHistory from "./container/score/FormulaHistory";
-import RankRadioList from "./container/commission/RankRadioList";
+import RankRadioList from "./container/commission/RankRadioNew";
 import {requestByFetch} from "../utils/request";
 import GuaranteeSalaryList from "./container/salary/GuaranteeSalaryList";
 import GuaranteeSalaryHistory from "./container/salary/GuaranteeSalaryHistory";

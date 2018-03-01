@@ -3,7 +3,7 @@ import ExportListPage from "./ExportListPage1";
 class SalaryExport extends ExportListPage{
     constructor(props){
         super(props);
-        this.state.queryParams.exportType="BASE_SALARY_EXPORT";
+        this.state.queryParams.exportType="PAYMENT_EXPORT";
         this.state.table.config = {
             column: [
                 {name: "公司", key: "corpName", textAlign: "center", width: "10%"},

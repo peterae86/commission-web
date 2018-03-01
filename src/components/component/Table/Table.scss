@@ -10,10 +10,32 @@
 		color: #6E737A;
 		background-color:#EFEFEF;
 		margin-right:-1px;
+		.flex {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #000;
+		}
 		.header-item {
 			padding: 15px 5px;
 			border-right: 1px solid #E4EAEF;
 		}
+		.yiwu {
+			display: flex;
+			flex-direction: column;
+			align-items:center;
+			.yiwu-item {
+				display: flex;
+				flex-direction: row;
+				width: 100%;
+				justify-content: space-around;
+				span {
+					width: 16.6%;
+					text-align: center;
+				}
+			}
+		}
+
 	}
 	.container-list {
 		border-top: 1px solid #E4EAEF;
@@ -37,6 +59,24 @@
 				color: #1273E1;
 				cursor: pointer;
 			}
+		}
+		.yiwu-item {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			justify-content: space-around;
+			span {
+				width: 16.6%;
+				text-align: center;
+			}
+		}
+		.yiwu-opt {
+			span {
+				display: inline-block;
+				margin: 0 10px;
+			}
+			cursor: pointer;
+			color: #2085F8;
 		}
 		.list-opt {
 			// justify-content: left !important;

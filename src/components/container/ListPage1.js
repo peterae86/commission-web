@@ -102,8 +102,7 @@ class ListPage extends React.Component {
                 dutyScope: value
             }
         });
-        console.log(this.state,"请选择公司");
-        if (!this.state.corpCode) {
+        if (!this.state.queryFormData.corpCode) {
             this.setState({
                 showConfirm: true,
                 message: "请选择公司"
@@ -132,12 +131,20 @@ class ListPage extends React.Component {
                 corpCode: value
             }
         });
+
+        if (this.state.queryFormData.dutyScope) { // 如果所属序列不为空,则直接查询接口
+            const param = {
+                ...this.state.queryParams,
+                corpCode: value
+            };
+            this.onQuery(param);
+        }
+
     }
 
     // 搜索函数
     onQuery(p) {
         const path = this.state.queryUrl + "?" + parseParamsGet(p);//"../data/rankList.json?";
-        //    const paths = `/dutyLevelConfig/queryConfigsByCorpCode?${parseParamsGet(param)}`; // 真正接口
         this.setState({
             queryParams: p
         });
