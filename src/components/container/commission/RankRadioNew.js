@@ -252,27 +252,27 @@ class RankRadioList extends React.Component {
                 data["specialCommissionRatioDetailConfigs"] = [];
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "0-15000",
-                    "baseSalaryModelRatio": (queryData[2].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[2].value
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "15001-26000",
-                    "baseSalaryModelRatio": (queryData[3].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[3].value
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "26001-38000",
-                    "baseSalaryModelRatio": (queryData[4].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[4].value
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "38001-51000",
-                    "baseSalaryModelRatio": (queryData[5].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[5].value
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "51001-65000",
-                    "baseSalaryModelRatio": (queryData[6].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[6].value
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "65001-",
-                    "baseSalaryModelRatio": (queryData[7].value/100).toFixed(2)
+                    "baseSalaryModelRatio": queryData[7].value
                 });
 
                 data["corpCode"] = "yi_wu_feng_gong_si";
