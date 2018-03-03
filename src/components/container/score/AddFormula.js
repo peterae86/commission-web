@@ -325,10 +325,10 @@ class AddFormula extends React.Component {
     comfirmFunc() {
         const {finalParam,finalTempParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
 
-        if (!ruleName) {
+        if (!ruleName || !ruleDesc) {
             this.setState({
                 showConfirm: true,
-                message: "请填写公式名称!"
+                message: "请填写公式名称和描述!"
             });
             return false;
         }
