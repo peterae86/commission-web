@@ -83,6 +83,13 @@ class FormulaList extends ListPage {
                     },{
                         key: "删除",
                         func: (index) => {
+                            if (!this.state.table.listData[index].status) {
+                                this.setState({
+                                    showConfirm: true,
+                                    message: "有效状态的公式无法删除"
+                                });
+                                return false;
+                            }
                             this.setState({
                                 deleteAlert: true,
                                 id: this.state.table.listData[index].id,

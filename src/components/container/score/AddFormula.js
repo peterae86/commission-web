@@ -322,6 +322,14 @@ class AddFormula extends React.Component {
 
     comfirmFunc() {
         const {finalParam,finalTempParam, parameters, ruleName,ruleDesc,corpCode,ruleLeftScoreKey,ruleLeftScoreDesc} = this.state;
+
+        if (!ruleName) {
+            this.setState({
+                showConfirm: true,
+                message: "请填写公式名称!"
+            });
+            return false;
+        }
         let newArray = [...finalParam];
         if (parameters.length === 0 && finalParam.length === 0) {
             this.setState({
