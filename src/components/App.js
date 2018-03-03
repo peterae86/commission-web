@@ -166,7 +166,7 @@ class App extends React.Component {
                             // }
                         ]
                     }, {
-                        id: "salary",
+                        id: "baseSalaryList",
                         name: "薪资管理",
                         roleName: "ADMIN",
                         path: "/salary/baseSalaryList",
