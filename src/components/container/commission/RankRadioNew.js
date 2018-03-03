@@ -6,141 +6,6 @@ import ModalAlert from "../../component/ModalAlert/ModalAlert";
 import Modal from '../../component/Modal/Modal';
 import {requestByFetch, parseParamsGet} from "../../../utils/request";
 import {hashHistory} from "react-router";
-const data = [{
-        "id": 1,
-        "dutyLevel": "S0",
-        "baseSalaryModelRatio": 0,
-        "doubleSalaryModelRatio": 0,
-        "specialCommissionConfigs": [
-            {
-                "id": 1,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "0-15000",
-                "baseSalaryModelRatio": 13,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            },
-            {
-                "id": 2,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "51001-65000",
-                "baseSalaryModelRatio": 23,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            },
-            {
-                "id": 1,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "0-15000",
-                "baseSalaryModelRatio": 13,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            },
-            {
-                "id": 2,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "51001-65000",
-                "baseSalaryModelRatio": 23,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            },
-            {
-                "id": 1,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "0-15000",
-                "baseSalaryModelRatio": 13,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            },
-            {
-                "id": 2,
-                "corpCode": "yi_wu_feng_gong_si",
-                "dutyScope": null,
-                "dutyLevel": "S0",
-                "yejiLevel": "51001-65000",
-                "baseSalaryModelRatio": 23,
-                "createTs": 1519747200000,
-                "updateTs": 1519747200000
-            }
-        ]
-    },{
-            "id": 1,
-            "dutyLevel": "S0",
-            "baseSalaryModelRatio": 0,
-            "doubleSalaryModelRatio": 0,
-            "specialCommissionConfigs": [
-                {
-                    "id": 1,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "0-15000",
-                    "baseSalaryModelRatio": 13,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                },
-                {
-                    "id": 2,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "51001-65000",
-                    "baseSalaryModelRatio": 23,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                },
-                {
-                    "id": 1,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "0-15000",
-                    "baseSalaryModelRatio": 13,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                },
-                {
-                    "id": 2,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "51001-65000",
-                    "baseSalaryModelRatio": 23,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                },
-                {
-                    "id": 1,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "0-15000",
-                    "baseSalaryModelRatio": 13,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                },
-                {
-                    "id": 2,
-                    "corpCode": "yi_wu_feng_gong_si",
-                    "dutyScope": null,
-                    "dutyLevel": "S0",
-                    "yejiLevel": "51001-65000",
-                    "baseSalaryModelRatio": 23,
-                    "createTs": 1519747200000,
-                    "updateTs": 1519747200000
-                }
-            ]
-        }];
 class RankRadioList extends React.Component {
     constructor(props) {
         super();
@@ -149,7 +14,7 @@ class RankRadioList extends React.Component {
             //面包屑
             pathNames: props.pathNames,
             // 当前公司
-            type: "yi_wu_feng_gong_si",
+            type: "",
             //搜索参数
             queryParams: {
                 cityCode: "",
@@ -166,7 +31,7 @@ class RankRadioList extends React.Component {
             },
             //表格配置
             table: {
-                listData: data, //数据列表
+                listData: [], //数据列表
                 config: {
                     column: [
                         {name: "职级", key: "dutyLevel", textAlign: "center", width: "25%"},
@@ -268,6 +133,7 @@ class RankRadioList extends React.Component {
         this.setState({
             queryFormData: {
                 corpCode:'',
+                dutyScope: '',
                 currentCity: this.props.cities.find(x => x.cityCode === value)
             },
             queryParams:{
@@ -301,6 +167,7 @@ class RankRadioList extends React.Component {
             ...this.state.queryParams,
             dutyScope: value
         };
+        console.log(param);
         this.onQuery(param);
     }
 
@@ -309,6 +176,10 @@ class RankRadioList extends React.Component {
         this.setState({
             queryFormData: {
                 ...this.state.queryFormData,
+                corpCode: value
+            },
+            queryParams: {
+                ...this.state.queryParams,
                 corpCode: value
             }
         });
@@ -373,31 +244,48 @@ class RankRadioList extends React.Component {
             },
             onConfirm: (queryData) => {
                 let data = {};
-                console.log(this.state.formData);
-                // queryData.map((item) => {
-                //     if (item.key === "id" || item.key === "dutyLevel") {
-                //         data[item.key] = item.value;
-                //     } else {
-                //         data[item.key] = (item.value/100).toFixed(2);
-                //     }
-                // });
-                // data["userCode"]=window.localStorage.getItem("userCode");
-                // if (data.baseSalaryModelRatio < 0 || data.doubleSalaryModelRatio < 0) {
-                //     this.setState({
-                //         showConfirm: true,
-                //         message: "系数不能为负数",
-                //     });
-                //     return;
-                // }
-                // const path = `/api/dutyLevelCommission/updateById?${parseParamsGet(data)}`;
-                // requestByFetch(path, "GET").then((res) => {
-                //     this.setState({
-                //         modifyModal: false,
-                //         showConfirm: true,
-                //         message: "修改成功!"
-                //     });
-                //     this.onQuery(this.state.queryParams);
-                // });
+                queryData.map((item) => {
+                    if (item.key === "id" || item.key === "dutyLevel") {
+                        data[item.key] = item.value;
+                    }
+                });
+                data["specialCommissionRatioDetailConfigs"] = [];
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "0-15000",
+                    "baseSalaryModelRatio": (queryData[2].value/100).toFixed(2)
+                });
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "15001-26000",
+                    "baseSalaryModelRatio": (queryData[3].value/100).toFixed(2)
+                });
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "26001-38000",
+                    "baseSalaryModelRatio": (queryData[4].value/100).toFixed(2)
+                });
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "38001-51000",
+                    "baseSalaryModelRatio": (queryData[5].value/100).toFixed(2)
+                });
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "51001-65000",
+                    "baseSalaryModelRatio": (queryData[6].value/100).toFixed(2)
+                });
+                data.specialCommissionRatioDetailConfigs.push({
+                    "yejiLevel": "65001-",
+                    "baseSalaryModelRatio": (queryData[7].value/100).toFixed(2)
+                });
+
+                data["corpCode"] = "yi_wu_feng_gong_si";
+                data["userCode"]=window.localStorage.getItem("userCode");
+                const path = `/api/dutyLevelCommission/updateSpecialCommissionRationConfig`;
+                requestByFetch(path, data).then((res) => {
+                    this.setState({
+                        modifyModalNew: false,
+                        showConfirm: true,
+                        message: "修改成功!"
+                    });
+                    this.onQuery(this.state.queryParams);
+                });
             }
         };
         return <Modal {...modal} />
@@ -416,29 +304,35 @@ class RankRadioList extends React.Component {
                 value: obj.dutyLevel,
                 readOnly: true
             }, {
-                label: "0-15000(%)",
+                label: "0-15000",
                 key: "lv0",
-                value: obj.specialCommissionConfigs[0].baseSalaryModelRatio
+                inputType: "float",
+                value: obj.specialCommissionConfigs[0] ? obj.specialCommissionConfigs[0].baseSalaryModelRatio : 0
             },{
-                label: "15001-26000(%)",
+                label: "15001-26000",
                 key: "lv15000",
-                value: obj.specialCommissionConfigs[1].baseSalaryModelRatio
+                inputType: "float",
+                value: obj.specialCommissionConfigs[1] ? obj.specialCommissionConfigs[1].baseSalaryModelRatio: 0
             },{
-                label: "26001-38000(%)",
+                label: "26001-38000",
                 key: "lv26000",
-                value: obj.specialCommissionConfigs[2].baseSalaryModelRatio
+                inputType: "float",
+                value:obj.specialCommissionConfigs[2] ? obj.specialCommissionConfigs[2].baseSalaryModelRatio: 0
             },{
-                label: "38001-51000(%)",
+                label: "38001-51000",
                 key: "lv38000",
-                value: obj.specialCommissionConfigs[3].baseSalaryModelRatio
+                inputType: "float",
+                value: obj.specialCommissionConfigs[3] ? obj.specialCommissionConfigs[3].baseSalaryModelRatio: 0
             },{
-                label: "51001-65000(%)",
+                label: "51001-65000",
                 key: "lv51000",
-                value: obj.specialCommissionConfigs[4].baseSalaryModelRatio
+                inputType: "float",
+                value: obj.specialCommissionConfigs[4] ? obj.specialCommissionConfigs[4].baseSalaryModelRatio: 0
             },{
-                label: "65000以上(%)",
+                label: "65000以上",
                 key: "lv65000",
-                value: obj.specialCommissionConfigs[5].baseSalaryModelRatio
+                inputType: "float",
+                value: obj.specialCommissionConfigs[5]? obj.specialCommissionConfigs[5].baseSalaryModelRatio: 0
             }]
         });
     }
@@ -453,7 +347,7 @@ class RankRadioList extends React.Component {
         requestByFetch(path, "GET").then((res) => {
                 this.setState({
                     table: {
-                        ...this.table,
+                        ...this.state.table,
                         listData: res.commissionRatioVoList,
                         pager: {
                             ...this.state.table.pager,
@@ -551,7 +445,7 @@ class RankRadioList extends React.Component {
                     {this.renderSearchInputs()}
                 </div>
                 {
-                    this.state.type= "yi_wu_feng_gong_si" ? (
+                    this.state.type== "yi_wu_feng_gong_si" ? (
                         <div>
                             <ul className="table-container">
                                 <li className="container-header">
@@ -568,10 +462,10 @@ class RankRadioList extends React.Component {
                                             <div className="list-item" style={{width: "10%"}}>{item.dutyLevel}</div>
                                             <div  className="list-item yiwu-item" style={{width: "80%"}}>
                                                 {item.specialCommissionConfigs.map((ie, indexs)=> {
-                                                    return <span>{ie.baseSalaryModelRatio}%</span>
+                                                    return <span>{(ie.baseSalaryModelRatio*100).toFixed(2)}%</span>
                                                 })}
                                             </div>
-                                            <div className="list-opt yiwu-opt list-item" style={{width: "10%"}}><span onClick={this.gotoHistory.bind(this, index)}>操作历史</span><span onClick={this.renderModifyNew.bind(this, index)}>修改</span></div>
+                                            <div className="list-opt yiwu-opt list-item" style={{width: "10%"}}><span onClick={this.gotoHistory.bind(this, index)}>操作历史</span><span onClick={this.renderModifyNew.bind(this, index)}>修改?</span></div>
                                         </li>
                                     }) : (<p className="table-empty">暂无数据</p>)
                                 }
