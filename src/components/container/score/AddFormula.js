@@ -136,7 +136,8 @@ class AddFormula extends React.Component {
             ruleLeftScoreKey: value,
             ruleLeftScoreDesc: label,
             tempParamList: tempArray,
-            parameters: []
+            parameters: [],
+            currentParameters: defaultObj,
         });
     }
 
