@@ -101,6 +101,7 @@ class AddRank extends React.Component {
             });
             return false;
         }
+
         if (!dutyLevel) {
             this.setState({
                 showConfirm: true,
@@ -108,6 +109,27 @@ class AddRank extends React.Component {
             });
             return false;
         }
+
+        if (dutyScope === "S") {
+            if (!/^S/.test(dutyLevel)) {
+                this.setState({
+                    showConfirm: true,
+                    message: "请以S开头!"
+                });
+                return false;
+            }
+        }
+
+        if (dutyScope === "P") {
+            if (!/^P/.test(dutyLevel)) {
+                this.setState({
+                    showConfirm: true,
+                    message: "请以P开头!"
+                });
+                return false;
+            }
+        }
+
         if (maxScore&&+maxScore <= +minScore) {
             this.setState({
                 showConfirm: true,

@@ -34,16 +34,14 @@ class RankRadioList extends React.Component {
                 listData: [], //数据列表
                 config: {
                     column: [
-                        {name: "职级", key: "dutyLevel", textAlign: "center", width: "25%"},
-                        {name: "提佣系数（底薪）", key: "baseSalaryModelRatio", textAlign: "center", width: "25%", transform:(x)=>{return (x*100).toFixed(2)+'%'}},
-                        {name: "提佣系数（双薪提成）", key: "doubleSalaryModelRatio", textAlign: "center", width: "25%", transform:(x)=>{return (x*100).toFixed(2)+'%'}},
+                        {name: "职级", key: "dutyLevel", textAlign: "center", width: "35%"},
+                        {name: "提佣系数（底薪）", key: "baseSalaryModelRatio", textAlign: "center", width: "35%", transform:(x)=>{return (x*100).toFixed(2)+'%'}},
                         {
-                            name: "操作", key: "opt", textAlign: "center", width: "25%", content: [
+                            name: "操作", key: "opt", textAlign: "center", width: "30%", content: [
                             {
                                 key: "操作历史",
 
                                 func: (index) => {
-                                    //debugger
                                     window.open(`/#/commission/history?id=${this.state.table.listData[index].id}&historyLog=commission`);
                                 }
                             },
@@ -65,11 +63,6 @@ class RankRadioList extends React.Component {
                                             label: "提佣系数（底薪）%",
                                             key: "baseSalaryModelRatio",
                                             value: (obj.baseSalaryModelRatio*100).toFixed(2),
-                                            inputType: "float"
-                                        }, {
-                                            label: "提佣系数（双薪提成）%",
-                                            key: "doubleSalaryModelRatio",
-                                            value: (obj.doubleSalaryModelRatio*100).toFixed(2),
                                             inputType: "float"
                                         }]
                                     });
@@ -215,7 +208,7 @@ class RankRadioList extends React.Component {
                     }
                 });
                 data["userCode"]=window.localStorage.getItem("userCode");
-                if (data.baseSalaryModelRatio < 0 || data.doubleSalaryModelRatio < 0) {
+                if (data.baseSalaryModelRatio < 0) {
                     this.setState({
                         showConfirm: true,
                         message: "系数不能为负数",

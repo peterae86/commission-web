@@ -135,7 +135,8 @@ class AddFormula extends React.Component {
         this.setState({
             ruleLeftScoreKey: value,
             ruleLeftScoreDesc: label,
-            tempParamList: tempArray
+            tempParamList: tempArray,
+            parameters: []
         });
     }
 
