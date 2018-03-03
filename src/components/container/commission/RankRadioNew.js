@@ -101,6 +101,10 @@ class RankRadioList extends React.Component {
         this.onSelectCompany = this.onSelectCompany.bind(this);
         this.onSelectScope = this.onSelectScope.bind(this);
         this.onQuery = this.onQuery.bind(this);
+        this.jumpTo = this.jumpTo.bind(this);
+        this.jumpToNext = this.jumpToNext.bind(this);
+        this.jumpToBefor = this.jumpToBefor.bind(this);
+        this.jumpToNumber = this.jumpToNumber.bind(this);
     }
 
     componentWillReceiveProps(newProps){
@@ -251,27 +255,27 @@ class RankRadioList extends React.Component {
                 data["specialCommissionRatioDetailConfigs"] = [];
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "0-15000",
-                    "baseSalaryModelRatio": queryData[2].value
+                    "baseSalaryModelRatio": (queryData[2].value/100).toFixed(2)
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "15001-26000",
-                    "baseSalaryModelRatio": queryData[3].value
+                    "baseSalaryModelRatio": (queryData[3].value/100).toFixed(2)
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "26001-38000",
-                    "baseSalaryModelRatio": queryData[4].value
+                    "baseSalaryModelRatio": (queryData[4].value/100).toFixed(2)
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "38001-51000",
-                    "baseSalaryModelRatio": queryData[5].value
+                    "baseSalaryModelRatio": (queryData[5].value/100).toFixed(2)
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "51001-65000",
-                    "baseSalaryModelRatio": queryData[6].value
+                    "baseSalaryModelRatio": (queryData[6].value/100).toFixed(2)
                 });
                 data.specialCommissionRatioDetailConfigs.push({
                     "yejiLevel": "65001-",
-                    "baseSalaryModelRatio": queryData[7].value
+                    "baseSalaryModelRatio": (queryData[7].value/100).toFixed(2)
                 });
 
                 data["corpCode"] = "yi_wu_feng_gong_si";
@@ -306,32 +310,32 @@ class RankRadioList extends React.Component {
                 label: "0-15000",
                 key: "lv0",
                 inputType: "float",
-                value: obj.specialCommissionConfigs[0] ? obj.specialCommissionConfigs[0].baseSalaryModelRatio : 0
+                value: obj.specialCommissionConfigs[0] ? (obj.specialCommissionConfigs[0].baseSalaryModelRatio * 100).toFixed(2) : 0
             },{
                 label: "15001-26000",
                 key: "lv15000",
                 inputType: "float",
-                value: obj.specialCommissionConfigs[1] ? obj.specialCommissionConfigs[1].baseSalaryModelRatio: 0
+                value: obj.specialCommissionConfigs[1] ? (obj.specialCommissionConfigs[1].baseSalaryModelRatio * 100).toFixed(2): 0
             },{
                 label: "26001-38000",
                 key: "lv26000",
                 inputType: "float",
-                value:obj.specialCommissionConfigs[2] ? obj.specialCommissionConfigs[2].baseSalaryModelRatio: 0
+                value:obj.specialCommissionConfigs[2] ? (obj.specialCommissionConfigs[2].baseSalaryModelRatio * 100).toFixed(2): 0
             },{
                 label: "38001-51000",
                 key: "lv38000",
                 inputType: "float",
-                value: obj.specialCommissionConfigs[3] ? obj.specialCommissionConfigs[3].baseSalaryModelRatio: 0
+                value: obj.specialCommissionConfigs[3] ? (obj.specialCommissionConfigs[3].baseSalaryModelRatio * 100).toFixed(2): 0
             },{
                 label: "51001-65000",
                 key: "lv51000",
                 inputType: "float",
-                value: obj.specialCommissionConfigs[4] ? obj.specialCommissionConfigs[4].baseSalaryModelRatio: 0
+                value: obj.specialCommissionConfigs[4] ?( obj.specialCommissionConfigs[4].baseSalaryModelRatio * 100).toFixed(2): 0
             },{
                 label: "65000以上",
                 key: "lv65000",
                 inputType: "float",
-                value: obj.specialCommissionConfigs[5]? obj.specialCommissionConfigs[5].baseSalaryModelRatio: 0
+                value: obj.specialCommissionConfigs[5]?( obj.specialCommissionConfigs[5].baseSalaryModelRatio * 100).toFixed(2): 0
             }]
         });
     }
@@ -411,16 +415,18 @@ class RankRadioList extends React.Component {
         }
         return list;
     }
+
+
+    jumpTo(index) {
+        this.state.table.pager.clickPager(index);
+    }
+
     jumpToBefor() {
         this.jumpTo(this.state.table.pager.currentPage - 1);
     }
 
     jumpToNext() {
         this.jumpTo(this.state.table.pager.currentPage + 1);
-    }
-
-    jumpTo(index) {
-        this.state.table.pager.clickPager(index);
     }
 
     jumpToNumber(index) {

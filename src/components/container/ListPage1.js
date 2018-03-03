@@ -87,6 +87,7 @@ class ListPage extends React.Component {
         this.setState({
             queryFormData: {
                 corpCode:'',
+                dutyScope: '',
                 currentCity: this.props.cities.find(x => x.cityCode === value)
             },
             queryParams:{
@@ -128,6 +129,10 @@ class ListPage extends React.Component {
         this.setState({
             queryFormData: {
                 ...this.state.queryFormData,
+                corpCode: value
+            },
+            queryParams: {
+                ...this.state.queryParams,
                 corpCode: value
             }
         });
