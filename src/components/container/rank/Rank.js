@@ -174,7 +174,8 @@ class Rank extends React.Component {
     onSelectCity(value) {
         this.setState({
             currentCity: this.props.cities.find(x => x.cityCode === value),
-            corpCode: null
+            corpCode: null,
+            dutyScope: ''
         });
     }
 

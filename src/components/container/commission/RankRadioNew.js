@@ -167,7 +167,6 @@ class RankRadioList extends React.Component {
             ...this.state.queryParams,
             dutyScope: value
         };
-        console.log(param);
         this.onQuery(param);
     }
 
@@ -439,6 +438,7 @@ class RankRadioList extends React.Component {
         return (
             <div className="rank-container">
                 {this.renderAlert()}
+                {this.renderModify()}
                 {this.renderModifyNewAlert()}
                 <div className="container-title">
                     <Crumbs names={pathNames}/>
@@ -465,7 +465,7 @@ class RankRadioList extends React.Component {
                                                     return <span>{(ie.baseSalaryModelRatio*100).toFixed(2)}%</span>
                                                 })}
                                             </div>
-                                            <div className="list-opt yiwu-opt list-item" style={{width: "10%"}}><span onClick={this.gotoHistory.bind(this, index)}>操作历史</span><span onClick={this.renderModifyNew.bind(this, index)}>修改?</span></div>
+                                            <div className="list-opt yiwu-opt list-item" style={{width: "10%"}}><span onClick={this.gotoHistory.bind(this, index)}>操作历史</span><span onClick={this.renderModifyNew.bind(this, index)}>修改</span></div>
                                         </li>
                                     }) : (<p className="table-empty">暂无数据</p>)
                                 }
