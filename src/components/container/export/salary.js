@@ -14,7 +14,7 @@ class SalaryExport extends ExportListPage{
                 {name: "姓名", key: "userName", textAlign: "center", width: "10%"},
                 {name: "入职时间", key: "onDutyTimeAlia", textAlign: "center", width: "12%"},
                 {name: "系统号", key: "userCode", textAlign: "center", width: "10%"},
-                {name: "薪酬", key: "baseSalary", textAlign: "center", width: "12%"},
+                {name: "薪酬", key: "payment", textAlign: "center", width: "12%"},
             ]
         };
     }
