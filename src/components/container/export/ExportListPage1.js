@@ -133,7 +133,7 @@ class ExportListPage extends React.Component {
             });
             return;
         }
-        if (!/^\d{6}$/.test(obj.currentPeriod)) {
+        if (!obj.currentPeriod || !/^\d{6}$/.test(obj.currentPeriod)) {
             this.setState({
                 showConfirm: true,
                 message: "请正确输入账期"
