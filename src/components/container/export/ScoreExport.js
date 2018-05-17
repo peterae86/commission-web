@@ -1,4 +1,4 @@
-import ExportListPage from "./ExportListPage";
+import ExportListPage from "./ExportListPage2";
 
 class ScoreExport extends ExportListPage{
     constructor(props){
