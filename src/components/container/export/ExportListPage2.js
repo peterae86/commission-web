@@ -30,6 +30,9 @@ class ExportListPage extends React.Component {
                     self.onSearch(p);
                 }
             },
+            currentCity: {},
+            dutyScope: "",
+            corpCode: "", // 城市公司下编码
             queryParams: {
                 regionCode: '',
                 storeCode: '',
@@ -37,7 +40,7 @@ class ExportListPage extends React.Component {
                 userCode: '',
                 currentPeriod: '', // 账期
                 currentPage: 0,
-                pageSize: 10
+                pageSize: 10,
             },
             formData: {
                 regionList: [],
@@ -62,12 +65,49 @@ class ExportListPage extends React.Component {
     }
 
     onSelectRegion(x) {
+        if (!this.state.cityCode) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择城市"
+            });
+            return;
+        }
+        if (!this.state.corpCode) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择公司"
+            });
+            return;
+        }
+
         const path = "/api/regionStore/queryRegionStoreList?type=STORE&regionCode=" + x;
         requestByFetch(path, "GET").then((res) => {
             this.state.formData.storeList = res;
             this.state.queryParams.regionCode = x;
             this.setState(this.state);
         });
+    }
+
+    // 选择城市回调
+    onSelectCity(value) {
+        this.setState({
+            currentCity: this.props.cities.find(x => x.cityCode === value),
+            corpCode: null,
+        });
+    }
+
+    // 选择公司回调
+    onSelectCompnay(value) {
+        this.setState({
+            corpCode: value
+        });
+        if (!value) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择公司"
+            });
+            return false;
+        }
     }
 
     onSelectStore(x) {
@@ -77,6 +117,16 @@ class ExportListPage extends React.Component {
 
     renderSearchInputs() {
         return <div className="title-right">
+            <div className="right-company">
+                <span>城市：</span>
+                <Dropdown onSelect={this.onSelectCity} options={this.props.cities} propsValue="cityCode"
+                          placeholder="请选择城市" value={this.state.cityCode} propsLabel="cityName"/>
+            </div>
+            <div className="right-company">
+                <span>公司：</span>
+                <Dropdown onSelect={this.onSelectCompnay} options={this.state.currentCity.corps} propsValue="corpCode"
+                          placeholder="请选择公司" propsLabel="corpName" value={this.state.corpCode}/>
+            </div>
             <div className="right-company">
                 <span>大区：</span>
                 <Dropdown style={{height: "30px", lineHeight: "24px"}} onSelect={this.onSelectRegion}
