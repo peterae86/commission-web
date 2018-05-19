@@ -31,7 +31,7 @@ class ExportListPage extends React.Component {
                 }
             },
             currentCity: {},
-            dutyScope: "",
+            cityCode: "",
             corpCode: "", // 城市公司下编码
             queryParams: {
                 regionCode: '',
@@ -54,6 +54,8 @@ class ExportListPage extends React.Component {
         this.onSelectRegion = this.onSelectRegion.bind(this);
         this.onSelectStore = this.onSelectStore.bind(this);
         this.onExport = this.onExport.bind(this);
+        this.onSelectCity = this.onSelectCity.bind(this);
+        this.onSelectCompnay = this.onSelectCompnay.bind(this);
     }
 
     componentWillMount() {
@@ -90,9 +92,11 @@ class ExportListPage extends React.Component {
 
     // 选择城市回调
     onSelectCity(value) {
+        console.log(value,"123");
         this.setState({
             currentCity: this.props.cities.find(x => x.cityCode === value),
             corpCode: null,
+            cityCode: value
         });
     }
 
@@ -166,9 +170,25 @@ class ExportListPage extends React.Component {
 
     onSearch(p) {
         const obj = {
+            cityCode: this.state.cityCode,
+            corpCode: this.state.corpCode,
             ...this.state.queryParams,
             ...p,
         };
+        if (!obj.cityCode) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择城市"
+            });
+            return;
+        }
+        if (!obj.corpCode) {
+            this.setState({
+                showConfirm: true,
+                message: "请选择公司"
+            });
+            return;
+        }
         if (!obj.regionCode) {
             this.setState({
                 showConfirm: true,
